@@ -101,14 +101,13 @@ veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
-| Time frame | File Extension Variation Notes                                                              |
-|------------|---------------------------------------------------------------------------------------------|
-| 2007-2014  | All upper case                                                                              |
-| 2015       | All lower case                                                                              |
-| 2016-2017  | Accident is in lower case and both Person and Vehicle are in proper spelling form.          |
-| 2018       | All lower case                                                                              |
-| 2019       | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case  |
-| 2020-2023  | All lower case                                                                              |
+| Time frame            | File Extension Variation Notes                                                              |
+|-----------------------|---------------------------------------------------------------------------------------------|
+| 2007-2008, 2022, 2023 | Contains extra subfolder                                                                    |
+| 2007-2014             | All upper case                                                                              |
+| 2015, 2018, 2020-2023 | All lower case                                                                              |
+| 2016-2017             | Accident is in lower case and both Person and Vehicle are in proper spelling form.          |
+| 2019                  | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case  |
 
 : NationalCSV Import Notes
 
@@ -118,7 +117,59 @@ Importing the data files required significant manual effort considering that the
 #| warning: false
 #| echo: true  
 
+accident2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/ACCIDENT.CSV")
+accident2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/ACCIDENT.CSV")
+accident2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/FARS2009NationalCSV/ACCIDENT.CSV")
+accident2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/FARS2010NationalCSV/ACCIDENT.CSV")
+accident2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/FARS2011NationalCSV/ACCIDENT.CSV")
+accident2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/FARS2012NationalCSV/ACCIDENT.CSV")
+accident2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/FARS2013NationalCSV/ACCIDENT.CSV")
+accident2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/FARS2014NationalCSV/ACCIDENT.CSV")
+accident2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/FARS2015NationalCSV/accident.CSV")
+accident2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/FARS2016NationalCSV/accident.CSV")
+accident2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/FARS2017NationalCSV/accident.CSV")
+accident2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/FARS2018NationalCSV/accident.CSV")
+accident2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/FARS2019NationalCSV/accident.CSV")
+accident2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/FARS2020NationalCSV/accident.CSV")
+accident2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/FARS2021NationalCSV/accident.CSV")
+accident2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/accident.CSV")
+accident2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.CSV")
+person2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/PERSON.CSV")
+person2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/PERSON.CSV")
+person2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/FARS2009NationalCSV/PERSON.CSV")
+person2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/FARS2010NationalCSV/PERSON.CSV")
+person2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/FARS2011NationalCSV/PERSON.CSV")
+person2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/FARS2012NationalCSV/PERSON.CSV")
+person2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/FARS2013NationalCSV/PERSON.CSV")
+person2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/FARS2014NationalCSV/PERSON.CSV")
+person2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/FARS2015NationalCSV/person.CSV")
+person2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/FARS2016NationalCSV/Person.CSV")
+person2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/FARS2017NationalCSV/Person.CSV")
+person2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/FARS2018NationalCSV/person.CSV")
+person2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/FARS2019NationalCSV/Person.CSV")
+person2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/FARS2020NationalCSV/person.CSV")
+person2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/FARS2021NationalCSV/person.CSV")
+person2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/person.CSV")
+person2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.CSV")
+vehicle2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/VEHICLE.CSV")
+vehicle2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/VEHICLE.CSV")
+vehicle2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/FARS2009NationalCSV/VEHICLE.CSV")
+vehicle2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/FARS2010NationalCSV/VEHICLE.CSV")
+vehicle2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/FARS2011NationalCSV/VEHICLE.CSV")
+vehicle2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/FARS2012NationalCSV/VEHICLE.CSV")
+vehicle2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/FARS2013NationalCSV/VEHICLE.CSV")
+vehicle2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/FARS2014NationalCSV/VEHICLE.CSV")
+vehicle2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/FARS2015NationalCSV/vehicle.CSV")
+vehicle2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/FARS2016NationalCSV/Vehicle.CSV")
+vehicle2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/FARS2017NationalCSV/Vehicle.CSV")
+vehicle2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/FARS2018NationalCSV/vehicle.CSV")
+vehicle2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/FARS2019NationalCSV/vehicle.CSV")
+vehicle2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/FARS2020NationalCSV/vehicle.CSV")
+vehicle2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/FARS2021NationalCSV/vehicle.CSV")
+vehicle2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/vehicle.CSV")
+vehicle2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.CSV")
 
+"C:\Users\torra034\Documents\githubb\NHTSA_Research_v2\Raw Data\2009\FARS2009NationalCSV\ACCIDENT.CSV"
 
 ```
 
