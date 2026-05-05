@@ -103,7 +103,7 @@ Importing the data files required significant manual effort considering that the
 
 | Time frame            | File Pathway Notes                                                                          |
 |-----------------------|---------------------------------------------------------------------------------------------|
-| 2007-2008, 2022, 2023 | Contains extra subfolder                                                                    |
+| 2007-2008, 2023       | Contains extra subfolder                                                                    |
 | 2007-2014             | All upper case                                                                              |
 | 2015, 2018, 2020-2023 | All lower case                                                                              |
 | 2016-2017             | Accident is in lower case and both Person and Vehicle are in proper spelling form.          |
@@ -117,6 +117,7 @@ Importing the data files required significant manual effort considering that the
 #| message: false
 #| warning: false
 #| echo: true  
+
 
 accident2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/ACCIDENT.CSV")
 accident2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/ACCIDENT.CSV")
@@ -133,8 +134,8 @@ accident2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/accident.CSV")
 accident2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/accident.CSV")
 accident2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/accident.CSV")
 accident2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/accident.CSV")
-accident2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/accident.CSV")
-accident2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.CSV")
+accident2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/accident.csv")
+accident2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.csv")
 person2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/PERSON.CSV")
 person2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/PERSON.CSV")
 person2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/PERSON.CSV")
@@ -150,8 +151,8 @@ person2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/person.CSV")
 person2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/Person.CSV")
 person2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/person.CSV")
 person2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/person.CSV")
-person2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/person.CSV")
-person2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.CSV")
+person2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/person.csv")
+person2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.csv")
 vehicle2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/VEHICLE.CSV")
 vehicle2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/VEHICLE.CSV")
 vehicle2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/VEHICLE.CSV")
@@ -167,9 +168,8 @@ vehicle2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV")
 vehicle2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/vehicle.CSV")
 vehicle2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
 vehicle2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
-vehicle2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/FARS2022NationalCSV/vehicle.CSV")
-vehicle2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.CSV")
-
+vehicle2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
+vehicle2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.csv")
 
 ```
 
@@ -248,6 +248,16 @@ AUX <- stacked_per %>%
 ```
 
 ## National Stacked Data frames
+
+```{r}
+#| label: accident-stacked
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+
+```
 
 ## Remove old data frames
 
