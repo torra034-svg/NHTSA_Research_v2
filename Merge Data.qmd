@@ -98,6 +98,20 @@ veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 ```
 
 ### NationalCSV
+
+Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
+
+| Time frame | File Extension Variation Notes                                                              |
+|------------|---------------------------------------------------------------------------------------------|
+| 2007-2014  | All upper case                                                                              |
+| 2015       | All lower case                                                                              |
+| 2016-2017  | Accident is in lower case and both Person and Vehicle are in proper spelling form.          |
+| 2018       | All lower case                                                                              |
+| 2019       | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case  |
+| 2020-2023  | All lower case                                                                              |
+
+: NationalCSV Import Notes
+
 ```{r}
 #| label: import-national-csv-data
 #| message: false
@@ -107,7 +121,6 @@ veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 
 
 ```
-
 
 # Data Cleaning
 
@@ -166,7 +179,8 @@ stacked_veh <- veh_list %>%
 
 ```
 
-### Create AUX 
+### Create AUX
+
 AUX is the joined data frames of both the stacked ACC AUX files and the stacked PER AUX files.
 
 ```{r}
