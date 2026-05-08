@@ -101,14 +101,14 @@ veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
-| Time frame            | File Pathway Notes                                                                          |
-|-----------------------|---------------------------------------------------------------------------------------------|
-| 2007-2008, 2023       | Contains extra subfolder                                                                    |
-| 2007-2014             | All upper case                                                                              |
-| 2015, 2018, 2020-2023 | All lower case                                                                              |
-| 2016-2017             | Accident is in lower case and both Person and Vehicle are in proper spelling form.          |
-| 2019                  | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case  |
-| 2022-2023             | .csv file extension is in lowercase                                                         |
+| Time frame            | File Pathway Notes                                                                         |
+|---------------------|---------------------------------------------------|
+| 2007-2008, 2023       | Contains extra subfolder                                                                   |
+| 2007-2014             | All upper case                                                                             |
+| 2015, 2018, 2020-2023 | All lower case                                                                             |
+| 2016-2017             | Accident is in lower case and both Person and Vehicle are in proper spelling form.         |
+| 2019                  | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case |
+| 2022-2023             | .csv file extension is in lowercase                                                        |
 
 : NationalCSV Import Notes
 
@@ -187,7 +187,7 @@ vehicle2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/v
 #| echo: true  
 
 # define acc data frames from environment
-acc_list <- mget(ls(pattern = "^acc"))
+acc_list <- mget(ls(pattern = "^acc20"))
  
 # bind data frames together
 stacked_acc <- acc_list %>%
@@ -205,7 +205,7 @@ stacked_acc <- acc_list %>%
 #| echo: true  
 
 # define per data frames in environment
-per_list <- mget(ls(pattern = "^per"))
+per_list <- mget(ls(pattern = "^per20"))
 
 # bind data frames
 stacked_per <- per_list %>%
@@ -221,7 +221,7 @@ stacked_per <- per_list %>%
 #| echo: true  
 
 # define veh data frames in environment
-veh_list <- mget(ls(pattern = "^veh"))
+veh_list <- mget(ls(pattern = "^veh20"))
 
 # bind data frames
 stacked_veh <- veh_list %>%
@@ -247,7 +247,28 @@ AUX <- stacked_per %>%
 
 ```
 
+### Remove old data frames
+
+I want to remove old data frames from my environment to clear up memory and to also make it easier for myself to analyze.
+
+```{r}
+#| label: remove-old-df-AUX
+#| message: false
+#| warning: false
+#| echo: true 
+#| code-fold: TRUE 
+
+rm(list = ls(pattern = "^acc20")) 
+rm(list = ls(pattern = "^per20"))
+rm(list = ls(pattern = "^veh20"))
+rm(list = ls(pattern = "_list"))
+
+
+```
+
 ## National Stacked Data frames
+
+Note to self: The accident files inherently contain the "year" column.
 
 ```{r}
 #| label: accident-stacked
@@ -255,24 +276,306 @@ AUX <- stacked_per %>%
 #| warning: false
 #| echo: true  
 
+# define accident data frames in environment and convert all columns to characters
+accident_list <- mget(ls(pattern = "^accident[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
+
+# bind data frames
+stacked_accident <- accident_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
+    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
+    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+  )))
 
 
 ```
 
-## Remove old data frames
+Note to self: The person files inherently DO NOT contain the "year" column. And thus, I will need to manually create said column, and add to each year.
 
-I want to remove old data frames from my environment to clear up memory and to also make it easier for myself to analyze.
+I used AI to help me create a function to add the year column
 
 ```{r}
-#| label: remove-old-df
+#| label: person-years-function
+#| message: false
+#| warning: false
+#| echo: true  
+
+# Get the names of all objects in your environment that contain a year (4 digits)
+person_names <- ls(pattern = "^person\\d{4}")
+
+# Create a named list of these data frames
+person_list <- mget(person_names)
+
+# Add year column to each person data frame via function
+person_list_updated <- lapply(names(person_list), function(df_name) {
+  
+  # Extract the year from the string (e.g., "2020")
+  year_val <- str_extract(df_name, "\\d{4}")
+  
+  # Access the data frame
+  df <- person_list[[df_name]]
+  
+  # Add the column
+  df$YEAR <- year_val
+  
+  return(df)
+})
+
+# 4. Rename the list elements to match original names
+names(person_list_updated) <- person_names
+
+# update R environment with 
+list2env(person_list_updated, envir = .GlobalEnv)
+```
+
+```{r}
+#| label: person-stacked
+#| message: false
+#| warning: false
+#| echo: true  
+
+# define person data frames in environment and convert all columns to characters
+person_list <- mget(ls(pattern = "^person[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
+# bind data frames
+stacked_person <- person_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
+    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
+    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+  )))
+
+
+```
+
+Note to self: The vehicle files DO NOT contain the "year" column. And thus, I will need to manually create said column, and add to each year.
+
+I modified the previous person code chunk for vehicle.
+
+```{r}
+#| label: vehicle-years-function
+#| message: false
+#| warning: false
+#| echo: true  
+
+# Get the names of all objects in your environment that contain a year (4 digits)
+vehicle_names <- ls(pattern = "^vehicle\\d{4}")
+
+# Create a named list of these data frames
+vehicle_list <- mget(vehicle_names)
+
+# Add year column to each vehicle data frame via function
+vehicle_list_updated <- lapply(names(vehicle_list), function(df_name) {
+  
+  # Extract the year from the string (e.g., "2020")
+  year_val <- str_extract(df_name, "\\d{4}")
+  
+  # Access the data frame
+  df <- vehicle_list[[df_name]]
+  
+  # Add the column
+  df$YEAR <- year_val
+  
+  return(df)
+})
+
+# 4. Rename the list elements to match original names
+names(vehicle_list_updated) <- vehicle_names
+
+# update R environment with 
+list2env(vehicle_list_updated, envir = .GlobalEnv)
+```
+
+```{r}
+#| label: vehicle-stacked
+#| message: false
+#| warning: false
+#| echo: true  
+
+# define vehicle data frames in environment and convert all columns to characters
+vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
+# bind data frames
+stacked_vehicle <- vehicle_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
+    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
+    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+  )))
+
+```
+
+### Remove old data frames
+
+I remove obsolete national data frames.
+
+```{r}
+#| label: remove-national-df
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+rm(list = ls(pattern = "accident20"))
+rm(list = ls(pattern = "person20"))
+rm(list = ls(pattern = "vehicle20"))
+rm(list = ls(pattern = "_list"))
+rm(list = c("person_names","vehicle_names"))
+
+```
+
+### Create National
+
+National is the joined data frames of the stacked accident, person, and vehicle data frames.
+
+```{r}
+#| label: National-join
 #| message: false
 #| warning: false
 #| echo: true 
-#| code-fold: TRUE 
 
-rm(list = ls(pattern = "^acc")) 
-rm(list = ls(pattern = "^per"))
-rm(list = ls(pattern = "^veh"))
+# Join all national files together
+
+national <- stacked_person %>% 
+  left_join(stacked_vehicle, by = c("ST_CASE","YEAR","VEH_NO")) %>% 
+  left_join(stacked_accident, by = c("ST_CASE","YEAR")) 
+
+```
+
+# Data Modeling and Visualization
+
+We need to create the following items:
+
+-   A time-series plot that shows the number of deaths by rural vs urban.
+    -   We should two lines that represent rural vs urban.
+    -   Blue vs red line
+    -   y-axis = death percent
+-   Also need to have this in tabular form
+
+## Complete Dataset
+
+"df" is defined as the complete dataset combining data from the AUX and NationalCSV datasets.
+
+```{r}
+#| label: df-creation
+#| message: false
+#| warning: false
+#| echo: true  
+
+# Make all AUX columns into characters. This makes it easier to join data.
+AUX <- AUX %>% 
+  map_df(as.character)
+
+df <- AUX %>% 
+  left_join(national, by =c("ST_CASE","YEAR","VEH_NO","PER_NO")) %>% 
+  select(-ends_with(".y"), -STATE.x)
 
 
 ```
+
+### DF Data Cleaning
+
+Note to self: I need to make sure to use is.na() to find missing data.
+
+```{r}
+#| label: df-data-clean
+#| message: false
+#| warning: false
+#| echo: true  
+
+df <- df %>% 
+  select(sort(names(.))) %>% ## sort columns alphabetically
+  mutate(long = 
+           case_when(
+             is.na(LONGITUD) ~ longitud, 
+             is.na(longitud) ~ LONGITUD,
+             .default = longitud
+           ),
+         lat = 
+           case_when(
+             is.na(LATITUDE) ~ latitude,
+             is.na(latitude) ~ LATITUDE,
+             .default = latitude
+           ),
+         location = 
+           case_when(
+             RUR_URBNAME.x == "1" ~ "Rural",
+             RUR_URBNAME.x == "2" ~ "Urban",
+             A_RU == "1" ~ "Rural",
+             A_RU == "2" ~ "Urban",
+             .default = NA
+           )
+  ) %>% 
+  select(sort(names(.))) %>% ## sort columns alphabetically
+  select(ST_CASE, YEAR, PER_NO, VEH_NO, everything())
+         
+
+```
+
+### df_v2 subset
+
+I subset the df data frame into df_v2 for data transformation purposes such as removing redundant columns. I keep df in case I need to review the raw data.
+
+```{r}
+#| label: df-v2-transform
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+df_v2 <- df %>% 
+  select(-latitude, -LATITUDE, - longitud, -LONGITUD)
+
+
+```
+
+
+## Data Export
+
+I export all the datasets so I can upload them to BOX.
+
+```{r}
+#| label: label_name
+#| message: false
+#| warning: false
+#| echo: true
+
+# I filter the environment for all data frame objects and create a list
+all_data_frames <- mget(ls()) %>% 
+  keep(is.data.frame)
+
+
+# I walk through the entire list and tell R to write .csv files.
+iwalk(all_data_frames, ~ write_csv(.x, paste0(.y, ".csv")))
+
+```
+
+
+Things to do rn
+
+-   Trish will be gone next week (5/12)
+
+    -   she will reach out to me on things that need to be done
+
+-   What to do now?
+
+    -   Create time-series plot and also in tabular form
+
+    -   Create a regression model \[need to meet with Trish to discuss more\]
+
+        -   I should create unadjusted regression model first
+
+            -   This would be a poisson regression or negative binomial
+
+        -   Then create adjusted regression
+
+    -   Make sure to upload files to box
+
+-   send trish a reminder email on monday to send supplmen
