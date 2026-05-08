@@ -1,0 +1,89 @@
+---
+title: "NHTSA Analysis"
+author: "Patrick Torralba"
+format: 
+  html:
+    theme: flatly
+    fontsize: 0.8em
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 4
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    fig-align: center
+editor: visual
+---
+
+# Set-up
+
+## Library
+
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true 
+
+library(tidyverse)
+
+```
+
+## Load Data
+
+```{r}
+#| label: load-data
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+df_v2 <- read.csv("Exports/df_v2.csv")
+
+```
+
+## Data Cleaning
+
+```{r}
+#| label: data-clean
+#| message: false
+#| warning: false
+#| echo: true  
+
+df_v2 <- df_v2 %>% 
+  select(!is.na(location))
+
+```
+
+# Data Analysis & Visualization
+
+## Rural vs Urban Fatality Aggregation
+
+```{r}
+#| label: rur_urb_agg
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+rur_urb_agg <- df_v2 %>% 
+  group_by(YEAR, location) %>% 
+  summarize(total_fatals = sum(FATALS.x))
+
+```
+
+## Rural vs Urban Fatality Time-series
+
+```{r}
+#| label: fig-time-series
+#| fig-cap: "Rural vs Urban Fatality Time-series"
+#| fig-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+ggplot(df_v2, aes(x = YEAR, y = ))
+
+
+```
