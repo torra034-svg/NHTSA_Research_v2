@@ -27,6 +27,10 @@ editor: visual
 #| echo: true 
 
 library(tidyverse)
+library(kableExtra)
+library(sf)
+library(rnaturalearth)
+library(scales) ## add commas 
 
 ```
 
@@ -45,6 +49,8 @@ df_v2 <- read.csv("Exports/df_v2.csv")
 
 ## Data Cleaning
 
+We want to remove NA geographic values.
+
 ```{r}
 #| label: data-clean
 #| message: false
@@ -52,7 +58,7 @@ df_v2 <- read.csv("Exports/df_v2.csv")
 #| echo: true  
 
 df_v2 <- df_v2 %>% 
-  select(!is.na(location))
+  filter(!is.na(location))
 
 ```
 
@@ -69,7 +75,9 @@ df_v2 <- df_v2 %>%
 
 rur_urb_agg <- df_v2 %>% 
   group_by(YEAR, location) %>% 
-  summarize(total_fatals = sum(FATALS.x))
+  summarize(
+    total_persons = sum(PER_NO),
+    total_fatals = sum(FATALS.x)) 
 
 ```
 
@@ -83,7 +91,35 @@ rur_urb_agg <- df_v2 %>%
 #| warning: false
 #| echo: true
 
-ggplot(df_v2, aes(x = YEAR, y = ))
+ggplot(rur_urb_agg, aes(x = YEAR, y = total_fatals)) +
+  geom_col() +
+  geom_line(aes(color = location, group = location)) +
+scale_x_continuous(breaks = seq(min(rur_urb_agg$YEAR), max(rur_urb_agg$YEAR), by = 1)) +  
+  labs(
+    x = "Year",
+    y = "Total Fatalalities",
+    color = "Location"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+
+```
+
+## Rural vs Urban Fatality Table
+
+```{r}
+#| label: tbl-name
+#| tbl-cap: "Rural vs Urban Fatalities"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+kable(rur_urb_agg,
+      format = "html",
+      col.names = c("Year","Location","Total Persons", "Total Fatals")) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 
 ```
