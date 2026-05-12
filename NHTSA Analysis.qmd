@@ -130,20 +130,22 @@ kable(rur_urb_agg,
 
 We use a poisson regression because we want to calculate the rate probability over a fixed amount of time (e.g fatality count over 1 year).
 
+## Unadjusted Model
 ```{r}
-#| label: poisson-regression
+#| label: poisson-regression-unadjusted
 #| message: false
 #| warning: false
 #| echo: true  
 
-fatality_model <- glm(total_fatals ~ location,
-                      data = rur_urb_agg,
-                      family = poisson(link = "log")
-  
-)
+model1 <- glm(total_fatals ~ location,
+                 data = rur_urb_agg, 
+                 family = poisson(link = "log"))
 
-fatality_model
+model1
 ```
+
+The unadjusted model only accounts for the total fatalities affected by location.
+
 
 ```{r}
 #| label: tbl-fatality-model-exp
@@ -158,3 +160,54 @@ fatality_model %>%
     intercept = TRUE,
     exponentiate = TRUE)
 ```
+
+## Quasi-Poisson Regression Model for Overdispersion
+
+Before proceeding further with these results, we must first test for overdispersion by reviewing the ratio of the residual deviance to its degree of freedoms. If the model ratio is extremely greater than 1 then that is a sign of overdispersion.
+
+```{r}
+#| label: overdispersion-test
+#| message: false
+#| warning: false
+#| echo: true  
+
+model_ratio <- (model1$deviance / model1$df.residual)
+
+model_ratio
+
+model_ratio > 10
+
+```
+
+Since we verified that this model is overdispersed, we now must deal with it using a quasi-poisson regression model
+
+```{r}
+#| label: poisson-regression-model
+#| message: false
+#| warning: false
+#| echo: true  
+
+model1.qp <- glm(total_fatals ~ location,
+                 data = rur_urb_agg, 
+                 family = quasipoisson(link = "log"))
+
+model1.qp
+```
+
+It appears that are unadjusted model displays there is no statistically significant association between fatality outcome and rural location.
+```{r}
+#| label: tbl-poisson-regression-model-qp
+#| tbl-cap: "Quasi-poisson Regression Model"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+model1.qp %>% 
+  tbl_regression(
+    exponentiate = TRUE,
+    label = (location ~ "Location")
+  )
+
+```
+
