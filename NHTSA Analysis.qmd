@@ -31,6 +31,7 @@ library(kableExtra)
 library(sf)
 library(rnaturalearth)
 library(scales) ## add commas 
+library(gtsummary) ## needed for tbl_regression
 
 ```
 
@@ -49,7 +50,7 @@ df_v2 <- read.csv("Exports/df_v2.csv")
 
 ## Data Cleaning
 
-We want to remove NA geographic values.
+We want to remove NA geographic values and change "location" to a factor. "location" has urban set as the reference level.
 
 ```{r}
 #| label: data-clean
@@ -58,7 +59,8 @@ We want to remove NA geographic values.
 #| echo: true  
 
 df_v2 <- df_v2 %>% 
-  filter(!is.na(location))
+  filter(!is.na(location)) %>% 
+  mutate(location = fct_relevel(as.factor(location),"Urban"))
 
 ```
 
@@ -108,7 +110,7 @@ scale_x_continuous(breaks = seq(min(rur_urb_agg$YEAR), max(rur_urb_agg$YEAR), by
 ## Rural vs Urban Fatality Table
 
 ```{r}
-#| label: tbl-name
+#| label: tbl-fatality
 #| tbl-cap: "Rural vs Urban Fatalities"
 #| tbl-cap-location: top
 #| message: false
@@ -122,4 +124,37 @@ kable(rur_urb_agg,
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 
+```
+
+# Poisson Regression Modeling
+
+We use a poisson regression because we want to calculate the rate probability over a fixed amount of time (e.g fatality count over 1 year).
+
+```{r}
+#| label: poisson-regression
+#| message: false
+#| warning: false
+#| echo: true  
+
+fatality_model <- glm(total_fatals ~ location,
+                      data = rur_urb_agg,
+                      family = poisson(link = "log")
+  
+)
+
+fatality_model
+```
+
+```{r}
+#| label: tbl-fatality-model-exp
+#| tbl-cap: "Unadjusted Fatality Model [Exponent Form]"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+fatality_model %>% 
+  tbl_regression(
+    intercept = TRUE,
+    exponentiate = TRUE)
 ```
