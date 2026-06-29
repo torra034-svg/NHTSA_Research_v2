@@ -102,7 +102,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame            | File Pathway Notes                                                                         |
-|-----------------------|--------------------------------------------------------------------------------------------|
+|-----------------|-------------------------------------------------------|
 | 2007-2008, 2023       | Contains extra subfolder                                                                   |
 | 2007-2014             | All upper case                                                                             |
 | 2015, 2018, 2020-2023 | All lower case                                                                             |
@@ -512,7 +512,7 @@ rm(list = c("person_names","vehicle_names"))
 # Data Cleaning
 
 | Stacked Dataset              | Verify Correct Logic? | Notes                                                  |
-|------------------------------|-----------------------|--------------------------------------------------------|
+|-------------------|------------------|------------------------------------|
 | stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |
 | PER_AUX                      | ✅                    |                                                        |
 | stacked_national_accident_v2 | ✅                    |                                                        |
@@ -639,7 +639,64 @@ rm(stacked_AUX_per)
 
 # Merging Stacked Datasets
 
-In this step, I merge all the national data and AUX data files together.
+## Convert all variables to character
+```{r}
+#| label: convert-variables-character
+#| message: false
+#| warning: false
+#| echo: true  
+
+# 1. Identify all objects in the global environment that are data frames
+df_names <- names(which(sapply(ls(), function(x) is.data.frame(get(x)))))
+
+# 2. Loop through each data frame, convert columns, and save them back
+for (name in df_names) {
+  # Get the actual data frame object
+  df <- get(name)
+  
+  # Convert all columns to character (using df[] preserves the data frame structure)
+  df[] <- lapply(df, as.character)
+  
+  # Assign the modified data frame back to its original name in the global environment
+  assign(name, df, envir = .GlobalEnv)
+}
+```
+
+### remove values
+```{r}
+#| label: remove-values
+#| message: false
+#| warning: false
+#| echo: true  
+
+rm(df_names)
+rm(name)
+```
+
+
+## Merge datasets 
+In this step, I merge the following datasets together using the stacked national person file as the base. 
+
+* AUX_person
+* AUX_accident
+* national_accident
+
+
+```{r}
+#| label: merge-datasets
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+df <- stacked_national_person_v2 %>% 
+  left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) %>% 
+  left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) %>% 
+  left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR")) %>% 
+  select(-ends_with(".x"), -ends_with(".y")) ## remove duplicate columns
+
+```
+
 
 # Data Export
 
