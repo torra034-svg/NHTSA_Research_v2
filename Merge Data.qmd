@@ -27,6 +27,7 @@ editor: visual
 #| echo: true  
 
 library(tidyverse)
+library(scales)
 ```
 
 ## Import Data
@@ -43,58 +44,57 @@ Please note that the file path for 2023 is slightly different in that the extens
 #| warning: false
 #| echo: true  
 
-acc2007 <- read.csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2008 <- read.csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2009 <- read.csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2010 <- read.csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2011 <- read.csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2012 <- read.csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2013 <- read.csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2014 <- read.csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2015 <- read.csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2016 <- read.csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2017 <- read.csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2018 <- read.csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2019 <- read.csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2020 <- read.csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2021 <- read.csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2022 <- read.csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/ACC_AUX.CSV")
-acc2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/acc_aux.csv")
-per2007 <- read.csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/PER_AUX.CSV")
-per2008 <- read.csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/PER_AUX.CSV")
-per2009 <- read.csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/PER_AUX.CSV")
-per2010 <- read.csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/PER_AUX.CSV")
-per2011 <- read.csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/PER_AUX.CSV")
-per2012 <- read.csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/PER_AUX.CSV")
-per2013 <- read.csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/PER_AUX.CSV")
-per2014 <- read.csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/PER_AUX.CSV")
-per2015 <- read.csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/PER_AUX.CSV")
-per2016 <- read.csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/PER_AUX.CSV")
-per2017 <- read.csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/PER_AUX.CSV")
-per2018 <- read.csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/PER_AUX.CSV")
-per2019 <- read.csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/PER_AUX.CSV")
-per2020 <- read.csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/PER_AUX.CSV")
-per2021 <- read.csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/PER_AUX.CSV")
-per2022 <- read.csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/PER_AUX.CSV")
-per2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/per_aux.csv")
-veh2007 <- read.csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2008 <- read.csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2009 <- read.csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2010 <- read.csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2011 <- read.csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2012 <- read.csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2013 <- read.csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2014 <- read.csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2015 <- read.csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2016 <- read.csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2017 <- read.csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2018 <- read.csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2019 <- read.csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2020 <- read.csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2021 <- read.csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2022 <- read.csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/VEH_AUX.CSV")
-veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/veh_aux.csv")
-
+acc2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
+acc2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/acc_aux.csv", na = c(""))
+per2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
+per2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/per_aux.csv", na = c(""))
+veh2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
+veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na = c(""))
 ```
 
 ### NationalCSV
@@ -102,7 +102,7 @@ veh2023 <- read.csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame            | File Pathway Notes                                                                         |
-|---------------------|---------------------------------------------------|
+|-----------------------|-------------------------------------------------|
 | 2007-2008, 2023       | Contains extra subfolder                                                                   |
 | 2007-2014             | All upper case                                                                             |
 | 2015, 2018, 2020-2023 | All lower case                                                                             |
@@ -119,57 +119,57 @@ Importing the data files required significant manual effort considering that the
 #| echo: true  
 
 
-accident2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/ACCIDENT.CSV")
-accident2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/ACCIDENT.CSV")
-accident2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/ACCIDENT.CSV")
-accident2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/ACCIDENT.CSV")
-accident2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/ACCIDENT.CSV")
-accident2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/ACCIDENT.CSV")
-accident2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/ACCIDENT.CSV")
-accident2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/ACCIDENT.CSV")
-accident2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/accident.CSV")
-accident2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/accident.CSV")
-accident2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/accident.CSV")
-accident2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/accident.CSV")
-accident2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/accident.CSV")
-accident2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/accident.CSV")
-accident2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/accident.CSV")
-accident2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/accident.csv")
-accident2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.csv")
-person2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/PERSON.CSV")
-person2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/PERSON.CSV")
-person2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/PERSON.CSV")
-person2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/PERSON.CSV")
-person2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/PERSON.CSV")
-person2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/PERSON.CSV")
-person2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/PERSON.CSV")
-person2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/PERSON.CSV")
-person2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/person.CSV")
-person2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/Person.CSV")
-person2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/Person.CSV")
-person2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/person.CSV")
-person2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/Person.CSV")
-person2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/person.CSV")
-person2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/person.CSV")
-person2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/person.csv")
-person2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.csv")
-vehicle2007 <- read.csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/VEHICLE.CSV")
-vehicle2008 <- read.csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/VEHICLE.CSV")
-vehicle2009 <- read.csv("Raw Data/2009/FARS2009NationalCSV/VEHICLE.CSV")
-vehicle2010 <- read.csv("Raw Data/2010/FARS2010NationalCSV/VEHICLE.CSV")
-vehicle2011 <- read.csv("Raw Data/2011/FARS2011NationalCSV/VEHICLE.CSV")
-vehicle2012 <- read.csv("Raw Data/2012/FARS2012NationalCSV/VEHICLE.CSV")
-vehicle2013 <- read.csv("Raw Data/2013/FARS2013NationalCSV/VEHICLE.CSV")
-vehicle2014 <- read.csv("Raw Data/2014/FARS2014NationalCSV/VEHICLE.CSV")
-vehicle2015 <- read.csv("Raw Data/2015/FARS2015NationalCSV/vehicle.CSV")
-vehicle2016 <- read.csv("Raw Data/2016/FARS2016NationalCSV/Vehicle.CSV")
-vehicle2017 <- read.csv("Raw Data/2017/FARS2017NationalCSV/Vehicle.CSV")
-vehicle2018 <- read.csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV")
-vehicle2019 <- read.csv("Raw Data/2019/FARS2019NationalCSV/vehicle.CSV")
-vehicle2020 <- read.csv("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
-vehicle2021 <- read.csv("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
-vehicle2022 <- read.csv("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
-vehicle2023 <- read.csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.csv")
+accident2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/ACCIDENT.CSV")
+accident2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/ACCIDENT.CSV")
+accident2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/ACCIDENT.CSV")
+accident2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/ACCIDENT.CSV")
+accident2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/ACCIDENT.CSV")
+accident2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/ACCIDENT.CSV")
+accident2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/ACCIDENT.CSV")
+accident2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/ACCIDENT.CSV")
+accident2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/accident.CSV")
+accident2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/accident.CSV")
+accident2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/accident.CSV")
+accident2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/accident.CSV")
+accident2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/accident.CSV")
+accident2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/accident.CSV")
+accident2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/accident.CSV")
+accident2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/accident.csv")
+accident2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.csv")
+person2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/PERSON.CSV")
+person2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/PERSON.CSV")
+person2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/PERSON.CSV")
+person2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/PERSON.CSV")
+person2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/PERSON.CSV")
+person2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/PERSON.CSV")
+person2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/PERSON.CSV")
+person2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/PERSON.CSV")
+person2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/person.CSV")
+person2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/Person.CSV")
+person2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/Person.CSV")
+person2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/person.CSV")
+person2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/Person.CSV")
+person2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/person.CSV")
+person2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/person.CSV")
+person2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/person.csv")
+person2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.csv")
+vehicle2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/VEHICLE.CSV")
+vehicle2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/VEHICLE.CSV")
+vehicle2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/VEHICLE.CSV")
+vehicle2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/VEHICLE.CSV")
+vehicle2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/VEHICLE.CSV")
+vehicle2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/VEHICLE.CSV")
+vehicle2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/VEHICLE.CSV")
+vehicle2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/VEHICLE.CSV")
+vehicle2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/vehicle.CSV")
+vehicle2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/Vehicle.CSV")
+vehicle2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/Vehicle.CSV")
+vehicle2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV")
+vehicle2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/vehicle.CSV")
+vehicle2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
+vehicle2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
+vehicle2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
+vehicle2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.csv")
 
 ```
 
@@ -285,9 +285,50 @@ accident_list <- mget(ls(pattern = "^accident[0-9]")) %>%
 stacked_accident <- accident_list %>% 
   bind_rows(.id = "source_year") %>% 
   select(any_of(c(
-    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
-    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
-    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "PERSONS", 
+### Geographic Indicators
+    "RUR_URB", 
+    "RUR_URBNAME",
+    "A_RU",
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD", 
+  "FUNC_SYS 1",
+  "FUNC_SYS 2",
+  "FUNC_SYS 3",
+  "FUNC_SYS 4",
+  "FUNC_SYS 5",
+  "FUNC_SYS 6",
+  "FUNC_SYS 7",
+"ROAD_FNC",
+### Time of Accident
+  "MONTH",
+  "MONTHNAME",
+  "DAY",
+  "DAYNAME",
+  "DAY_WEEK",
+  "DAY_WEEKNAME",
+  "YEAR",
+  "HOUR",
+  "MINUTE",
+### EMS variables
+"NOT_HOUR",
+"NOT_MIN",
+"ARR_HOUR",
+"ARR_MIN",
+"HOSP_HR",
+"HOSP_MN",
+"FATALS"
+
   )))
 
 
@@ -345,9 +386,50 @@ person_list <- mget(ls(pattern = "^person[0-9]")) %>%
 stacked_person <- person_list %>% 
   bind_rows(.id = "source_year") %>% 
   select(any_of(c(
-    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
-    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
-    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "RUR_URB", 
+    "RUR_URBNAME", 
+    "PERSONS", 
+    "FATALS", 
+    "A_RU", 
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD",
+### Demographics
+    "AGE",
+    "SEX",
+### behavioral variables
+    "ALC_STATUS",
+    "ALC_RES",
+    "DRUGS",
+    "DRUGSNAME",
+    "DSTATUS",
+    "REST_USE",
+    "REST_MIS",
+    "REST_USENAME",
+    "HELM_USE",
+    "HELM_USENAME",
+### EMS variables
+"INJ_SEV",
+"INJ_SEVNAME",
+"HOSPITAL",
+"HOSPITALNAME",
+"DOA",
+"DOANAME",
+"DEATH_DA",
+"DEATH_YR",
+"LAG_HRS",
+"LAG_MINS",
+"BODY_TYP",
+"BODY_TYPNAME"
   )))
 
 
@@ -405,9 +487,29 @@ vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) %>%
 stacked_vehicle <- vehicle_list %>% 
   bind_rows(.id = "source_year") %>% 
   select(any_of(c(
-    "ST_CASE", "YEAR", "STATE", "COUNTY", "VEH_NO", "PER_NO", 
-    "RUR_UR", "RUR_URBNAME", "PERSONS", "FATALS", "A_RU", 
-    "longitude", "longitud", "latitude", "LATITUDE", "LONGITUDE", "LONGITUD"
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "RUR_URB", 
+    "RUR_URBNAME", 
+    "PERSONS", 
+    "FATALS", 
+    "A_RU",
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD",
+### behavioral variables
+    "DR_DRINK",
+    "SPEEDREL",
+    "PREV_SPD",
+"DR_ZIP",
+"SPEC_USE"
   )))
 
 ```
@@ -536,13 +638,24 @@ df_v2 <- df %>%
 
 ```
 
-
 ## Data Export
 
 I export all the datasets so I can upload them to BOX.
 
 ```{r}
-#| label: label_name
+#| label: AUX_rename
+#| message: false
+#| warning: false
+#| echo: true  
+
+# I need to rewrite this to prevent errors
+AUX_data <- AUX
+rm(AUX)
+
+```
+
+```{r}
+#| label: data_export
 #| message: false
 #| warning: false
 #| echo: true
@@ -552,11 +665,12 @@ all_data_frames <- mget(ls()) %>%
   keep(is.data.frame)
 
 
-# I walk through the entire list and tell R to write .csv files.
-iwalk(all_data_frames, ~ write_csv(.x, paste0(.y, ".csv")))
+# I walk through the entire list and tell R to write .csv files into the "Export" folder.
+iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/", .y, ".csv")))
+
+
 
 ```
-
 
 Things to do rn
 
@@ -579,3 +693,358 @@ Things to do rn
     -   Make sure to upload files to box
 
 -   send trish a reminder email on monday to send supplmen
+
+# Troubleshoot Data
+
+## General Overview + Thoughts
+
+-   I want to troubleshoot the NAs by investigating INJ_SEV NA values in the 2015 person dataset. I need to find out which step in data loading results in these NA values in being created.
+
+    -   The other variables listed also generally contain NA values.
+    -   Okay so by running colSums(is.na()) I've found a buttload of NA values for the aforementioned variables. This def confirms that something was wrong when I loaded in data
+
+    ```{r}
+    #| label: troubleshoot_df_v2
+    #| message: false
+    #| warning: false
+    #| echo: true  
+
+    df_v2_troubleshoot <- df_v2 %>% 
+      select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, SPEC_USE)
+
+    colSums(is.na(df_v2_troubleshoot))
+
+    ```
+
+-   Thought: Idk if something is wrong w the entire dataset or it is specific years like 2015, 2021, and 2022. Thus I will compare 2014 against 2015 to see if there are NA values.
+
+    -   okay, so it looks like after comparing the year NA values - it looks like this is an overall loading error since NA values are appearing in both years.
+
+```{r}
+#| label: compare_2014_vs_2015_na
+#| message: false
+#| warning: false
+#| echo: true  
+
+na_2014 <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, SPEC_USE) %>% 
+  filter(YEAR == 2014)
+
+colSums(is.na(na_2014))
+
+na_2015 <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, SPEC_USE) %>% 
+  filter(YEAR == 2015)
+
+colSums(is.na(na_2015))
+
+
+
+```
+
+## stacked_person analysis
+
+-   I am going to check if something wonky happened when I stacked the person files together.
+    -   Note: This does not verify the SPEC_USE variable since this variable is from a stacked_vehicle
+    -   okay this is interesting. It looks like we only have 1 INJ_SEV NA value and a buttload of BODY_TYP NA values.
+        -   Therefore, this means that something went wrong when the files merged. One problem at a time. Need to solve the NA INJ_SEV.
+
+```{r}
+#| label: troubleshoot_stacked_person
+#| message: false
+#| warning: false
+#| echo: true  
+
+troubleshoot_stacked_person <- stacked_person %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP)
+
+colSums(is.na(troubleshoot_stacked_person))
+
+view(troubleshoot_stacked_person)
+```
+
+-   In this code chunk, I am isolating the NA value to find out more information
+    -   Okay weird, it just shows me ST_CASE = 10109 has a singular NA value.
+
+```{r}
+#| label: troubleshoot_stacked_person_NA
+#| message: false
+#| warning: false
+#| echo: true  
+
+troubleshoot_stacked_person_NA <- stacked_person %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP) %>% 
+  filter(is.na(INJ_SEV))
+
+colSums(is.na(troubleshoot_stacked_person_NA))
+
+view(troubleshoot_stacked_person_NA)
+```
+
+-   I'm going to check out ST_CASE 10109 to see if there are duplicates or something.
+    -   Okay this is really weird. The raw data is the source of truth. I am expecting 3 rows where ST_CASE = 10109 and YEAR == 2015. Instead I get a singular NA row when YEAR == 2015.
+        -   This means I need to go further back and check how the data is being loaded in.
+
+```{r}
+#| label: troubleshoot_stacked_person_NA
+#| message: false
+#| warning: false
+#| echo: true  
+
+troubleshoot_stacked_person_10109 <- stacked_person %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP) %>% 
+  filter(ST_CASE == 10109)
+
+colSums(is.na(troubleshoot_stacked_person_10109))
+
+view(troubleshoot_stacked_person_10109)
+```
+
+### stacked_person_2015 analysis
+
+#### INJ_SEV FIX
+
+-   Perhaps the way R is parsing data files is incorrect. I'm going to try and force R to remove any invisible spaces before it reads data to see if this fixes the issue. I'm doing this by converting read.csv() to read_csv().
+    -   I'm also going to force R to read everything as a character
+-   **Wait I actually found the issue. Looking at the Raw excel file, we have 81621 rows from the 2015 person files. HOWEVER, R is only reading in 256 of those rows. I need to figure out how to fix this issue.**
+    -   **According to Gemini, I should use read_csv instead of read_csv. The latter is old school and is less flexible to weird characters.**
+
+```{r}
+#| label: troubleshoot_stacked_person_analysis_v2
+#| message: false
+#| warning: false
+#| echo: true  
+
+# load data in again
+person2015_v2 <- read_csv("Raw Data/2015/FARS2015NationalCSV/person.CSV")
+
+# analyze file
+
+person_2015_troubleshoot_v2 <- person2015_v2 %>% 
+  select(ST_CASE, INJ_SEV, BODY_TYP)
+
+colSums(is.na(person_2015_troubleshoot_v2))
+
+
+view(person_2015_troubleshoot_v2)
+```
+
+#### BODY_TYP FIX
+
+-   Okay so the INJ_SEV is solved but I need to figure out why BODY_TYP is still flipping out
+
+```{r}
+#| label: BODY_TYP_FIX
+#| message: false
+#| warning: false
+#| echo: true  
+
+# analyze file
+
+person_troubleshoot_BODY_FIX <- stacked_person %>% 
+  select(ST_CASE,YEAR, INJ_SEV, BODY_TYP) %>% 
+  filter(is.na(BODY_TYP))
+
+colSums(is.na(person_troubleshoot_BODY_FIX))
+
+
+view(person_troubleshoot_BODY_FIX)
+
+```
+
+-   I filter to the year 2007 and ST_CASE == 10015 to see if it loaded in things correctly.
+-   Interesting. Things did load correctly. Perhaps this means that all these NAs are actually correct?
+
+```{r}
+#| label: BODY_TYP_FIX_2007
+#| message: false
+#| warning: false
+#| echo: true  
+
+# analyze file
+
+person_troubleshoot_BODY_FIX_2007 <- stacked_person %>% 
+  select(ST_CASE,YEAR, INJ_SEV, BODY_TYP) %>% 
+  filter(YEAR == 2007,
+         ST_CASE == 10015)
+
+colSums(is.na(person_troubleshoot_BODY_FIX_2007))
+
+
+view(person_troubleshoot_BODY_FIX_2007)
+
+```
+
+### Troubleshoot Conclusion and Sanity Check
+
+-   I think everything was fixed by changing read.csv to read_csv. To ensure that there are no false NA values (e.g R reads it as NA but there is actual data in the source file), I will randomly select 5 NA BODY_TYP rows + 5 NA SPEC_USE rows and verify that they are correct (e.g they match up w the raw data in Excel.)
+
+-   
+
+    ## The issue is R's parsing abilities. R reads only the first hundred lines of code and uses that to guess the next hundred.
+
+| ST_CASE | YEAR | BODY_TYP Verified |
+|---------|------|-------------------|
+| 10015   | 2007 | 1                 |
+| 210430  | 2015 | 1                 |
+| 210452  | 2020 | 1                 |
+| 530467  | 2023 | 1                 |
+| 60390   | 2010 | 1                 |
+
+```{r}
+#| label: SPEC_USE_NA
+#| message: false
+#| warning: false
+#| echo: true  
+
+
+SPEC_USE_NA <- df_v2 %>% 
+  select(ST_CASE, YEAR, SPEC_USE) %>% 
+  filter(is.na(SPEC_USE))
+
+view(SPEC_USE_NA)
+
+```
+
+-   Trying to diagnose encoding issue.
+
+    -   According to ChatGPT, it's not a data conversion issue but rather an encoding one. How R
+
+```{r}
+#| label: SPEC_USE_2018
+#| message: false
+#| warning: false
+#| echo: true  
+
+vehicle2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV", 
+                        col_types = cols(.default = col_character()))
+
+## Hm... This is not a parsing issue since I set everything to a character.
+
+```
+
+-   I'm trying to figure out where the duplicates occur.
+
+```{r}
+#| label: SPEC_USE_2018_v2
+#| message: false
+#| warning: false
+#| echo: true  
+
+vehicle2018_v2 <- df_v2 %>% 
+  filter(YEAR == 2018 & 
+         ST_CASE == 131083)
+
+view(vehicle2018_v2)
+
+```
+
+-   Looks like the duplicates don't occur when we stack the vehicle data together. **The duplicates occur when we merge the data!!!!**
+
+```{r}
+#| label: SPEC_USE_2018_v3
+#| message: false
+#| warning: false
+#| echo: true  
+
+vehicle2018_v3 <- stacked_vehicle %>%
+  filter(YEAR == 2018 & 
+         ST_CASE == 131083) 
+
+view(vehicle2018_v3)
+```
+
+-   Perhaps the duplicates occur in the first merge?
+
+    -   **BINGO!!! The duplicates do occur in the first merge!!!**
+
+```{r}
+#| label: SPEC_USE_2018_v4
+#| message: false
+#| warning: false
+#| echo: true  
+
+vehicle2018_v4 <- national %>%
+  filter(YEAR == 2018 & 
+         ST_CASE == 131083) 
+
+view(vehicle2018_v4)
+```
+
+| ST_CASE | YEAR | SPEC_USE Verified                                                                    |
+|---------|------|--------------------------------------------------------------------------------------|
+| 131083  | 2018 | 0 \<-- **need to correct. This is not accurate. There is exactly 1 row not 6 rows.** |
+| 480376  | 2022 |                                                                                      |
+| 560119  | 2023 |                                                                                      |
+| 62292   | 2008 |                                                                                      |
+| 510541  | 2010 | 1                                                                                    |
+
+-   I also conducted a meta analysis to see if the percentage of NAs makes sense
+
+```{r}
+#| label: tbl-df_NA_BODY_TYP
+#| tbl-cap: "df BODY_TYP Meta Analysis"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+df_NA_BODY_TYP <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV, BODY_TYP, SPEC_USE) %>% 
+  group_by(YEAR) %>% 
+  summarize(
+    BODY_TYP_sum = sum(!is.na(BODY_TYP)),
+    BODY_TYP_NA = sum(is.na(BODY_TYP))) %>% 
+  mutate(BODY_TYP_NA_percent = percent(BODY_TYP_NA / BODY_TYP_sum, accuracy = 0.01))
+
+df_NA_BODY_TYP
+
+```
+
+-   I did the same thing with SPEC_USE
+
+```{r}
+#| label: tbl-df_NA_SPEC_USE
+#| tbl-cap: "df SPEC_USE Meta Analysis"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+df_NA_SPEC_USE <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV, SPEC_USE, SPEC_USE) %>% 
+  group_by(YEAR) %>% 
+  summarize(
+    SPEC_USE_sum = sum(!is.na(SPEC_USE)),
+    SPEC_USE_NA = sum(is.na(SPEC_USE))) %>% 
+  mutate(SPEC_USE_NA_percent = percent(SPEC_USE_NA / SPEC_USE_sum, accuracy = 0.01))
+
+df_NA_SPEC_USE
+
+```
+
+-   Now to really check that everything is okay, I'm going to compare these results to a variable we haven't had an issue with previously. I'll use DR_ZIP as an example
+    -   Okay this is good. DR_ZIP is showing similar NA percentage values.
+
+```{r}
+#| label: tbl-df_NA_DR_ZIP
+#| tbl-cap: "df DR_ZIP Meta Analysis"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+
+df_NA_DR_ZIP <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV, DR_ZIP, DR_ZIP) %>% 
+  group_by(YEAR) %>% 
+  summarize(
+    DR_ZIP_sum = sum(!is.na(DR_ZIP)),
+    DR_ZIP_NA = sum(is.na(DR_ZIP))) %>% 
+  mutate(DR_ZIP_NA_percent = percent(DR_ZIP_NA / DR_ZIP_sum, accuracy = 0.01))
+
+df_NA_DR_ZIP
+
+```

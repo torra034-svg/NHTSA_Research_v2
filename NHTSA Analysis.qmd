@@ -31,6 +31,7 @@ library(kableExtra)
 library(sf)
 library(rnaturalearth)
 library(scales) ## add commas 
+library(gt) ## make 
 library(gtsummary) ## needed for tbl_regression
 
 ```
@@ -52,19 +53,56 @@ df_v2 <- read.csv("Exports/df_v2.csv")
 
 We want to remove NA geographic values and change "location" to a factor. "location" has urban set as the reference level.
 
+I also set the following restrictions:
+
+-   Restrict to persons who died
+
+-   Restrict to light vehicles (see below)
+
+-   Restrict to driver or occupant in car
+
+-   Restrict to private vehicle below
+
 ```{r}
 #| label: data-clean
 #| message: false
 #| warning: false
 #| echo: true  
 
-df_v2 <- df_v2 %>% 
-  filter(!is.na(location)) %>% 
+df_v2.1 <- df_v2 %>% 
+  filter(!is.na(location),
+           INJ_SEV == 4, ## dead people only
+           BODY_TYP %in% 1:8 | BODY_TYP == 17 | ## passenger cars 
+           BODY_TYP %in% 14:16 | BODY_TYP == 19 | ## SUVS
+           BODY_TYP == 20 | ## minivans
+           BODY_TYP %in% 30:39, ## pickup trucks
+           A_PTYPE %in% 1:2, ## driver or occupant in car
+           SPEC_USE == 0) %>% 
+  drop_na(INJ_SEV, BODY_TYP, A_PTYPE, SPEC_USE) %>% ## drop NA rows for INJ_SEV, BODY_TYP, A_PTYPE, and SPEC_USE
   mutate(location = fct_relevel(as.factor(location),"Urban"))
 
 ```
 
 # Data Analysis & Visualization
+
+## Table 1: Demographic Table
+
+```{r}
+#| label: tbl-demographics
+#| tbl-cap: "Demographics"
+#| tbl-cap-location: top
+#| message: false
+#| warning: false
+#| echo: true
+
+## table 1 in progress
+
+## this is the actual table 1. The small selection of variables. 
+
+tbl_1 <- df_v2.1 %>% 
+  select(AGE, A_HRACE, location, SEX, FATALS.x, DRUGS, DRUGSNAME, DR_DRINK, DSTATUS, REST_USE, REST_USENAME)  
+
+```
 
 ## Rural vs Urban Fatality Aggregation
 
@@ -75,7 +113,7 @@ df_v2 <- df_v2 %>%
 #| echo: true  
 
 
-rur_urb_agg <- df_v2 %>% 
+rur_urb_agg <- df_v2.1 %>% 
   group_by(YEAR, location) %>% 
   summarize(
     total_persons = sum(PER_NO),
@@ -96,7 +134,8 @@ rur_urb_agg <- df_v2 %>%
 ggplot(rur_urb_agg, aes(x = YEAR, y = total_fatals)) +
   geom_col() +
   geom_line(aes(color = location, group = location)) +
-scale_x_continuous(breaks = seq(min(rur_urb_agg$YEAR), max(rur_urb_agg$YEAR), by = 1)) +  
+scale_x_continuous(breaks = seq(min(rur_urb_agg$YEAR, na.rm = TRUE), max(rur_urb_agg$YEAR, na.rm = TRUE), by = 1)) + 
+scale_y_continuous(labels = scales::label_comma()) + 
   labs(
     x = "Year",
     y = "Total Fatalalities",
@@ -117,13 +156,198 @@ scale_x_continuous(breaks = seq(min(rur_urb_agg$YEAR), max(rur_urb_agg$YEAR), by
 #| warning: false
 #| echo: true
 
-
-kable(rur_urb_agg,
-      format = "html",
-      col.names = c("Year","Location","Total Persons", "Total Fatals")) %>% 
+rur_urb_agg %>% 
+  select(-total_persons) %>% 
+  mutate(total_fatals = scales::comma(total_fatals)) %>% 
+kable(format = "html",
+      col.names = c("Year","Location", "Total Fatals"),
+      align = "c") %>% 
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 
+```
+
+### Troubleshoot
+
+I am trying to understand why there are very few deaths in 2015, 2021, and 2022.
+
+Notes
+
+-   I suspect that one of the filters is removing alot of these rows
+
+    -   I then create a summary of 2015 with the filter columns to see why a majority of them are being filtered out - Looks like my suspicions were right. In 2015, the majority of the rows are being filtered out because the INJ_SEV, BODY_TYP, SPEC_USE, and VPICMODEL is unknown. Mainly that most rows contain NA values for the columns.
+
+    -   This is the same case for 2021 and 2022 except INJ_SEV actually has values
+
+-   Trish notes
+
+    -   2021-2022
+
+        -   Data may not be loaded in correctly. Check accident file.
+
+    -   Need to look in original files and check inj_sev for errors
+
+        -   It could be that I may not merged things correctly or the original files have alot of NA in general.
+
+        -   Check INJ_SEV Name. The characters could mess up data load
+
+            -   What I want to do is load all the vehicle files from 2007-2022/3 and look at how many records for each file person / aux files / vehicle / accident
+
+                -   Check the amount of records per each year to ensure that each year has roughly the same amount of records
+
+                    -   If the records look weird thats when I do more research
+
+    -   What am I doing? (6/9)
+
+        -   Check accident file in 2021-2022 to verify if they're being loaded in correctly
+
+        -   Check the inj_sev to check NA values. Perhaps it's not being loaded in correctly.
+
+        -   Wait for detailed instructions
+
+        -   Make a really good table 1
+
+        -   Table 1 by year by ALL variables
+
+            -   e.g inj_sev values 1-7. We want to see the counts of fatalities by inj_sev values
+
+            -   This will help me diagnose issue
+
+        -   Other tasks
+
+            -   Do data cleaning with the time variables. Make sure to read Trish SAS notes to make sense of data. E.g remove meaningless data (e.g county \> 996; look at paper to interpret code correctly)
+
+                -   \^\^\^ This is super priority. This is located in the accident file. Trish will send me SAS coding for reference
+
+                    -   If I have time, create EMS time variable stamp
+
+            -   Check accident file
+
+                -   Use the time variables to create a timestamp variable
+
+            -   Ask Mercedes if there's a hard deadline for APEX.
+
+        -   Email Trish to remind her to send me material such as SAS coding and table 1 variables
+
+    -   TLDR:
+
+        -   Create time series variable
+
+        -   Investigate discrepancies for 2015, 2021-2022
+
+        -   Create Table 1 when Trish emails me
+
+        -   Email Mercedes to ask if I can resubmit APEX material in a month
+
+        -   
+
+```{r}
+#| label: troubleshoot_2015
+#| message: false
+#| warning: false
+#| echo: true  
+
+# filter to 2015 from the raw data to see if I can get a closer look why there appears to be few deaths
+
+df_2015 <- df_v2 %>% 
+  filter(YEAR == 2015) %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, A_PTYPE, SPEC_USE)
+
+colSums(is.na(df_2015))
+
+view(df_2015)
+
+```
+
+-   filter to 2015 and specify where INJ_SEV == NA.
+
+    -   I am trying to use this information to locate potential NA values in the raw data. If the raw data does not show NA. This means something was wrong when the data was loaded or filtered into R.
+
+    -   Looks like the raw data does not have any NA values. Therefore, this means that something went wrong when data was loaded and/or filtered into R.
+
+```{r}
+#| label: troubleshoot_2015_na_inJ_SEV
+#| message: false
+#| warning: false
+#| echo: true  
+
+df_2015_inj_SEV_NA <- df_v2 %>% 
+  filter(YEAR == 2015,
+         is.na(INJ_SEV)) %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, A_PTYPE, SPEC_USE)
+
+colSums(is.na(df_2015_inj_SEV_NA))
+
+view(df_2015_inj_SEV_NA)
+```
+
+-   Now I am going to review the exported df_v2 file and see if NA values exist there
+
+    -   If NA values exist in that file. That means something went wrong when data was loaded.
+
+-   YES!!! It looks like there are a significant number of NA values for the following variables:
+
+    -   INJ_SEV
+
+    -   INJ_SEVNAME
+
+    -   BODY_TYP
+
+    -   SPEC_USE
+
+-   **Therefore, these findings \^\^ mean that something def went wrong when data was loaded into R.**
+
+    -   I need to go back in the merge file and see where things went wrong....
+
+    -   Hmmm. Looking at the data types - I wonder if things look wonky bc I used numeric filters when the variables themselves are characters?
+
+        -   Need to check this hypothesis by
+
+```{r}
+#| label: troubleshoot_df_v2
+#| message: false
+#| warning: false
+#| echo: true  
+
+df_v2_troubleshoot <- df_v2 %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, A_PTYPE, SPEC_USE)
+
+colSums(is.na(df_v2_troubleshoot))
+
+```
+
+```{r}
+#| label: troubleshoot_2021
+#| message: false
+#| warning: false
+#| echo: true  
+
+# filter to 2021 from the raw data to see if I can get a closer look why there appears to be few deaths
+
+df_2021 <- df_v2 %>% 
+  filter(YEAR == 2021) %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, A_PTYPE, SPEC_USE)
+
+colSums(is.na(df_2021))
+
+view(df_2021)
+```
+
+```{r}
+#| label: troubleshoot_2022
+#| message: false
+#| warning: false
+#| echo: true  
+
+# filter to 2022 from the raw data to see if I can get a closer look why there appears to be few deaths
+
+df_2022 <- df_v2 %>% 
+  filter(YEAR == 2022) %>% 
+  select(ST_CASE, YEAR, INJ_SEV,INJ_SEVNAME, BODY_TYP, A_PTYPE, SPEC_USE)
+
+colSums(is.na(df_2022))
+
+view(df_2022)
 ```
 
 # Poisson Regression Modeling
@@ -131,6 +355,7 @@ kable(rur_urb_agg,
 We use a poisson regression because we want to calculate the rate probability over a fixed amount of time (e.g fatality count over 1 year).
 
 ## Unadjusted Model
+
 ```{r}
 #| label: poisson-regression-unadjusted
 #| message: false
@@ -146,7 +371,6 @@ model1
 
 The unadjusted model only accounts for the total fatalities affected by location.
 
-
 ```{r}
 #| label: tbl-fatality-model-exp
 #| tbl-cap: "Unadjusted Fatality Model [Exponent Form]"
@@ -155,9 +379,9 @@ The unadjusted model only accounts for the total fatalities affected by location
 #| warning: false
 #| echo: true
 
-fatality_model %>% 
+model1 %>% 
   tbl_regression(
-    intercept = TRUE,
+    intercept = FALSE,
     exponentiate = TRUE)
 ```
 
@@ -195,6 +419,7 @@ model1.qp
 ```
 
 It appears that are unadjusted model displays there is no statistically significant association between fatality outcome and rural location.
+
 ```{r}
 #| label: tbl-poisson-regression-model-qp
 #| tbl-cap: "Quasi-poisson Regression Model"
@@ -210,4 +435,3 @@ model1.qp %>%
   )
 
 ```
-

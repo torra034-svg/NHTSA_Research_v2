@@ -1,0 +1,51 @@
+---
+title: "NHTSA Read-me"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    fontsize: 0.8em
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 4
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    fig-align: center
+editor: visual
+---
+
+# Read-me
+
+This read-me is intended to provide clarification and the differing files and file variations.
+
+## Data Cleaning Files
+
++--------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+| File Name                      | Description                                                                                                                                              | File Status |
++================================+==========================================================================================================================================================+=============+
+| Merge Data                     | This is the first iteration of NHTSA import, data cleaning, and troubleshooting.                                                                         | Inactive    |
+|                                |                                                                                                                                                          |             |
+|                                | This file serves as the backbone for data import. In other words, the techniques used to import data in other files are directly sourced from this file. |             |
++--------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+| NHTSA Analysis                 | This is the first iteration of the NHTSA analysis.                                                                                                       | Inactive    |
+|                                |                                                                                                                                                          |             |
+|                                | Analysis includes data visualization and Poisson regression.                                                                                             |             |
++--------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+| Data Cleaning Helper Functions | This Excel file serves as the backbone for R data import functions.                                                                                      | Active      |
++--------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+| NHTSA Data Cleaning            | This is the most recent iteration of data cleaning. Import process was copy-pasted from Merge Data. Differences are due to data cleaning process.        | Active      |
++--------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
+
+## Raw Data
+
+The Raw Data folder includes raw NHTSA data from 2007-2023 extracted directly from Dr. Patricia Jewett's Box folder.
+
+## Exports
+
+This folder contains cleaned and/or stacked NHTSA data.
+
+## Troubleshoot
+
+This folder contains attempts to isolate and troubleshoot missing NHTSA data. It also contains Excel files by specific years used to validate data.

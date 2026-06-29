@@ -1,0 +1,49 @@
+---
+title: "NHTSA Troubleshoot"
+author: "Patrick Torralba"
+format: 
+  html:
+    theme: flatly
+    fontsize: 0.8em
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 4
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    fig-align: center
+editor: visual
+---
+
+# Library
+```{r}
+#| label: library
+#| message: false
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+
+```
+
+# Import Raw Data
+
+## Issue
+
+* The issue here is that R is saying certain rows are NA when they actually have data
+  * For example, ST_CASE == 131083 is supposed to have 1 row. But the df_v2 dataset has multiple duplicates.
+    * Therefore, there must be something wrong in the merging process 
+
+```{r}
+#| label: vehicle-2018-v1
+#| message: false
+#| warning: false
+#| echo: true  
+
+vehicle2018_v1 <- read_csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV") %>% 
+  select(ST_CASE, SPEC_USE)
+
+view(vehicle2018_v1)
+```
+

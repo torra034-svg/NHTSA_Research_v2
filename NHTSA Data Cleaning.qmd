@@ -1,19 +1,49 @@
-"HOSP_MN",
-"FATALS"
-)))
-View(stacked_national_accident)
-# Chunk 1: library
+---
+title: "NHTSA Data Cleaning"
+author: "Patrick Torralba"
+format:
+  html:
+    theme: flatly
+    fontsize: 0.8em
+    code-fold: FALSE
+    code-tools: TRUE
+    code-copy: TRUE
+    toc: TRUE
+    toc-depth: 4
+    smooth-scroll: TRUE
+    embed-resources: TRUE
+    fig-align: center
+editor: visual
+---
+
+# Set-up
+
+## Library
+
+```{r}
 #| label: library
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 library(tidyverse)
 library(scales)
-# Chunk 2: import-AUX-data
+```
+
+## Import Data
+
+I used Excel to help create functions to mass import the .csv files for both AUX and National CSV data.
+
+### National Auxillary CSV Data
+
+Please note that the file path for 2023 is slightly different in that the extension is lower case and has an additional folder.
+
+```{r}
 #| label: import-AUX-data
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 acc2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
 acc2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
 acc2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
@@ -65,11 +95,30 @@ veh2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/VEH_AUX.CSV", na
 veh2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
 veh2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
 veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na = c(""))
-# Chunk 3: import-national-csv-data
+```
+
+### NationalCSV
+
+Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
+
+| Time frame            | File Pathway Notes                                                                         |
+|-----------------------|--------------------------------------------------------------------------------------------|
+| 2007-2008, 2023       | Contains extra subfolder                                                                   |
+| 2007-2014             | All upper case                                                                             |
+| 2015, 2018, 2020-2023 | All lower case                                                                             |
+| 2016-2017             | Accident is in lower case and both Person and Vehicle are in proper spelling form.         |
+| 2019                  | Accident is in lower case, Person is in proper spelling form, and Vehicle is in lower case |
+| 2022-2023             | .csv file extension is in lowercase                                                        |
+
+: NationalCSV Import Notes
+
+```{r}
 #| label: import-national-csv-data
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
+
 accident2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/FARS2007NationalCSV/ACCIDENT.CSV")
 accident2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/FARS2008NationalCSV/ACCIDENT.CSV")
 accident2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/ACCIDENT.CSV")
@@ -121,87 +170,123 @@ vehicle2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
 vehicle2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
 vehicle2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
 vehicle2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/vehicle.csv")
-# Chunk 4: acc-stacked
+
+```
+
+# Preliminary Data Cleaning
+
+This section refers to steps taken before data cleaning such as stacking AUX and National datasets, respectively, and selecting their respective years.
+
+## AUX Stacked Dataframes
+
+-   The ls() function searches for my environment for any object starting with "acc".
+-   mget() takes the list of names I defined and gets the actual data
+
+```{r}
 #| label: acc-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define acc data frames from environment
 acc_list <- mget(ls(pattern = "^acc20"))
+ 
 # bind data frames together
 stacked_AUX_acc <- acc_list %>%
-bind_rows(.id = "source_year") %>%
-select(ST_CASE, YEAR, FATALS, A_REGION, A_RU)
-# Chunk 5: per-stacked
+  bind_rows(.id = "source_year") %>% 
+  select(ST_CASE, YEAR, FATALS, A_REGION, A_RU)
+
+
+
+```
+
+```{r}
 #| label: per-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define per data frames in environment
 per_list <- mget(ls(pattern = "^per20"))
+
 # bind data frames
 stacked_AUX_per <- per_list %>%
-bind_rows(.id = "source_year") %>%
-select(ST_CASE, YEAR, VEH_NO, PER_NO, A_PTYPE, A_RESTUSE, A_HELMUSE, A_PERINJ, A_AGE4, A_HRACE)
-# Chunk 6: veh-stacked
+  bind_rows(.id = "source_year") %>% 
+  select(ST_CASE, YEAR, VEH_NO, PER_NO, A_PTYPE, A_RESTUSE, A_HELMUSE, A_PERINJ, A_AGE4, A_HRACE)
+
+```
+
+```{r}
 #| label: veh-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define veh data frames in environment
 veh_list <- mget(ls(pattern = "^veh20"))
+
 # bind data frames
 stacked_AUX_veh <- veh_list %>%
-bind_rows(.id = "source_year") %>%
-select(ST_CASE, YEAR, VEH_NO)
-# Chunk 7: accident-stacked
+  bind_rows(.id = "source_year") %>% 
+  select(ST_CASE, YEAR, VEH_NO)
+
+```
+
+## National Stacked Data frames
+
+Note to self: The accident files inherently contain the "year" column.
+
+```{r}
 #| label: accident-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define accident data frames in environment and convert all columns to characters
-accident_list <- mget(ls(pattern = "^accident[0-9]")) %>%
-map(~ .x %>% mutate(across(everything(), as.character)))
+accident_list <- mget(ls(pattern = "^accident[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
+
 # bind data frames
-stacked_national_accident <- accident_list %>%
-bind_rows(.id = "source_year") %>%
-select(any_of(c(
-"ST_CASE",
-"YEAR",
-"STATE",
-"COUNTY",
-"VEH_NO",
-"PER_NO",
-"PERSONS",
+stacked_national_accident <- accident_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "PERSONS", 
 ### Geographic Indicators
-"RUR_URB",
-"RUR_URBNAME",
-"A_RU",
-"longitude",
-"longitud",
-"latitude",
-"LATITUDE",
-"LONGITUDE",
-"LONGITUD",
-"FUNC_SYS",
-"FUNC_SYS 1",
-"FUNC_SYS 2",
-"FUNC_SYS 3",
-"FUNC_SYS 4",
-"FUNC_SYS 5",
-"FUNC_SYS 6",
-"FUNC_SYS 7",
+    "RUR_URB", 
+    "RUR_URBNAME",
+    "A_RU",
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD", 
+  "FUNC_SYS",
+  "FUNC_SYS 1",
+  "FUNC_SYS 2",
+  "FUNC_SYS 3",
+  "FUNC_SYS 4",
+  "FUNC_SYS 5",
+  "FUNC_SYS 6",
+  "FUNC_SYS 7",
 "ROAD_FNC",
 ### Time of Accident
-"MONTH",
-"MONTHNAME",
-"DAY",
-"DAYNAME",
-"DAY_WEEK",
-"DAY_WEEKNAME",
-"YEAR",
-"HOUR",
-"MINUTE",
+  "MONTH",
+  "MONTHNAME",
+  "DAY",
+  "DAYNAME",
+  "DAY_WEEK",
+  "DAY_WEEKNAME",
+  "YEAR",
+  "HOUR",
+  "MINUTE",
 ### EMS variables
 "NOT_HOUR",
 "NOT_MIN",
@@ -211,74 +296,96 @@ select(any_of(c(
 "HOSP_HR",
 "HOSP_MN",
 "FATALS"
-)))
-# Chunk 8: person-years-function
+
+  )))
+
+
+```
+
+Note to self: The person files inherently DO NOT contain the "year" column. And thus, I will need to manually create said column, and add to each year.
+
+I used AI to help me create a function to add the year column
+
+```{r}
 #| label: person-years-function
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # Get the names of all objects in your environment that contain a year (4 digits)
 person_names <- ls(pattern = "^person\\d{4}")
+
 # Create a named list of these data frames
 person_list <- mget(person_names)
+
 # Add year column to each person data frame via function
 person_list_updated <- lapply(names(person_list), function(df_name) {
-# Extract the year from the string (e.g., "2020")
-year_val <- str_extract(df_name, "\\d{4}")
-# Access the data frame
-df <- person_list[[df_name]]
-# Add the column
-df$YEAR <- year_val
-return(df)
+  
+  # Extract the year from the string (e.g., "2020")
+  year_val <- str_extract(df_name, "\\d{4}")
+  
+  # Access the data frame
+  df <- person_list[[df_name]]
+  
+  # Add the column
+  df$YEAR <- year_val
+  
+  return(df)
 })
+
 # 4. Rename the list elements to match original names
 names(person_list_updated) <- person_names
-# update R environment with
+
+# update R environment with 
 list2env(person_list_updated, envir = .GlobalEnv)
-# Chunk 9: person-stacked
+```
+
+```{r}
 #| label: person-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define person data frames in environment and convert all columns to characters
-person_list <- mget(ls(pattern = "^person[0-9]")) %>%
-map(~ .x %>% mutate(across(everything(), as.character)))
+person_list <- mget(ls(pattern = "^person[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
 # bind data frames
-stacked_national_person <- person_list %>%
-bind_rows(.id = "source_year") %>%
-select(any_of(c(
-"ST_CASE",
-"YEAR",
-"STATE",
-"COUNTY",
-"VEH_NO",
-"PER_NO",
-"RUR_URB",
-"RUR_URBNAME",
-"PERSONS",
-"FATALS",
-"A_RU",
-"longitude",
-"longitud",
-"latitude",
-"LATITUDE",
-"LONGITUDE",
-"LONGITUD",
+stacked_national_person <- person_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "RUR_URB", 
+    "RUR_URBNAME", 
+    "PERSONS", 
+    "FATALS", 
+    "A_RU", 
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD",
 ### Demographics
-"AGE",
-"SEX",
+    "AGE",
+    "SEX",
 ### behavioral variables
-"ALC_STATUS",
-"ALC_RES",
-"DRUGS",
-"DRUGSNAME",
-"DSTATUS",
-"REST_USE",
-"REST_MIS",
-"REST_MISNAME",
-"REST_USENAME",
-"HELM_USE",
-"HELM_USENAME",
+    "ALC_STATUS",
+    "ALC_RES",
+    "DRUGS",
+    "DRUGSNAME",
+    "DSTATUS",
+    "REST_USE",
+    "REST_MIS",
+    "REST_MISNAME",
+    "REST_USENAME",
+    "HELM_USE",
+    "HELM_USENAME",
 ### EMS variables
 "INJ_SEV",
 "INJ_SEVNAME",
@@ -293,220 +400,265 @@ select(any_of(c(
 "LAG_MINS",
 "BODY_TYP",
 "BODY_TYPNAME"
-)))
-# Chunk 10: vehicle-years-function
+  )))
+
+
+```
+
+Note to self: The vehicle files DO NOT contain the "year" column. And thus, I will need to manually create said column, and add to each year.
+
+I modified the previous person code chunk for vehicle.
+
+```{r}
 #| label: vehicle-years-function
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # Get the names of all objects in your environment that contain a year (4 digits)
 vehicle_names <- ls(pattern = "^vehicle\\d{4}")
+
 # Create a named list of these data frames
 vehicle_list <- mget(vehicle_names)
+
 # Add year column to each vehicle data frame via function
 vehicle_list_updated <- lapply(names(vehicle_list), function(df_name) {
-# Extract the year from the string (e.g., "2020")
-year_val <- str_extract(df_name, "\\d{4}")
-# Access the data frame
-df <- vehicle_list[[df_name]]
-# Add the column
-df$YEAR <- year_val
-return(df)
+  
+  # Extract the year from the string (e.g., "2020")
+  year_val <- str_extract(df_name, "\\d{4}")
+  
+  # Access the data frame
+  df <- vehicle_list[[df_name]]
+  
+  # Add the column
+  df$YEAR <- year_val
+  
+  return(df)
 })
+
 # 4. Rename the list elements to match original names
 names(vehicle_list_updated) <- vehicle_names
-# update R environment with
+
+# update R environment with 
 list2env(vehicle_list_updated, envir = .GlobalEnv)
-# Chunk 11: vehicle-stacked
+```
+
+```{r}
 #| label: vehicle-stacked
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # define vehicle data frames in environment and convert all columns to characters
-vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) %>%
-map(~ .x %>% mutate(across(everything(), as.character)))
+vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) %>% 
+  map(~ .x %>% mutate(across(everything(), as.character)))
+
 # bind data frames
-stacked_national_vehicle <- vehicle_list %>%
-bind_rows(.id = "source_year") %>%
-select(any_of(c(
-"ST_CASE",
-"YEAR",
-"STATE",
-"COUNTY",
-"VEH_NO",
-"PER_NO",
-"RUR_URB",
-"RUR_URBNAME",
-"PERSONS",
-"FATALS",
-"A_RU",
-"longitude",
-"longitud",
-"latitude",
-"LATITUDE",
-"LONGITUDE",
-"LONGITUD",
+stacked_national_vehicle <- vehicle_list %>% 
+  bind_rows(.id = "source_year") %>% 
+  select(any_of(c(
+    "ST_CASE", 
+    "YEAR", 
+    "STATE", 
+    "COUNTY", 
+    "VEH_NO", 
+    "PER_NO", 
+    "RUR_URB", 
+    "RUR_URBNAME", 
+    "PERSONS", 
+    "FATALS", 
+    "A_RU",
+    "longitude", 
+    "longitud", 
+    "latitude", 
+    "LATITUDE", 
+    "LONGITUDE", 
+    "LONGITUD",
 ### behavioral variables
-"DR_DRINK",
-"SPEEDREL",
-"PREV_SPD",
+    "DR_DRINK",
+    "SPEEDREL",
+    "PREV_SPD",
 "DR_ZIP",
 "SPEC_USE"
-)))
-# Chunk 12: remove-dataframes-old
+  )))
+
+```
+
+## Remove dataframes
+
+I remove obsolete dataframes from my environment to clear up memory and to also remove unneeded dataframes for data exporting purposes.
+
+```{r}
 #| label: remove-dataframes-old
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 # remove obsolete AUX data
-rm(list = ls(pattern = "^acc20"))
+rm(list = ls(pattern = "^acc20")) 
 rm(list = ls(pattern = "^per20"))
 rm(list = ls(pattern = "^veh20"))
+
 # remove obsolete National data
 rm(list = ls(pattern = "accident20"))
 rm(list = ls(pattern = "person20"))
 rm(list = ls(pattern = "vehicle20"))
 rm(list = ls(pattern = "_list"))
 rm(list = c("person_names","vehicle_names"))
-# Chunk 13: national-person-data-cleaning
+
+
+```
+
+# Data Cleaning
+
+| Stacked Dataset              | Verify Correct Logic? | Notes                                                  |
+|------------------------------|-----------------------|--------------------------------------------------------|
+| stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |
+| PER_AUX                      | ✅                    |                                                        |
+| stacked_national_accident_v2 | ✅                    |                                                        |
+| stacked_national_vehicle_v2  | ✅                    |                                                        |
+
+## National person data cleaning
+
+```{r}
 #| label: national-person-data-cleaning
 #| message: false
 #| warning: false
-#| echo: true
-stacked_national_person_v2 <- stacked_national_person %>%
-mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URBNAME),
-RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URB),
-REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USE),
-REST_USENAME = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USENAME),
-REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, NA, REST_MIS),
-REST_MISNAME = if_else(REST_MISNAME >= 8 & REST_MISNAME <= 9, "", REST_MISNAME),
-HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, NA, HELM_USE),
-HELM_USENAME = if_else(HELM_USENAME >= 96 & HELM_USENAME <= 99, "", HELM_USENAME),
-BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, NA, BODY_TYP),
-BODY_TYPNAME = if_else(BODY_TYPNAME >= 98 & BODY_TYPNAME <= 99, "", BODY_TYPNAME),
-INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, NA, INJ_SEV),
-INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, "", INJ_SEVNAME),
-SEX = if_else(SEX >= 8 & SEX <= 9, NA, SEX),
-AGE = if_else(AGE >= 115, NA, AGE),
-ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, NA, ALC_STATUS),
-ALC_RES = if_else(ALC_RES > 94 & YEAR != 2015 |
-ALC_RES > 940 & YEAR == 2015, NA, ALC_RES),
-DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, NA, DRUGS),
-DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, NA, DSTATUS),
-DOA = if_else(DOA == "9", NA, DOA),
-DEATH_MN = if_else(DEATH_MN > 59, NA, DEATH_MN),
-DEATH_DA = if_else(DEATH_DA > 31, NA, DEATH_DA),
-DEATH_YR = if_else(DEATH_YR > 2050, NA, DEATH_YR),
-LAG_HRS = if_else(LAG_HRS > 719, NA, LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?
-LAG_MINS = if_else(LAG_MINS > 59, NA, LAG_MINS)
+#| echo: true  
+
+stacked_national_person_v2 <- stacked_national_person %>% 
+  mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URBNAME),
+         RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URB),
+         REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USE),
+         REST_USENAME = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USENAME),
+         REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, NA, REST_MIS),
+         REST_MISNAME = if_else(REST_MISNAME >= 8 & REST_MISNAME <= 9, "", REST_MISNAME),
+         HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, NA, HELM_USE),
+         HELM_USENAME = if_else(HELM_USENAME >= 96 & HELM_USENAME <= 99, "", HELM_USENAME),
+         BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, NA, BODY_TYP),
+         BODY_TYPNAME = if_else(BODY_TYPNAME >= 98 & BODY_TYPNAME <= 99, "", BODY_TYPNAME),
+         INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, NA, INJ_SEV),
+         INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, "", INJ_SEVNAME),
+         SEX = if_else(SEX >= 8 & SEX <= 9, NA, SEX),
+         AGE = if_else(AGE >= 115, NA, AGE),
+         ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, NA, ALC_STATUS),
+         ALC_RES = if_else(ALC_RES > 94 & YEAR != 2015 | 
+                           ALC_RES > 940 & YEAR == 2015, NA, ALC_RES),
+         DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, NA, DRUGS),
+         DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, NA, DSTATUS),
+         DOA = if_else(DOA == "9", NA, DOA),
+         DEATH_MN = if_else(DEATH_MN > 59, NA, DEATH_MN),
+         DEATH_DA = if_else(DEATH_DA > 31, NA, DEATH_DA),
+         DEATH_YR = if_else(DEATH_YR > 2050, NA, DEATH_YR),
+         LAG_HRS = if_else(LAG_HRS > 719, NA, LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
+         LAG_MINS = if_else(LAG_MINS > 59, NA, LAG_MINS)
 )
-# Chunk 14: AUX-person-data-cleaning
+
+```
+
+## AUX person files data cleaning
+
+```{r}
 #| label: AUX-person-data-cleaning
 #| message: false
 #| warning: false
-#| echo: true
-stacked_AUX_per_v2 <- stacked_AUX_per %>%
-mutate(A_HRACE = if_else(A_HRACE == "9", NA, A_HRACE))
-# Chunk 15: national-accident-data-cleaning
+#| echo: true  
+
+stacked_AUX_per_v2 <- stacked_AUX_per %>% 
+  mutate(A_HRACE = if_else(A_HRACE == 9, NA, A_HRACE))
+
+```
+
+## National Accident files
+
+I combined Trish data cleaning 2014 and 2015 as noted below.
+
+```{r}
 #| label: national-accident-data-cleaning
 #| message: false
 #| warning: false
-#| echo: true
-stacked_national_accident_v2 <- stacked_national_accident %>%
-mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
-LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
-LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
-ROAD_FNC = if_else(
-ROAD_FNC == "9" & YEAR <= 2014 |
-ROAD_FNC == "19" & YEAR <= 2014 |
-ROAD_FNC == "99" & YEAR <= 2014, ## 2014 and before
-NA, ROAD_FNC),
-FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
-DAY = if_else(DAY > 31, NA, DAY),
-DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
-MONTH = if_else(MONTH >12, NA, MONTH),
-HOUR = if_else(HOUR >24, NA, HOUR),
-MINUTE = if_else(MINUTE > 59, NA, MINUTE),
-NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
-NOT_MINUTE = if_else(NOT_MINUTE > 59, NA, NOT_MINUTE),
-ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
-ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
-HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
-HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
-)
-#| label: national-accident-data-cleaning
-#| message: false
-#| warning: false
-#| echo: true
-stacked_national_accident_v2 <- stacked_national_accident %>%
-mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
-LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
-LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
-ROAD_FNC = if_else(
-ROAD_FNC == "9" & YEAR <= 2014 |
-ROAD_FNC == "19" & YEAR <= 2014 |
-ROAD_FNC == "99" & YEAR <= 2014, ## 2014 and before
-NA, ROAD_FNC),
-FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
-DAY = if_else(DAY > 31, NA, DAY),
-DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
-MONTH = if_else(MONTH >12, NA, MONTH),
-HOUR = if_else(HOUR >24, NA, HOUR),
-MINUTE = if_else(MINUTE > 59, NA, MINUTE),
-NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
-NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
-ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
-ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
-HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
-HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
-)
+#| echo: true  
+
+stacked_national_accident_v2 <- stacked_national_accident %>% 
+  mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
+         LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
+         LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
+         ROAD_FNC = if_else(
+           ROAD_FNC == 9 & YEAR <= 2014 | 
+           ROAD_FNC == 19 & YEAR <= 2014 | 
+           ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
+           NA, ROAD_FNC),
+         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
+         DAY = if_else(DAY > 31, NA, DAY),
+         DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
+         MONTH = if_else(MONTH >12, NA, MONTH),
+         HOUR = if_else(HOUR >24, NA, HOUR),
+         MINUTE = if_else(MINUTE > 59, NA, MINUTE),
+         NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
+         NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
+         ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
+         ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
+         HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
+         HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
+  )
+
+
+
+```
+
+## National Vehicle files
+
+```{r}
 #| label: label_name
 #| message: false
 #| warning: false
-#| echo: true
-stacked_national_vehicle_v2 <- stacked_national_vehicle %>%
-mutate(SPEEDREL = if_else( SPEEDREL = 9, NA, SPEEDREL),
-PREV_SPD = if_else(PREV_SPD > 97, NA, PREV_SPD),
-SPEC_USE = if_else(SPEC_USE>=98, NA, SPEC_USE),
-DR_ZIP = if_else(DR_ZIP >= 99997, NA, DR_ZIP)
-)
-#| label: AUX-person-data-cleaning
-#| message: false
-#| warning: false
-#| echo: true
-stacked_AUX_per_v2 <- stacked_AUX_per %>%
-mutate(A_HRACE = if_else(A_HRACE == 9, NA, A_HRACE))
-#| label: national-accident-data-cleaning
-#| message: false
-#| warning: false
-#| echo: true
-stacked_national_accident_v2 <- stacked_national_accident %>%
-mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
-LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
-LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
-ROAD_FNC = if_else(
-ROAD_FNC == 9 & YEAR <= 2014 |
-ROAD_FNC == 19 & YEAR <= 2014 |
-ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
-NA, ROAD_FNC),
-FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
-DAY = if_else(DAY > 31, NA, DAY),
-DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
-MONTH = if_else(MONTH >12, NA, MONTH),
-HOUR = if_else(HOUR >24, NA, HOUR),
-MINUTE = if_else(MINUTE > 59, NA, MINUTE),
-NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
-NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
-ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
-ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
-HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
-HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
-)
+#| echo: true  
+
+stacked_national_vehicle_v2 <- stacked_national_vehicle %>% 
+  mutate(SPEEDREL = if_else( SPEEDREL == 9, NA, SPEEDREL),
+         PREV_SPD = if_else(PREV_SPD > 97, NA, PREV_SPD),
+         SPEC_USE = if_else(SPEC_USE>=98, NA, SPEC_USE),
+         DR_ZIP = if_else(DR_ZIP >= 99997, NA, DR_ZIP)
+  )
+
+```
+
+### Remove old stacked dataframes from environment
+
+```{r}
 #| label: remove-old-stacked-dataframes
 #| message: false
 #| warning: false
-#| echo: true
+#| echo: true  
+
 rm(stacked_national_accident)
 rm(stacked_national_person)
 rm(stacked_national_vehicle)
 rm(stacked_AUX_per)
+```
+
+# Merging Stacked Datasets
+
+In this step, I merge all the national data and AUX data files together.
+
+# Data Export
+
+I export all the datasets so I can upload them to BOX.
+
+```{r}
+#| label: data_export
+#| message: false
+#| warning: false
+#| echo: true
+
+# I filter the environment for all data frame objects and create a list
+all_data_frames <- mget(ls()) %>% 
+  keep(is.data.frame)
+
+
+# I walk through the entire list and tell R to write .csv files into the "Export" folder.
+iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/NHTSA Data Cleaning/", .y, ".csv")))
+
+
+
+```
