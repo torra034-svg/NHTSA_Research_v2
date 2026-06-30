@@ -102,7 +102,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame            | File Pathway Notes                                                                         |
-|-----------------|-------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | 2007-2008, 2023       | Contains extra subfolder                                                                   |
 | 2007-2014             | All upper case                                                                             |
 | 2015, 2018, 2020-2023 | All lower case                                                                             |
@@ -512,7 +512,7 @@ rm(list = c("person_names","vehicle_names"))
 # Data Cleaning
 
 | Stacked Dataset              | Verify Correct Logic? | Notes                                                  |
-|-------------------|------------------|------------------------------------|
+|-------------------|------------------|-----------------------------------|
 | stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |
 | PER_AUX                      | ✅                    |                                                        |
 | stacked_national_accident_v2 | ✅                    |                                                        |
@@ -528,30 +528,30 @@ rm(list = c("person_names","vehicle_names"))
 
 stacked_national_person_v2 <- stacked_national_person %>% 
   mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URBNAME),
-         RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URB),
-         REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USE),
+         RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URB),
+         REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USE),
          REST_USENAME = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USENAME),
-         REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, NA, REST_MIS),
+         REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, "", REST_MIS),
          REST_MISNAME = if_else(REST_MISNAME >= 8 & REST_MISNAME <= 9, "", REST_MISNAME),
-         HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, NA, HELM_USE),
+         HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, "", HELM_USE),
          HELM_USENAME = if_else(HELM_USENAME >= 96 & HELM_USENAME <= 99, "", HELM_USENAME),
-         BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, NA, BODY_TYP),
+         BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, "", BODY_TYP),
          BODY_TYPNAME = if_else(BODY_TYPNAME >= 98 & BODY_TYPNAME <= 99, "", BODY_TYPNAME),
-         INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, NA, INJ_SEV),
+         INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, "", INJ_SEV),
          INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, "", INJ_SEVNAME),
-         SEX = if_else(SEX >= 8 & SEX <= 9, NA, SEX),
-         AGE = if_else(AGE >= 115, NA, AGE),
-         ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, NA, ALC_STATUS),
+         SEX = if_else(SEX >= 8 & SEX <= 9, "", SEX),
+         AGE = if_else(AGE >= 115, "", AGE),
+         ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, "", ALC_STATUS),
          ALC_RES = if_else(ALC_RES > 94 & YEAR != 2015 | 
-                           ALC_RES > 940 & YEAR == 2015, NA, ALC_RES),
-         DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, NA, DRUGS),
-         DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, NA, DSTATUS),
-         DOA = if_else(DOA == "9", NA, DOA),
-         DEATH_MN = if_else(DEATH_MN > 59, NA, DEATH_MN),
-         DEATH_DA = if_else(DEATH_DA > 31, NA, DEATH_DA),
-         DEATH_YR = if_else(DEATH_YR > 2050, NA, DEATH_YR),
-         LAG_HRS = if_else(LAG_HRS > 719, NA, LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
-         LAG_MINS = if_else(LAG_MINS > 59, NA, LAG_MINS)
+                           ALC_RES > 940 & YEAR == 2015, "", ALC_RES),
+         DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, "", DRUGS),
+         DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, "", DSTATUS),
+         DOA = if_else(DOA == "9", "", DOA),
+         DEATH_MN = if_else(DEATH_MN > 59, "", DEATH_MN),
+         DEATH_DA = if_else(DEATH_DA > 31, "", DEATH_DA),
+         DEATH_YR = if_else(DEATH_YR > 2050, "", DEATH_YR),
+         LAG_HRS = if_else(LAG_HRS > 719, "", LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
+         LAG_MINS = if_else(LAG_MINS > 59, "", LAG_MINS)
 )
 
 ```
@@ -565,7 +565,7 @@ stacked_national_person_v2 <- stacked_national_person %>%
 #| echo: true  
 
 stacked_AUX_per_v2 <- stacked_AUX_per %>% 
-  mutate(A_HRACE = if_else(A_HRACE == 9, NA, A_HRACE))
+  mutate(A_HRACE = if_else(A_HRACE == 9, "", as.character(A_HRACE)))
 
 ```
 
@@ -580,26 +580,26 @@ I combined Trish data cleaning 2014 and 2015 as noted below.
 #| echo: true  
 
 stacked_national_accident_v2 <- stacked_national_accident %>% 
-  mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
-         LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
-         LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
+  mutate(COUNTY = if_else(COUNTY > 996, "", COUNTY),
+         LATITUDE = if_else(LATITUDE >= 77.0, "", LATITUDE),
+         LONGITUD = if_else(LONGITUD > 700, "", LONGITUD),
          ROAD_FNC = if_else(
            ROAD_FNC == 9 & YEAR <= 2014 | 
            ROAD_FNC == 19 & YEAR <= 2014 | 
            ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
-           NA, ROAD_FNC),
-         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
-         DAY = if_else(DAY > 31, NA, DAY),
-         DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
-         MONTH = if_else(MONTH >12, NA, MONTH),
-         HOUR = if_else(HOUR >24, NA, HOUR),
-         MINUTE = if_else(MINUTE > 59, NA, MINUTE),
-         NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
-         NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
-         ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
-         ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
-         HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
-         HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
+           "", ROAD_FNC),
+         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, "", FUNC_SYS), ## 2015 and after
+         DAY = if_else(DAY > 31, "", DAY),
+         DAY_WEEK = if_else(DAY_WEEK > 7, "", DAY_WEEK),
+         MONTH = if_else(MONTH >12, "", MONTH),
+         HOUR = if_else(HOUR >24, "", HOUR),
+         MINUTE = if_else(MINUTE > 59, "", MINUTE),
+         NOT_HOUR = if_else(NOT_HOUR > 24, "", NOT_HOUR),
+         NOT_MIN = if_else(NOT_MIN > 59, "", NOT_MIN),
+         ARR_HOUR = if_else(ARR_HOUR > 24, "", ARR_HOUR),
+         ARR_MIN = if_else(ARR_MIN > 59, "", ARR_MIN),
+         HOSP_HR = if_else(HOSP_HR > 24, "", HOSP_HR),
+         HOSP_MN = if_else(HOSP_MN > 59, "", HOSP_MN)
   )
 
 
@@ -615,10 +615,10 @@ stacked_national_accident_v2 <- stacked_national_accident %>%
 #| echo: true  
 
 stacked_national_vehicle_v2 <- stacked_national_vehicle %>% 
-  mutate(SPEEDREL = if_else( SPEEDREL == 9, NA, SPEEDREL),
-         PREV_SPD = if_else(PREV_SPD > 97, NA, PREV_SPD),
-         SPEC_USE = if_else(SPEC_USE>=98, NA, SPEC_USE),
-         DR_ZIP = if_else(DR_ZIP >= 99997, NA, DR_ZIP)
+  mutate(SPEEDREL = if_else( SPEEDREL == 9, "", SPEEDREL),
+         PREV_SPD = if_else(PREV_SPD > 97, "", PREV_SPD),
+         SPEC_USE = if_else(SPEC_USE>=98, "", SPEC_USE),
+         DR_ZIP = if_else(DR_ZIP >= 99997, "", DR_ZIP)
   )
 
 ```
@@ -640,6 +640,7 @@ rm(stacked_AUX_per)
 # Merging Stacked Datasets
 
 ## Convert all variables to character
+
 ```{r}
 #| label: convert-variables-character
 #| message: false
@@ -663,6 +664,7 @@ for (name in df_names) {
 ```
 
 ### remove values
+
 ```{r}
 #| label: remove-values
 #| message: false
@@ -673,14 +675,13 @@ rm(df_names)
 rm(name)
 ```
 
+## Merge datasets
 
-## Merge datasets 
-In this step, I merge the following datasets together using the stacked national person file as the base. 
+In this step, I merge the following datasets together using the stacked national person file as the base.
 
-* AUX_person
-* AUX_accident
-* national_accident
-
+-   AUX_person
+-   AUX_accident
+-   national_accident
 
 ```{r}
 #| label: merge-datasets
@@ -693,10 +694,10 @@ df <- stacked_national_person_v2 %>%
   left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) %>% 
   left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) %>% 
   left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR")) %>% 
-  select(-ends_with(".x"), -ends_with(".y")) ## remove duplicate columns
+  select(-ends_with(".x"), -ends_with(".y")) %>%  ## remove duplicate columns
+  filter(YEAR >= 2010) ## filter to years 2010+
 
 ```
-
 
 # Data Export
 

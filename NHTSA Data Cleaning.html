@@ -3216,8 +3216,8 @@ vertical-align: -.125em;
 <table class="caption-top table">
 <caption>NationalCSV Import Notes</caption>
 <colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
+<col style="width: 25%">
+<col style="width: 75%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3587,8 +3587,8 @@ vertical-align: -.125em;
 <table class="caption-top table">
 <colgroup>
 <col style="width: 26%">
-<col style="width: 24%">
-<col style="width: 49%">
+<col style="width: 25%">
+<col style="width: 48%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3625,30 +3625,30 @@ vertical-align: -.125em;
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>stacked_national_person_v2 <span class="ot">&lt;-</span> stacked_national_person <span class="sc">%&gt;%</span> </span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RUR_URBNAME =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, RUR_URBNAME),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">RUR_URB =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, RUR_URB),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USE =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, REST_USE),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">RUR_URB =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, RUR_URB),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USE =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, REST_USE),</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USENAME =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, REST_USENAME),</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MIS =</span> <span class="fu">if_else</span>(REST_MIS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MIS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, REST_MIS),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MIS =</span> <span class="fu">if_else</span>(REST_MIS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MIS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, REST_MIS),</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MISNAME =</span> <span class="fu">if_else</span>(REST_MISNAME <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MISNAME <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, REST_MISNAME),</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USE =</span> <span class="fu">if_else</span>(HELM_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, HELM_USE),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USE =</span> <span class="fu">if_else</span>(HELM_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, HELM_USE),</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USENAME =</span> <span class="fu">if_else</span>(HELM_USENAME <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USENAME <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, HELM_USENAME),</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYP =</span> <span class="fu">if_else</span>(BODY_TYP <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYP <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, BODY_TYP),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYP =</span> <span class="fu">if_else</span>(BODY_TYP <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYP <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, BODY_TYP),</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYPNAME =</span> <span class="fu">if_else</span>(BODY_TYPNAME <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYPNAME <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, BODY_TYPNAME),</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEV =</span> <span class="fu">if_else</span>(INJ_SEV <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEV <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, INJ_SEV),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEV =</span> <span class="fu">if_else</span>(INJ_SEV <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEV <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, INJ_SEV),</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEVNAME =</span> <span class="fu">if_else</span>(INJ_SEVNAME <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEVNAME <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, INJ_SEVNAME),</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">SEX =</span> <span class="fu">if_else</span>(SEX <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> SEX <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, SEX),</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">AGE =</span> <span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">115</span>, <span class="cn">NA</span>, AGE),</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_STATUS =</span> <span class="fu">if_else</span>(ALC_STATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> ALC_STATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, ALC_STATUS),</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">SEX =</span> <span class="fu">if_else</span>(SEX <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> SEX <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, SEX),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">AGE =</span> <span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">115</span>, <span class="st">&quot;&quot;</span>, AGE),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_STATUS =</span> <span class="fu">if_else</span>(ALC_STATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> ALC_STATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, ALC_STATUS),</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_RES =</span> <span class="fu">if_else</span>(ALC_RES <span class="sc">&gt;</span> <span class="dv">94</span> <span class="sc">&amp;</span> YEAR <span class="sc">!=</span> <span class="dv">2015</span> <span class="sc">|</span> </span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                           ALC_RES <span class="sc">&gt;</span> <span class="dv">940</span> <span class="sc">&amp;</span> YEAR <span class="sc">==</span> <span class="dv">2015</span>, <span class="cn">NA</span>, ALC_RES),</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">DRUGS =</span> <span class="fu">if_else</span>(DRUGS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DRUGS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, DRUGS),</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">DSTATUS =</span> <span class="fu">if_else</span>(DSTATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DSTATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, DSTATUS),</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">DOA =</span> <span class="fu">if_else</span>(DOA <span class="sc">==</span> <span class="st">&quot;9&quot;</span>, <span class="cn">NA</span>, DOA),</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_MN =</span> <span class="fu">if_else</span>(DEATH_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, DEATH_MN),</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_DA =</span> <span class="fu">if_else</span>(DEATH_DA <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="cn">NA</span>, DEATH_DA),</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_YR =</span> <span class="fu">if_else</span>(DEATH_YR <span class="sc">&gt;</span> <span class="dv">2050</span>, <span class="cn">NA</span>, DEATH_YR),</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_HRS =</span> <span class="fu">if_else</span>(LAG_HRS <span class="sc">&gt;</span> <span class="dv">719</span>, <span class="cn">NA</span>, LAG_HRS), <span class="do">## note says: &quot;/*Different before 2010*/&quot;. What should I put for logic?    </span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_MINS =</span> <span class="fu">if_else</span>(LAG_MINS <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, LAG_MINS)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>                           ALC_RES <span class="sc">&gt;</span> <span class="dv">940</span> <span class="sc">&amp;</span> YEAR <span class="sc">==</span> <span class="dv">2015</span>, <span class="st">&quot;&quot;</span>, ALC_RES),</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">DRUGS =</span> <span class="fu">if_else</span>(DRUGS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DRUGS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, DRUGS),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">DSTATUS =</span> <span class="fu">if_else</span>(DSTATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DSTATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, DSTATUS),</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">DOA =</span> <span class="fu">if_else</span>(DOA <span class="sc">==</span> <span class="st">&quot;9&quot;</span>, <span class="st">&quot;&quot;</span>, DOA),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_MN =</span> <span class="fu">if_else</span>(DEATH_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, DEATH_MN),</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_DA =</span> <span class="fu">if_else</span>(DEATH_DA <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="st">&quot;&quot;</span>, DEATH_DA),</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_YR =</span> <span class="fu">if_else</span>(DEATH_YR <span class="sc">&gt;</span> <span class="dv">2050</span>, <span class="st">&quot;&quot;</span>, DEATH_YR),</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_HRS =</span> <span class="fu">if_else</span>(LAG_HRS <span class="sc">&gt;</span> <span class="dv">719</span>, <span class="st">&quot;&quot;</span>, LAG_HRS), <span class="do">## note says: &quot;/*Different before 2010*/&quot;. What should I put for logic?    </span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_MINS =</span> <span class="fu">if_else</span>(LAG_MINS <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, LAG_MINS)</span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -3656,7 +3656,7 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="aux-person-files-data-cleaning">AUX person files data cleaning</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>stacked_AUX_per_v2 <span class="ot">&lt;-</span> stacked_AUX_per <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">A_HRACE =</span> <span class="fu">if_else</span>(A_HRACE <span class="sc">==</span> <span class="dv">9</span>, <span class="cn">NA</span>, A_HRACE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">A_HRACE =</span> <span class="fu">if_else</span>(A_HRACE <span class="sc">==</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, <span class="fu">as.character</span>(A_HRACE)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="national-accident-files" class="level2">
@@ -3664,26 +3664,26 @@ vertical-align: -.125em;
 <p>I combined Trish data cleaning 2014 and 2015 as noted below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>stacked_national_accident_v2 <span class="ot">&lt;-</span> stacked_national_accident <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">COUNTY =</span> <span class="fu">if_else</span>(COUNTY <span class="sc">&gt;</span> <span class="dv">996</span>, <span class="cn">NA</span>, COUNTY),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">LATITUDE =</span> <span class="fu">if_else</span>(LATITUDE <span class="sc">&gt;=</span> <span class="fl">77.0</span>, <span class="cn">NA</span>, LATITUDE),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">LONGITUD =</span> <span class="fu">if_else</span>(LONGITUD <span class="sc">&gt;</span> <span class="dv">700</span>, <span class="cn">NA</span>, LONGITUD),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">COUNTY =</span> <span class="fu">if_else</span>(COUNTY <span class="sc">&gt;</span> <span class="dv">996</span>, <span class="st">&quot;&quot;</span>, COUNTY),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">LATITUDE =</span> <span class="fu">if_else</span>(LATITUDE <span class="sc">&gt;=</span> <span class="fl">77.0</span>, <span class="st">&quot;&quot;</span>, LATITUDE),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">LONGITUD =</span> <span class="fu">if_else</span>(LONGITUD <span class="sc">&gt;</span> <span class="dv">700</span>, <span class="st">&quot;&quot;</span>, LONGITUD),</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">ROAD_FNC =</span> <span class="fu">if_else</span>(</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">9</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">|</span> </span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">19</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">|</span> </span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">99</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span>, <span class="do">## 2014 and before</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>           <span class="cn">NA</span>, ROAD_FNC),</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUNC_SYS =</span> <span class="fu">if_else</span>(FUNC_SYS <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> YEAR <span class="sc">&gt;=</span> <span class="dv">2015</span>, <span class="cn">NA</span>, FUNC_SYS), <span class="do">## 2015 and after</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY =</span> <span class="fu">if_else</span>(DAY <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="cn">NA</span>, DAY),</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY_WEEK =</span> <span class="fu">if_else</span>(DAY_WEEK <span class="sc">&gt;</span> <span class="dv">7</span>, <span class="cn">NA</span>, DAY_WEEK),</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">MONTH =</span> <span class="fu">if_else</span>(MONTH <span class="sc">&gt;</span><span class="dv">12</span>, <span class="cn">NA</span>, MONTH),</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOUR =</span> <span class="fu">if_else</span>(HOUR <span class="sc">&gt;</span><span class="dv">24</span>, <span class="cn">NA</span>, HOUR),</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">MINUTE =</span> <span class="fu">if_else</span>(MINUTE <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, MINUTE),</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_HOUR =</span> <span class="fu">if_else</span>(NOT_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, NOT_HOUR),</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_MIN =</span> <span class="fu">if_else</span>(NOT_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, NOT_MIN),</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_HOUR =</span> <span class="fu">if_else</span>(ARR_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, ARR_HOUR),</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_MIN =</span> <span class="fu">if_else</span>(ARR_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, ARR_MIN),</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_HR =</span> <span class="fu">if_else</span>(HOSP_HR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, HOSP_HR),</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_MN =</span> <span class="fu">if_else</span>(HOSP_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, HOSP_MN)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;&quot;</span>, ROAD_FNC),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUNC_SYS =</span> <span class="fu">if_else</span>(FUNC_SYS <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> YEAR <span class="sc">&gt;=</span> <span class="dv">2015</span>, <span class="st">&quot;&quot;</span>, FUNC_SYS), <span class="do">## 2015 and after</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY =</span> <span class="fu">if_else</span>(DAY <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="st">&quot;&quot;</span>, DAY),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY_WEEK =</span> <span class="fu">if_else</span>(DAY_WEEK <span class="sc">&gt;</span> <span class="dv">7</span>, <span class="st">&quot;&quot;</span>, DAY_WEEK),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">MONTH =</span> <span class="fu">if_else</span>(MONTH <span class="sc">&gt;</span><span class="dv">12</span>, <span class="st">&quot;&quot;</span>, MONTH),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOUR =</span> <span class="fu">if_else</span>(HOUR <span class="sc">&gt;</span><span class="dv">24</span>, <span class="st">&quot;&quot;</span>, HOUR),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">MINUTE =</span> <span class="fu">if_else</span>(MINUTE <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, MINUTE),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_HOUR =</span> <span class="fu">if_else</span>(NOT_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, NOT_HOUR),</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_MIN =</span> <span class="fu">if_else</span>(NOT_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, NOT_MIN),</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_HOUR =</span> <span class="fu">if_else</span>(ARR_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, ARR_HOUR),</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_MIN =</span> <span class="fu">if_else</span>(ARR_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, ARR_MIN),</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_HR =</span> <span class="fu">if_else</span>(HOSP_HR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, HOSP_HR),</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_MN =</span> <span class="fu">if_else</span>(HOSP_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, HOSP_MN)</span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -3691,10 +3691,10 @@ vertical-align: -.125em;
 <h2 class="anchored" data-anchor-id="national-vehicle-files">National Vehicle files</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>stacked_national_vehicle_v2 <span class="ot">&lt;-</span> stacked_national_vehicle <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SPEEDREL =</span> <span class="fu">if_else</span>( SPEEDREL <span class="sc">==</span> <span class="dv">9</span>, <span class="cn">NA</span>, SPEEDREL),</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">PREV_SPD =</span> <span class="fu">if_else</span>(PREV_SPD <span class="sc">&gt;</span> <span class="dv">97</span>, <span class="cn">NA</span>, PREV_SPD),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">SPEC_USE =</span> <span class="fu">if_else</span>(SPEC_USE<span class="sc">&gt;=</span><span class="dv">98</span>, <span class="cn">NA</span>, SPEC_USE),</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">DR_ZIP =</span> <span class="fu">if_else</span>(DR_ZIP <span class="sc">&gt;=</span> <span class="dv">99997</span>, <span class="cn">NA</span>, DR_ZIP)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SPEEDREL =</span> <span class="fu">if_else</span>( SPEEDREL <span class="sc">==</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, SPEEDREL),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">PREV_SPD =</span> <span class="fu">if_else</span>(PREV_SPD <span class="sc">&gt;</span> <span class="dv">97</span>, <span class="st">&quot;&quot;</span>, PREV_SPD),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">SPEC_USE =</span> <span class="fu">if_else</span>(SPEC_USE<span class="sc">&gt;=</span><span class="dv">98</span>, <span class="st">&quot;&quot;</span>, SPEC_USE),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">DR_ZIP =</span> <span class="fu">if_else</span>(DR_ZIP <span class="sc">&gt;=</span> <span class="dv">99997</span>, <span class="st">&quot;&quot;</span>, DR_ZIP)</span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="remove-old-stacked-dataframes-from-environment" class="level3">
@@ -3749,7 +3749,8 @@ vertical-align: -.125em;
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_national_accident_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>, <span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_per_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>,<span class="st">&quot;VEH_NO&quot;</span>,<span class="st">&quot;PER_NO&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_acc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.x&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.y&quot;</span>)) <span class="do">## remove duplicate columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.x&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.y&quot;</span>)) <span class="sc">%&gt;%</span>  <span class="do">## remove duplicate columns</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(YEAR <span class="sc">&gt;=</span> <span class="dv">2010</span>) <span class="do">## filter to years 2010+</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -4335,7 +4336,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-106"><a href="#cb24-106" aria-hidden="true" tabindex="-1"></a>Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:</span>
 <span id="cb24-107"><a href="#cb24-107" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-108"><a href="#cb24-108" aria-hidden="true" tabindex="-1"></a>| Time frame            | File Pathway Notes                                                                         |</span>
-<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a>|-----------------|-------------------------------------------------------|</span>
+<span id="cb24-109"><a href="#cb24-109" aria-hidden="true" tabindex="-1"></a>|------------------|------------------------------------------------------|</span>
 <span id="cb24-110"><a href="#cb24-110" aria-hidden="true" tabindex="-1"></a>| 2007-2008, 2023       | Contains extra subfolder                                                                   |</span>
 <span id="cb24-111"><a href="#cb24-111" aria-hidden="true" tabindex="-1"></a>| 2007-2014             | All upper case                                                                             |</span>
 <span id="cb24-112"><a href="#cb24-112" aria-hidden="true" tabindex="-1"></a>| 2015, 2018, 2020-2023 | All lower case                                                                             |</span>
@@ -4745,7 +4746,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-536"><a href="#cb24-536" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Cleaning</span></span>
 <span id="cb24-537"><a href="#cb24-537" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-538"><a href="#cb24-538" aria-hidden="true" tabindex="-1"></a>| Stacked Dataset              | Verify Correct Logic? | Notes                                                  |</span>
-<span id="cb24-539"><a href="#cb24-539" aria-hidden="true" tabindex="-1"></a>|-------------------|------------------|------------------------------------|</span>
+<span id="cb24-539"><a href="#cb24-539" aria-hidden="true" tabindex="-1"></a>|-------------------|------------------|-----------------------------------|</span>
 <span id="cb24-540"><a href="#cb24-540" aria-hidden="true" tabindex="-1"></a>| stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |</span>
 <span id="cb24-541"><a href="#cb24-541" aria-hidden="true" tabindex="-1"></a>| PER_AUX                      | ✅                    |                                                        |</span>
 <span id="cb24-542"><a href="#cb24-542" aria-hidden="true" tabindex="-1"></a>| stacked_national_accident_v2 | ✅                    |                                                        |</span>
@@ -4761,30 +4762,30 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-554"><a href="#cb24-554" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-555"><a href="#cb24-555" aria-hidden="true" tabindex="-1"></a>stacked_national_person_v2 <span class="ot">&lt;-</span> stacked_national_person <span class="sc">%&gt;%</span> </span>
 <span id="cb24-556"><a href="#cb24-556" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RUR_URBNAME =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, RUR_URBNAME),</span>
-<span id="cb24-557"><a href="#cb24-557" aria-hidden="true" tabindex="-1"></a>         <span class="at">RUR_URB =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, RUR_URB),</span>
-<span id="cb24-558"><a href="#cb24-558" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USE =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, REST_USE),</span>
+<span id="cb24-557"><a href="#cb24-557" aria-hidden="true" tabindex="-1"></a>         <span class="at">RUR_URB =</span> <span class="fu">if_else</span>(RUR_URB <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> RUR_URB <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, RUR_URB),</span>
+<span id="cb24-558"><a href="#cb24-558" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USE =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, REST_USE),</span>
 <span id="cb24-559"><a href="#cb24-559" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_USENAME =</span> <span class="fu">if_else</span>(REST_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> REST_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, REST_USENAME),</span>
-<span id="cb24-560"><a href="#cb24-560" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MIS =</span> <span class="fu">if_else</span>(REST_MIS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MIS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, REST_MIS),</span>
+<span id="cb24-560"><a href="#cb24-560" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MIS =</span> <span class="fu">if_else</span>(REST_MIS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MIS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, REST_MIS),</span>
 <span id="cb24-561"><a href="#cb24-561" aria-hidden="true" tabindex="-1"></a>         <span class="at">REST_MISNAME =</span> <span class="fu">if_else</span>(REST_MISNAME <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> REST_MISNAME <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, REST_MISNAME),</span>
-<span id="cb24-562"><a href="#cb24-562" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USE =</span> <span class="fu">if_else</span>(HELM_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, HELM_USE),</span>
+<span id="cb24-562"><a href="#cb24-562" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USE =</span> <span class="fu">if_else</span>(HELM_USE <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USE <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, HELM_USE),</span>
 <span id="cb24-563"><a href="#cb24-563" aria-hidden="true" tabindex="-1"></a>         <span class="at">HELM_USENAME =</span> <span class="fu">if_else</span>(HELM_USENAME <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> HELM_USENAME <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, HELM_USENAME),</span>
-<span id="cb24-564"><a href="#cb24-564" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYP =</span> <span class="fu">if_else</span>(BODY_TYP <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYP <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="cn">NA</span>, BODY_TYP),</span>
+<span id="cb24-564"><a href="#cb24-564" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYP =</span> <span class="fu">if_else</span>(BODY_TYP <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYP <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, BODY_TYP),</span>
 <span id="cb24-565"><a href="#cb24-565" aria-hidden="true" tabindex="-1"></a>         <span class="at">BODY_TYPNAME =</span> <span class="fu">if_else</span>(BODY_TYPNAME <span class="sc">&gt;=</span> <span class="dv">98</span> <span class="sc">&amp;</span> BODY_TYPNAME <span class="sc">&lt;=</span> <span class="dv">99</span>, <span class="st">&quot;&quot;</span>, BODY_TYPNAME),</span>
-<span id="cb24-566"><a href="#cb24-566" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEV =</span> <span class="fu">if_else</span>(INJ_SEV <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEV <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, INJ_SEV),</span>
+<span id="cb24-566"><a href="#cb24-566" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEV =</span> <span class="fu">if_else</span>(INJ_SEV <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEV <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, INJ_SEV),</span>
 <span id="cb24-567"><a href="#cb24-567" aria-hidden="true" tabindex="-1"></a>         <span class="at">INJ_SEVNAME =</span> <span class="fu">if_else</span>(INJ_SEVNAME <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> INJ_SEVNAME <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, INJ_SEVNAME),</span>
-<span id="cb24-568"><a href="#cb24-568" aria-hidden="true" tabindex="-1"></a>         <span class="at">SEX =</span> <span class="fu">if_else</span>(SEX <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> SEX <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, SEX),</span>
-<span id="cb24-569"><a href="#cb24-569" aria-hidden="true" tabindex="-1"></a>         <span class="at">AGE =</span> <span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">115</span>, <span class="cn">NA</span>, AGE),</span>
-<span id="cb24-570"><a href="#cb24-570" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_STATUS =</span> <span class="fu">if_else</span>(ALC_STATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> ALC_STATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, ALC_STATUS),</span>
+<span id="cb24-568"><a href="#cb24-568" aria-hidden="true" tabindex="-1"></a>         <span class="at">SEX =</span> <span class="fu">if_else</span>(SEX <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> SEX <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, SEX),</span>
+<span id="cb24-569"><a href="#cb24-569" aria-hidden="true" tabindex="-1"></a>         <span class="at">AGE =</span> <span class="fu">if_else</span>(AGE <span class="sc">&gt;=</span> <span class="dv">115</span>, <span class="st">&quot;&quot;</span>, AGE),</span>
+<span id="cb24-570"><a href="#cb24-570" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_STATUS =</span> <span class="fu">if_else</span>(ALC_STATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> ALC_STATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, ALC_STATUS),</span>
 <span id="cb24-571"><a href="#cb24-571" aria-hidden="true" tabindex="-1"></a>         <span class="at">ALC_RES =</span> <span class="fu">if_else</span>(ALC_RES <span class="sc">&gt;</span> <span class="dv">94</span> <span class="sc">&amp;</span> YEAR <span class="sc">!=</span> <span class="dv">2015</span> <span class="sc">|</span> </span>
-<span id="cb24-572"><a href="#cb24-572" aria-hidden="true" tabindex="-1"></a>                           ALC_RES <span class="sc">&gt;</span> <span class="dv">940</span> <span class="sc">&amp;</span> YEAR <span class="sc">==</span> <span class="dv">2015</span>, <span class="cn">NA</span>, ALC_RES),</span>
-<span id="cb24-573"><a href="#cb24-573" aria-hidden="true" tabindex="-1"></a>         <span class="at">DRUGS =</span> <span class="fu">if_else</span>(DRUGS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DRUGS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, DRUGS),</span>
-<span id="cb24-574"><a href="#cb24-574" aria-hidden="true" tabindex="-1"></a>         <span class="at">DSTATUS =</span> <span class="fu">if_else</span>(DSTATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DSTATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="cn">NA</span>, DSTATUS),</span>
-<span id="cb24-575"><a href="#cb24-575" aria-hidden="true" tabindex="-1"></a>         <span class="at">DOA =</span> <span class="fu">if_else</span>(DOA <span class="sc">==</span> <span class="st">&quot;9&quot;</span>, <span class="cn">NA</span>, DOA),</span>
-<span id="cb24-576"><a href="#cb24-576" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_MN =</span> <span class="fu">if_else</span>(DEATH_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, DEATH_MN),</span>
-<span id="cb24-577"><a href="#cb24-577" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_DA =</span> <span class="fu">if_else</span>(DEATH_DA <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="cn">NA</span>, DEATH_DA),</span>
-<span id="cb24-578"><a href="#cb24-578" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_YR =</span> <span class="fu">if_else</span>(DEATH_YR <span class="sc">&gt;</span> <span class="dv">2050</span>, <span class="cn">NA</span>, DEATH_YR),</span>
-<span id="cb24-579"><a href="#cb24-579" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_HRS =</span> <span class="fu">if_else</span>(LAG_HRS <span class="sc">&gt;</span> <span class="dv">719</span>, <span class="cn">NA</span>, LAG_HRS), <span class="do">## note says: &quot;/*Different before 2010*/&quot;. What should I put for logic?    </span></span>
-<span id="cb24-580"><a href="#cb24-580" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_MINS =</span> <span class="fu">if_else</span>(LAG_MINS <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, LAG_MINS)</span>
+<span id="cb24-572"><a href="#cb24-572" aria-hidden="true" tabindex="-1"></a>                           ALC_RES <span class="sc">&gt;</span> <span class="dv">940</span> <span class="sc">&amp;</span> YEAR <span class="sc">==</span> <span class="dv">2015</span>, <span class="st">&quot;&quot;</span>, ALC_RES),</span>
+<span id="cb24-573"><a href="#cb24-573" aria-hidden="true" tabindex="-1"></a>         <span class="at">DRUGS =</span> <span class="fu">if_else</span>(DRUGS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DRUGS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, DRUGS),</span>
+<span id="cb24-574"><a href="#cb24-574" aria-hidden="true" tabindex="-1"></a>         <span class="at">DSTATUS =</span> <span class="fu">if_else</span>(DSTATUS <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> DSTATUS <span class="sc">&lt;=</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, DSTATUS),</span>
+<span id="cb24-575"><a href="#cb24-575" aria-hidden="true" tabindex="-1"></a>         <span class="at">DOA =</span> <span class="fu">if_else</span>(DOA <span class="sc">==</span> <span class="st">&quot;9&quot;</span>, <span class="st">&quot;&quot;</span>, DOA),</span>
+<span id="cb24-576"><a href="#cb24-576" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_MN =</span> <span class="fu">if_else</span>(DEATH_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, DEATH_MN),</span>
+<span id="cb24-577"><a href="#cb24-577" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_DA =</span> <span class="fu">if_else</span>(DEATH_DA <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="st">&quot;&quot;</span>, DEATH_DA),</span>
+<span id="cb24-578"><a href="#cb24-578" aria-hidden="true" tabindex="-1"></a>         <span class="at">DEATH_YR =</span> <span class="fu">if_else</span>(DEATH_YR <span class="sc">&gt;</span> <span class="dv">2050</span>, <span class="st">&quot;&quot;</span>, DEATH_YR),</span>
+<span id="cb24-579"><a href="#cb24-579" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_HRS =</span> <span class="fu">if_else</span>(LAG_HRS <span class="sc">&gt;</span> <span class="dv">719</span>, <span class="st">&quot;&quot;</span>, LAG_HRS), <span class="do">## note says: &quot;/*Different before 2010*/&quot;. What should I put for logic?    </span></span>
+<span id="cb24-580"><a href="#cb24-580" aria-hidden="true" tabindex="-1"></a>         <span class="at">LAG_MINS =</span> <span class="fu">if_else</span>(LAG_MINS <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, LAG_MINS)</span>
 <span id="cb24-581"><a href="#cb24-581" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb24-582"><a href="#cb24-582" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-583"><a href="#cb24-583" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -4798,7 +4799,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-593"><a href="#cb24-593" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
 <span id="cb24-594"><a href="#cb24-594" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-595"><a href="#cb24-595" aria-hidden="true" tabindex="-1"></a>stacked_AUX_per_v2 <span class="ot">&lt;-</span> stacked_AUX_per <span class="sc">%&gt;%</span> </span>
-<span id="cb24-596"><a href="#cb24-596" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">A_HRACE =</span> <span class="fu">if_else</span>(A_HRACE <span class="sc">==</span> <span class="dv">9</span>, <span class="cn">NA</span>, A_HRACE))</span>
+<span id="cb24-596"><a href="#cb24-596" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">A_HRACE =</span> <span class="fu">if_else</span>(A_HRACE <span class="sc">==</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, <span class="fu">as.character</span>(A_HRACE)))</span>
 <span id="cb24-597"><a href="#cb24-597" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-598"><a href="#cb24-598" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb24-599"><a href="#cb24-599" aria-hidden="true" tabindex="-1"></a></span>
@@ -4813,26 +4814,26 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-610"><a href="#cb24-610" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
 <span id="cb24-611"><a href="#cb24-611" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-612"><a href="#cb24-612" aria-hidden="true" tabindex="-1"></a>stacked_national_accident_v2 <span class="ot">&lt;-</span> stacked_national_accident <span class="sc">%&gt;%</span> </span>
-<span id="cb24-613"><a href="#cb24-613" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">COUNTY =</span> <span class="fu">if_else</span>(COUNTY <span class="sc">&gt;</span> <span class="dv">996</span>, <span class="cn">NA</span>, COUNTY),</span>
-<span id="cb24-614"><a href="#cb24-614" aria-hidden="true" tabindex="-1"></a>         <span class="at">LATITUDE =</span> <span class="fu">if_else</span>(LATITUDE <span class="sc">&gt;=</span> <span class="fl">77.0</span>, <span class="cn">NA</span>, LATITUDE),</span>
-<span id="cb24-615"><a href="#cb24-615" aria-hidden="true" tabindex="-1"></a>         <span class="at">LONGITUD =</span> <span class="fu">if_else</span>(LONGITUD <span class="sc">&gt;</span> <span class="dv">700</span>, <span class="cn">NA</span>, LONGITUD),</span>
+<span id="cb24-613"><a href="#cb24-613" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">COUNTY =</span> <span class="fu">if_else</span>(COUNTY <span class="sc">&gt;</span> <span class="dv">996</span>, <span class="st">&quot;&quot;</span>, COUNTY),</span>
+<span id="cb24-614"><a href="#cb24-614" aria-hidden="true" tabindex="-1"></a>         <span class="at">LATITUDE =</span> <span class="fu">if_else</span>(LATITUDE <span class="sc">&gt;=</span> <span class="fl">77.0</span>, <span class="st">&quot;&quot;</span>, LATITUDE),</span>
+<span id="cb24-615"><a href="#cb24-615" aria-hidden="true" tabindex="-1"></a>         <span class="at">LONGITUD =</span> <span class="fu">if_else</span>(LONGITUD <span class="sc">&gt;</span> <span class="dv">700</span>, <span class="st">&quot;&quot;</span>, LONGITUD),</span>
 <span id="cb24-616"><a href="#cb24-616" aria-hidden="true" tabindex="-1"></a>         <span class="at">ROAD_FNC =</span> <span class="fu">if_else</span>(</span>
 <span id="cb24-617"><a href="#cb24-617" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">9</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">|</span> </span>
 <span id="cb24-618"><a href="#cb24-618" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">19</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">|</span> </span>
 <span id="cb24-619"><a href="#cb24-619" aria-hidden="true" tabindex="-1"></a>           ROAD_FNC <span class="sc">==</span> <span class="dv">99</span> <span class="sc">&amp;</span> YEAR <span class="sc">&lt;=</span> <span class="dv">2014</span>, <span class="do">## 2014 and before</span></span>
-<span id="cb24-620"><a href="#cb24-620" aria-hidden="true" tabindex="-1"></a>           <span class="cn">NA</span>, ROAD_FNC),</span>
-<span id="cb24-621"><a href="#cb24-621" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUNC_SYS =</span> <span class="fu">if_else</span>(FUNC_SYS <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> YEAR <span class="sc">&gt;=</span> <span class="dv">2015</span>, <span class="cn">NA</span>, FUNC_SYS), <span class="do">## 2015 and after</span></span>
-<span id="cb24-622"><a href="#cb24-622" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY =</span> <span class="fu">if_else</span>(DAY <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="cn">NA</span>, DAY),</span>
-<span id="cb24-623"><a href="#cb24-623" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY_WEEK =</span> <span class="fu">if_else</span>(DAY_WEEK <span class="sc">&gt;</span> <span class="dv">7</span>, <span class="cn">NA</span>, DAY_WEEK),</span>
-<span id="cb24-624"><a href="#cb24-624" aria-hidden="true" tabindex="-1"></a>         <span class="at">MONTH =</span> <span class="fu">if_else</span>(MONTH <span class="sc">&gt;</span><span class="dv">12</span>, <span class="cn">NA</span>, MONTH),</span>
-<span id="cb24-625"><a href="#cb24-625" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOUR =</span> <span class="fu">if_else</span>(HOUR <span class="sc">&gt;</span><span class="dv">24</span>, <span class="cn">NA</span>, HOUR),</span>
-<span id="cb24-626"><a href="#cb24-626" aria-hidden="true" tabindex="-1"></a>         <span class="at">MINUTE =</span> <span class="fu">if_else</span>(MINUTE <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, MINUTE),</span>
-<span id="cb24-627"><a href="#cb24-627" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_HOUR =</span> <span class="fu">if_else</span>(NOT_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, NOT_HOUR),</span>
-<span id="cb24-628"><a href="#cb24-628" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_MIN =</span> <span class="fu">if_else</span>(NOT_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, NOT_MIN),</span>
-<span id="cb24-629"><a href="#cb24-629" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_HOUR =</span> <span class="fu">if_else</span>(ARR_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, ARR_HOUR),</span>
-<span id="cb24-630"><a href="#cb24-630" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_MIN =</span> <span class="fu">if_else</span>(ARR_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, ARR_MIN),</span>
-<span id="cb24-631"><a href="#cb24-631" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_HR =</span> <span class="fu">if_else</span>(HOSP_HR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">NA</span>, HOSP_HR),</span>
-<span id="cb24-632"><a href="#cb24-632" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_MN =</span> <span class="fu">if_else</span>(HOSP_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="cn">NA</span>, HOSP_MN)</span>
+<span id="cb24-620"><a href="#cb24-620" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;&quot;</span>, ROAD_FNC),</span>
+<span id="cb24-621"><a href="#cb24-621" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUNC_SYS =</span> <span class="fu">if_else</span>(FUNC_SYS <span class="sc">&gt;=</span> <span class="dv">96</span> <span class="sc">&amp;</span> YEAR <span class="sc">&gt;=</span> <span class="dv">2015</span>, <span class="st">&quot;&quot;</span>, FUNC_SYS), <span class="do">## 2015 and after</span></span>
+<span id="cb24-622"><a href="#cb24-622" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY =</span> <span class="fu">if_else</span>(DAY <span class="sc">&gt;</span> <span class="dv">31</span>, <span class="st">&quot;&quot;</span>, DAY),</span>
+<span id="cb24-623"><a href="#cb24-623" aria-hidden="true" tabindex="-1"></a>         <span class="at">DAY_WEEK =</span> <span class="fu">if_else</span>(DAY_WEEK <span class="sc">&gt;</span> <span class="dv">7</span>, <span class="st">&quot;&quot;</span>, DAY_WEEK),</span>
+<span id="cb24-624"><a href="#cb24-624" aria-hidden="true" tabindex="-1"></a>         <span class="at">MONTH =</span> <span class="fu">if_else</span>(MONTH <span class="sc">&gt;</span><span class="dv">12</span>, <span class="st">&quot;&quot;</span>, MONTH),</span>
+<span id="cb24-625"><a href="#cb24-625" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOUR =</span> <span class="fu">if_else</span>(HOUR <span class="sc">&gt;</span><span class="dv">24</span>, <span class="st">&quot;&quot;</span>, HOUR),</span>
+<span id="cb24-626"><a href="#cb24-626" aria-hidden="true" tabindex="-1"></a>         <span class="at">MINUTE =</span> <span class="fu">if_else</span>(MINUTE <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, MINUTE),</span>
+<span id="cb24-627"><a href="#cb24-627" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_HOUR =</span> <span class="fu">if_else</span>(NOT_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, NOT_HOUR),</span>
+<span id="cb24-628"><a href="#cb24-628" aria-hidden="true" tabindex="-1"></a>         <span class="at">NOT_MIN =</span> <span class="fu">if_else</span>(NOT_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, NOT_MIN),</span>
+<span id="cb24-629"><a href="#cb24-629" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_HOUR =</span> <span class="fu">if_else</span>(ARR_HOUR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, ARR_HOUR),</span>
+<span id="cb24-630"><a href="#cb24-630" aria-hidden="true" tabindex="-1"></a>         <span class="at">ARR_MIN =</span> <span class="fu">if_else</span>(ARR_MIN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, ARR_MIN),</span>
+<span id="cb24-631"><a href="#cb24-631" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_HR =</span> <span class="fu">if_else</span>(HOSP_HR <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="st">&quot;&quot;</span>, HOSP_HR),</span>
+<span id="cb24-632"><a href="#cb24-632" aria-hidden="true" tabindex="-1"></a>         <span class="at">HOSP_MN =</span> <span class="fu">if_else</span>(HOSP_MN <span class="sc">&gt;</span> <span class="dv">59</span>, <span class="st">&quot;&quot;</span>, HOSP_MN)</span>
 <span id="cb24-633"><a href="#cb24-633" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb24-634"><a href="#cb24-634" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-635"><a href="#cb24-635" aria-hidden="true" tabindex="-1"></a></span>
@@ -4848,10 +4849,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-647"><a href="#cb24-647" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
 <span id="cb24-648"><a href="#cb24-648" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-649"><a href="#cb24-649" aria-hidden="true" tabindex="-1"></a>stacked_national_vehicle_v2 <span class="ot">&lt;-</span> stacked_national_vehicle <span class="sc">%&gt;%</span> </span>
-<span id="cb24-650"><a href="#cb24-650" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SPEEDREL =</span> <span class="fu">if_else</span>( SPEEDREL <span class="sc">==</span> <span class="dv">9</span>, <span class="cn">NA</span>, SPEEDREL),</span>
-<span id="cb24-651"><a href="#cb24-651" aria-hidden="true" tabindex="-1"></a>         <span class="at">PREV_SPD =</span> <span class="fu">if_else</span>(PREV_SPD <span class="sc">&gt;</span> <span class="dv">97</span>, <span class="cn">NA</span>, PREV_SPD),</span>
-<span id="cb24-652"><a href="#cb24-652" aria-hidden="true" tabindex="-1"></a>         <span class="at">SPEC_USE =</span> <span class="fu">if_else</span>(SPEC_USE<span class="sc">&gt;=</span><span class="dv">98</span>, <span class="cn">NA</span>, SPEC_USE),</span>
-<span id="cb24-653"><a href="#cb24-653" aria-hidden="true" tabindex="-1"></a>         <span class="at">DR_ZIP =</span> <span class="fu">if_else</span>(DR_ZIP <span class="sc">&gt;=</span> <span class="dv">99997</span>, <span class="cn">NA</span>, DR_ZIP)</span>
+<span id="cb24-650"><a href="#cb24-650" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SPEEDREL =</span> <span class="fu">if_else</span>( SPEEDREL <span class="sc">==</span> <span class="dv">9</span>, <span class="st">&quot;&quot;</span>, SPEEDREL),</span>
+<span id="cb24-651"><a href="#cb24-651" aria-hidden="true" tabindex="-1"></a>         <span class="at">PREV_SPD =</span> <span class="fu">if_else</span>(PREV_SPD <span class="sc">&gt;</span> <span class="dv">97</span>, <span class="st">&quot;&quot;</span>, PREV_SPD),</span>
+<span id="cb24-652"><a href="#cb24-652" aria-hidden="true" tabindex="-1"></a>         <span class="at">SPEC_USE =</span> <span class="fu">if_else</span>(SPEC_USE<span class="sc">&gt;=</span><span class="dv">98</span>, <span class="st">&quot;&quot;</span>, SPEC_USE),</span>
+<span id="cb24-653"><a href="#cb24-653" aria-hidden="true" tabindex="-1"></a>         <span class="at">DR_ZIP =</span> <span class="fu">if_else</span>(DR_ZIP <span class="sc">&gt;=</span> <span class="dv">99997</span>, <span class="st">&quot;&quot;</span>, DR_ZIP)</span>
 <span id="cb24-654"><a href="#cb24-654" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb24-655"><a href="#cb24-655" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-656"><a href="#cb24-656" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
@@ -4873,85 +4874,86 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb24-674"><a href="#cb24-674" aria-hidden="true" tabindex="-1"></a><span class="fu"># Merging Stacked Datasets</span></span>
 <span id="cb24-675"><a href="#cb24-675" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-676"><a href="#cb24-676" aria-hidden="true" tabindex="-1"></a><span class="fu">## Convert all variables to character</span></span>
-<span id="cb24-679"><a href="#cb24-679" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-680"><a href="#cb24-680" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convert-variables-character</span></span>
-<span id="cb24-681"><a href="#cb24-681" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb24-682"><a href="#cb24-682" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb24-683"><a href="#cb24-683" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
-<span id="cb24-684"><a href="#cb24-684" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-685"><a href="#cb24-685" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Identify all objects in the global environment that are data frames</span></span>
-<span id="cb24-686"><a href="#cb24-686" aria-hidden="true" tabindex="-1"></a>df_names <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(<span class="fu">sapply</span>(<span class="fu">ls</span>(), <span class="cf">function</span>(x) <span class="fu">is.data.frame</span>(<span class="fu">get</span>(x)))))</span>
-<span id="cb24-687"><a href="#cb24-687" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-688"><a href="#cb24-688" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Loop through each data frame, convert columns, and save them back</span></span>
-<span id="cb24-689"><a href="#cb24-689" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (name <span class="cf">in</span> df_names) {</span>
-<span id="cb24-690"><a href="#cb24-690" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the actual data frame object</span></span>
-<span id="cb24-691"><a href="#cb24-691" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">get</span>(name)</span>
-<span id="cb24-692"><a href="#cb24-692" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-693"><a href="#cb24-693" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert all columns to character (using df[] preserves the data frame structure)</span></span>
-<span id="cb24-694"><a href="#cb24-694" aria-hidden="true" tabindex="-1"></a>  df[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(df, as.character)</span>
-<span id="cb24-695"><a href="#cb24-695" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb24-696"><a href="#cb24-696" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign the modified data frame back to its original name in the global environment</span></span>
-<span id="cb24-697"><a href="#cb24-697" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, df, <span class="at">envir =</span> .GlobalEnv)</span>
-<span id="cb24-698"><a href="#cb24-698" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-699"><a href="#cb24-699" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-700"><a href="#cb24-700" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-701"><a href="#cb24-701" aria-hidden="true" tabindex="-1"></a><span class="fu">### remove values</span></span>
-<span id="cb24-704"><a href="#cb24-704" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-705"><a href="#cb24-705" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: remove-values</span></span>
-<span id="cb24-706"><a href="#cb24-706" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb24-707"><a href="#cb24-707" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb24-708"><a href="#cb24-708" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
-<span id="cb24-709"><a href="#cb24-709" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-710"><a href="#cb24-710" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(df_names)</span>
-<span id="cb24-711"><a href="#cb24-711" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(name)</span>
-<span id="cb24-712"><a href="#cb24-712" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb24-713"><a href="#cb24-713" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-714"><a href="#cb24-714" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-715"><a href="#cb24-715" aria-hidden="true" tabindex="-1"></a><span class="fu">## Merge datasets </span></span>
-<span id="cb24-716"><a href="#cb24-716" aria-hidden="true" tabindex="-1"></a>In this step, I merge the following datasets together using the stacked national person file as the base. </span>
+<span id="cb24-677"><a href="#cb24-677" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-680"><a href="#cb24-680" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-681"><a href="#cb24-681" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: convert-variables-character</span></span>
+<span id="cb24-682"><a href="#cb24-682" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-683"><a href="#cb24-683" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-684"><a href="#cb24-684" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
+<span id="cb24-685"><a href="#cb24-685" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-686"><a href="#cb24-686" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Identify all objects in the global environment that are data frames</span></span>
+<span id="cb24-687"><a href="#cb24-687" aria-hidden="true" tabindex="-1"></a>df_names <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(<span class="fu">sapply</span>(<span class="fu">ls</span>(), <span class="cf">function</span>(x) <span class="fu">is.data.frame</span>(<span class="fu">get</span>(x)))))</span>
+<span id="cb24-688"><a href="#cb24-688" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-689"><a href="#cb24-689" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Loop through each data frame, convert columns, and save them back</span></span>
+<span id="cb24-690"><a href="#cb24-690" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (name <span class="cf">in</span> df_names) {</span>
+<span id="cb24-691"><a href="#cb24-691" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the actual data frame object</span></span>
+<span id="cb24-692"><a href="#cb24-692" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">get</span>(name)</span>
+<span id="cb24-693"><a href="#cb24-693" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-694"><a href="#cb24-694" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Convert all columns to character (using df[] preserves the data frame structure)</span></span>
+<span id="cb24-695"><a href="#cb24-695" aria-hidden="true" tabindex="-1"></a>  df[] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(df, as.character)</span>
+<span id="cb24-696"><a href="#cb24-696" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb24-697"><a href="#cb24-697" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assign the modified data frame back to its original name in the global environment</span></span>
+<span id="cb24-698"><a href="#cb24-698" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(name, df, <span class="at">envir =</span> .GlobalEnv)</span>
+<span id="cb24-699"><a href="#cb24-699" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb24-700"><a href="#cb24-700" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-701"><a href="#cb24-701" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-702"><a href="#cb24-702" aria-hidden="true" tabindex="-1"></a><span class="fu">### remove values</span></span>
+<span id="cb24-703"><a href="#cb24-703" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-706"><a href="#cb24-706" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-707"><a href="#cb24-707" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: remove-values</span></span>
+<span id="cb24-708"><a href="#cb24-708" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-709"><a href="#cb24-709" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-710"><a href="#cb24-710" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
+<span id="cb24-711"><a href="#cb24-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-712"><a href="#cb24-712" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(df_names)</span>
+<span id="cb24-713"><a href="#cb24-713" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(name)</span>
+<span id="cb24-714"><a href="#cb24-714" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-715"><a href="#cb24-715" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-716"><a href="#cb24-716" aria-hidden="true" tabindex="-1"></a><span class="fu">## Merge datasets</span></span>
 <span id="cb24-717"><a href="#cb24-717" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-718"><a href="#cb24-718" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>AUX_person</span>
-<span id="cb24-719"><a href="#cb24-719" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>AUX_accident</span>
-<span id="cb24-720"><a href="#cb24-720" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>national_accident</span>
-<span id="cb24-721"><a href="#cb24-721" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-722"><a href="#cb24-722" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-725"><a href="#cb24-725" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-726"><a href="#cb24-726" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: merge-datasets</span></span>
-<span id="cb24-727"><a href="#cb24-727" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb24-728"><a href="#cb24-728" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb24-729"><a href="#cb24-729" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
-<span id="cb24-730"><a href="#cb24-730" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-718"><a href="#cb24-718" aria-hidden="true" tabindex="-1"></a>In this step, I merge the following datasets together using the stacked national person file as the base.</span>
+<span id="cb24-719"><a href="#cb24-719" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-720"><a href="#cb24-720" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>AUX_person</span>
+<span id="cb24-721"><a href="#cb24-721" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>AUX_accident</span>
+<span id="cb24-722"><a href="#cb24-722" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>national_accident</span>
+<span id="cb24-723"><a href="#cb24-723" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-726"><a href="#cb24-726" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-727"><a href="#cb24-727" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: merge-datasets</span></span>
+<span id="cb24-728"><a href="#cb24-728" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-729"><a href="#cb24-729" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-730"><a href="#cb24-730" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true  </span></span>
 <span id="cb24-731"><a href="#cb24-731" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-732"><a href="#cb24-732" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> stacked_national_person_v2 <span class="sc">%&gt;%</span> </span>
-<span id="cb24-733"><a href="#cb24-733" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_national_accident_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>, <span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-734"><a href="#cb24-734" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_per_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>,<span class="st">&quot;VEH_NO&quot;</span>,<span class="st">&quot;PER_NO&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-735"><a href="#cb24-735" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_acc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-736"><a href="#cb24-736" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.x&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.y&quot;</span>)) <span class="do">## remove duplicate columns</span></span>
-<span id="cb24-737"><a href="#cb24-737" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-738"><a href="#cb24-738" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-732"><a href="#cb24-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-733"><a href="#cb24-733" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> stacked_national_person_v2 <span class="sc">%&gt;%</span> </span>
+<span id="cb24-734"><a href="#cb24-734" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_national_accident_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>, <span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-735"><a href="#cb24-735" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_per_v2, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>,<span class="st">&quot;VEH_NO&quot;</span>,<span class="st">&quot;PER_NO&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-736"><a href="#cb24-736" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(stacked_AUX_acc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;ST_CASE&quot;</span>,<span class="st">&quot;YEAR&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-737"><a href="#cb24-737" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.x&quot;</span>), <span class="sc">-</span><span class="fu">ends_with</span>(<span class="st">&quot;.y&quot;</span>)) <span class="sc">%&gt;%</span>  <span class="do">## remove duplicate columns</span></span>
+<span id="cb24-738"><a href="#cb24-738" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(YEAR <span class="sc">&gt;=</span> <span class="dv">2010</span>) <span class="do">## filter to years 2010+</span></span>
 <span id="cb24-739"><a href="#cb24-739" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-740"><a href="#cb24-740" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-741"><a href="#cb24-741" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Export</span></span>
-<span id="cb24-742"><a href="#cb24-742" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-743"><a href="#cb24-743" aria-hidden="true" tabindex="-1"></a>I export all the datasets so I can upload them to BOX.</span>
-<span id="cb24-744"><a href="#cb24-744" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-747"><a href="#cb24-747" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb24-748"><a href="#cb24-748" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: data_export</span></span>
-<span id="cb24-749"><a href="#cb24-749" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb24-750"><a href="#cb24-750" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb24-751"><a href="#cb24-751" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb24-752"><a href="#cb24-752" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-753"><a href="#cb24-753" aria-hidden="true" tabindex="-1"></a><span class="co"># I filter the environment for all data frame objects and create a list</span></span>
-<span id="cb24-754"><a href="#cb24-754" aria-hidden="true" tabindex="-1"></a>all_data_frames <span class="ot">&lt;-</span> <span class="fu">mget</span>(<span class="fu">ls</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-755"><a href="#cb24-755" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keep</span>(is.data.frame)</span>
-<span id="cb24-756"><a href="#cb24-756" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-740"><a href="#cb24-740" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-741"><a href="#cb24-741" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-742"><a href="#cb24-742" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Export</span></span>
+<span id="cb24-743"><a href="#cb24-743" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-744"><a href="#cb24-744" aria-hidden="true" tabindex="-1"></a>I export all the datasets so I can upload them to BOX.</span>
+<span id="cb24-745"><a href="#cb24-745" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-748"><a href="#cb24-748" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb24-749"><a href="#cb24-749" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: data_export</span></span>
+<span id="cb24-750"><a href="#cb24-750" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb24-751"><a href="#cb24-751" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb24-752"><a href="#cb24-752" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb24-753"><a href="#cb24-753" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-754"><a href="#cb24-754" aria-hidden="true" tabindex="-1"></a><span class="co"># I filter the environment for all data frame objects and create a list</span></span>
+<span id="cb24-755"><a href="#cb24-755" aria-hidden="true" tabindex="-1"></a>all_data_frames <span class="ot">&lt;-</span> <span class="fu">mget</span>(<span class="fu">ls</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-756"><a href="#cb24-756" aria-hidden="true" tabindex="-1"></a>  <span class="fu">keep</span>(is.data.frame)</span>
 <span id="cb24-757"><a href="#cb24-757" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-758"><a href="#cb24-758" aria-hidden="true" tabindex="-1"></a><span class="co"># I walk through the entire list and tell R to write .csv files into the &quot;Export&quot; folder.</span></span>
-<span id="cb24-759"><a href="#cb24-759" aria-hidden="true" tabindex="-1"></a><span class="fu">iwalk</span>(all_data_frames, <span class="sc">~</span> <span class="fu">write_csv</span>(.x, <span class="fu">paste0</span>(<span class="st">&quot;Exports/NHTSA Data Cleaning/&quot;</span>, .y, <span class="st">&quot;.csv&quot;</span>)))</span>
-<span id="cb24-760"><a href="#cb24-760" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-758"><a href="#cb24-758" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-759"><a href="#cb24-759" aria-hidden="true" tabindex="-1"></a><span class="co"># I walk through the entire list and tell R to write .csv files into the &quot;Export&quot; folder.</span></span>
+<span id="cb24-760"><a href="#cb24-760" aria-hidden="true" tabindex="-1"></a><span class="fu">iwalk</span>(all_data_frames, <span class="sc">~</span> <span class="fu">write_csv</span>(.x, <span class="fu">paste0</span>(<span class="st">&quot;Exports/NHTSA Data Cleaning/&quot;</span>, .y, <span class="st">&quot;.csv&quot;</span>)))</span>
 <span id="cb24-761"><a href="#cb24-761" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-762"><a href="#cb24-762" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-763"><a href="#cb24-763" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb24-763"><a href="#cb24-763" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-764"><a href="#cb24-764" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
