@@ -102,7 +102,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame            | File Pathway Notes                                                                         |
-|------------------|------------------------------------------------------|
+|-------------------|-----------------------------------------------------|
 | 2007-2008, 2023       | Contains extra subfolder                                                                   |
 | 2007-2014             | All upper case                                                                             |
 | 2015, 2018, 2020-2023 | All lower case                                                                             |
@@ -512,7 +512,7 @@ rm(list = c("person_names","vehicle_names"))
 # Data Cleaning
 
 | Stacked Dataset              | Verify Correct Logic? | Notes                                                  |
-|-------------------|------------------|-----------------------------------|
+|-------------------|-------------------|-----------------------------------|
 | stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |
 | PER_AUX                      | ✅                    |                                                        |
 | stacked_national_accident_v2 | ✅                    |                                                        |
@@ -694,15 +694,68 @@ df <- stacked_national_person_v2 %>%
   left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) %>% 
   left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) %>% 
   left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR")) %>% 
-  select(-ends_with(".x"), -ends_with(".y")) %>%  ## remove duplicate columns
-  filter(YEAR >= 2010) ## filter to years 2010+
+  select(-ends_with(".x"), -ends_with(".y"))  ## remove duplicate columns
+
 
 ```
+
+## Analytical Dataset restrictions
+df is the completely merged dataset. I restrict the dataset to fatal cases in private vehicle uses and occupants inside cars.
+
+```{r}
+#| label: df-dataset-restrictions
+#| message: false
+#| warning: false
+#| echo: true  
+
+df <- df %>% 
+  filter(INJ_SEV == 4) %>%  ## dead people only
+  filter(YEAR >= 2010) %>%  ## filter to years 2010+
+## vehicle filters
+  filter(BODY_TYP %in% c(1:8) |
+          BODY_TYP == 17 | ## passenger cars
+         BODY_TYP %in% c(14:16) | ## SUVs
+           BODY_TYP == 19 |
+         BODY_TYP == 20 | ## minivans
+         BODY_TYP %in% c(30:39)) %>%  ## pickups
+## driver or occupant in car
+  filter(A_PTYPE %in% c(1:2)) ##%>% 
+## private vehicle use [NOTE: CANNOT APPLY FILTER YET BECAUSE WE DID NOT MERGE IN NATIONAL VEHICLE FILE. WAITING FOR INSTRUCTIONS FROM TRISH]
+ ## filter(SPEC_USE == 0)
+
+
+```
+
 
 # Data Export
 
 I export all the datasets so I can upload them to BOX.
 
+## df split
+I split the dataset into three smaller subdatasets based on the following year ranges:
+
+* 2010-2015
+* 2016-2020
+* 2021-2024
+
+This is so we can verify the data in Excel.
+```{r}
+#| label: df-split
+#| message: false
+#| warning: false
+#| echo: true  
+
+df_2010_2015 <- df %>% 
+  filter(YEAR %in% c(2010:2015))
+
+df_2016_2020 <- df %>% 
+  filter(YEAR %in% c(2016:2020))
+
+df_2021_2024 <- df %>% 
+  filter(YEAR %in% c(2021:2024))
+```
+
+## Data Export
 ```{r}
 #| label: data_export
 #| message: false
@@ -715,8 +768,9 @@ all_data_frames <- mget(ls()) %>%
 
 
 # I walk through the entire list and tell R to write .csv files into the "Export" folder.
-iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/NHTSA Data Cleaning/", .y, ".csv")))
+iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/NHTSA Data Cleaning/", .y, ".csv"), na =""))
 
 
 
 ```
+
