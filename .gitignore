@@ -1,2 +1,4 @@
 *.CSV
 /Raw Data
+.Rhistory
+.Rhistory

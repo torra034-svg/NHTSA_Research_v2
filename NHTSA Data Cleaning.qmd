@@ -102,7 +102,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/FARS2023National
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame            | File Pathway Notes                                                                         |
-|-------------------|-----------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | 2007-2008, 2023       | Contains extra subfolder                                                                   |
 | 2007-2014             | All upper case                                                                             |
 | 2015, 2018, 2020-2023 | All lower case                                                                             |
@@ -512,7 +512,7 @@ rm(list = c("person_names","vehicle_names"))
 # Data Cleaning
 
 | Stacked Dataset              | Verify Correct Logic? | Notes                                                  |
-|-------------------|-------------------|-----------------------------------|
+|-------------------|-------------------|----------------------------------|
 | stacked_national_person_v2   | ✅                    | Not sure what logic to put for LAG_HRS due to the note |
 | PER_AUX                      | ✅                    |                                                        |
 | stacked_national_accident_v2 | ✅                    |                                                        |
@@ -699,7 +699,21 @@ df <- stacked_national_person_v2 %>%
 
 ```
 
+## Verification
+
+I create a duplicate df without restrictions for verfication with Trish.
+
+```{r}
+#| label: df-duplicate
+#| message: false
+#| warning: false
+#| echo: true  
+
+df_duplicate <- df
+```
+
 ## Analytical Dataset restrictions
+
 df is the completely merged dataset. I restrict the dataset to fatal cases in private vehicle uses and occupants inside cars.
 
 ```{r}
@@ -726,19 +740,20 @@ df <- df %>%
 
 ```
 
-
 # Data Export
 
 I export all the datasets so I can upload them to BOX.
 
 ## df split
+
 I split the dataset into three smaller subdatasets based on the following year ranges:
 
-* 2010-2015
-* 2016-2020
-* 2021-2024
+-   2010-2015
+-   2016-2020
+-   2021-2024
 
 This is so we can verify the data in Excel.
+
 ```{r}
 #| label: df-split
 #| message: false
@@ -753,9 +768,19 @@ df_2016_2020 <- df %>%
 
 df_2021_2024 <- df %>% 
   filter(YEAR %in% c(2021:2024))
+
+df_duplicate_2010_2015 <- df_duplicate %>% 
+  filter(YEAR %in% c(2010:2015))
+
+df_duplicate_2016_2020 <- df_duplicate %>% 
+  filter(YEAR %in% c(2016:2020))
+
+df_duplicate_2021_2024 <- df_duplicate %>% 
+  filter(YEAR %in% c(2021:2024))
 ```
 
 ## Data Export
+
 ```{r}
 #| label: data_export
 #| message: false
@@ -773,4 +798,3 @@ iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/NHTSA Data Cleaning/", .y
 
 
 ```
-
