@@ -28,15 +28,45 @@ editor: visual
 
 library(tidyverse)
 library(scales)
+library(purrr) #mapping functions 
 ```
 
 ## Import Data
 
-I used Excel to help create functions to mass import the .csv files for both AUX and National CSV data.
 
 ### National Auxillary CSV Data
 
-Please note that the file path for 2023 is slightly different in that the extension is lower case and has an additional folder.
+Instead of manually importing each file which can be time-consuming and error prone, I instead import data use purr to map functions
+
+
+I need to define a few objects that will help me during importing
+```{r}
+#| label: import-definitions
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+# Define years I want to pull
+years <- 2007:2023
+
+
+# Define dynamic file paths for national files
+national_accident_files <- setNames(
+  sprintf("Raw Data/%d/FARS%dNationalAuxiliaryCSV/%s_AUX.CSV", 
+          years, 
+          years, 
+          if_else(years == 2023, "acc", "ACC")
+  )
+)
+
+names(national_accident_files) <- years
+
+
+
+
+
+```
+
 
 ```{r}
 #| label: import-AUX-data
@@ -102,7 +132,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame | File Pathway Notes |
-|----------------------|--------------------------------------------------|
+|-----------------------|-------------------------------------------------|
 | 2007-2008, 2023 | Contains extra subfolder |
 | 2007-2014 | All upper case |
 | 2015, 2018, 2020-2023 | All lower case |
