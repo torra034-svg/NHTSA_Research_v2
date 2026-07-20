@@ -28,103 +28,75 @@ editor: visual
 
 library(tidyverse)
 library(scales)
-library(purrr) #mapping functions 
+library(data.table)
 ```
 
 ## Import Data
 
+I used Excel to help create functions to mass import the .csv files for both AUX and National CSV data.
 
 ### National Auxillary CSV Data
 
-Instead of manually importing each file which can be time-consuming and error prone, I instead import data use purr to map functions
-
-
-I need to define a few objects that will help me during importing
-```{r}
-#| label: import-definitions
-#| message: FALSE
-#| warning: FALSE
-#| echo: TRUE  
-
-# Define years I want to pull
-years <- 2007:2023
-
-
-# Define dynamic file paths for national files
-national_accident_files <- setNames(
-  sprintf("Raw Data/%d/FARS%dNationalAuxiliaryCSV/%s_AUX.CSV", 
-          years, 
-          years, 
-          if_else(years == 2023, "acc", "ACC")
-  )
-)
-
-names(national_accident_files) <- years
-
-
-
-
-
-```
-
+Please note that the file path for 2023 is slightly different in that the extension is lower case and has an additional folder.
 
 ```{r}
 #| label: import-AUX-data
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
-acc2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/ACC_AUX.CSV", na = c(""))
-acc2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/acc_aux.csv", na = c(""))
-per2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/PER_AUX.CSV", na = c(""))
-per2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/per_aux.csv", na = c(""))
-veh2007 <- read_csv("Raw Data/2007/FARS2007NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2008 <- read_csv("Raw Data/2008/FARS2008NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2009 <- read_csv("Raw Data/2009/FARS2009NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2010 <- read_csv("Raw Data/2010/FARS2010NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2011 <- read_csv("Raw Data/2011/FARS2011NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2012 <- read_csv("Raw Data/2012/FARS2012NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2013 <- read_csv("Raw Data/2013/FARS2013NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2014 <- read_csv("Raw Data/2014/FARS2014NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2015 <- read_csv("Raw Data/2015/FARS2015NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2016 <- read_csv("Raw Data/2016/FARS2016NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2017 <- read_csv("Raw Data/2017/FARS2017NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2018 <- read_csv("Raw Data/2018/FARS2018NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2019 <- read_csv("Raw Data/2019/FARS2019NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2020 <- read_csv("Raw Data/2020/FARS2020NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2021 <- read_csv("Raw Data/2021/FARS2021NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2022 <- read_csv("Raw Data/2022/FARS2022NationalAuxiliaryCSV/VEH_AUX.CSV", na = c(""))
-veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na = c(""))
+acc2007 <- fread("Raw Data/2007/FARS2007NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2008 <- fread("Raw Data/2008/FARS2008NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2009 <- fread("Raw Data/2009/FARS2009NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2010 <- fread("Raw Data/2010/FARS2010NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2011 <- fread("Raw Data/2011/FARS2011NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2012 <- fread("Raw Data/2012/FARS2012NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2013 <- fread("Raw Data/2013/FARS2013NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2014 <- fread("Raw Data/2014/FARS2014NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2015 <- fread("Raw Data/2015/FARS2015NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2016 <- fread("Raw Data/2016/FARS2016NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2017 <- fread("Raw Data/2017/FARS2017NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2018 <- fread("Raw Data/2018/FARS2018NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2019 <- fread("Raw Data/2019/FARS2019NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2020 <- fread("Raw Data/2020/FARS2020NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2021 <- fread("Raw Data/2021/FARS2021NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2022 <- fread("Raw Data/2022/FARS2022NationalAuxiliaryCSV/ACC_AUX.CSV", na.strings = "")
+acc2023 <- fread("Raw Data/2023/FARS2023NationalAuxiliaryCSV/acc_aux.csv", na.strings = "")
+per2007 <- fread("Raw Data/2007/FARS2007NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2008 <- fread("Raw Data/2008/FARS2008NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2009 <- fread("Raw Data/2009/FARS2009NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2010 <- fread("Raw Data/2010/FARS2010NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2011 <- fread("Raw Data/2011/FARS2011NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2012 <- fread("Raw Data/2012/FARS2012NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2013 <- fread("Raw Data/2013/FARS2013NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2014 <- fread("Raw Data/2014/FARS2014NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2015 <- fread("Raw Data/2015/FARS2015NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2016 <- fread("Raw Data/2016/FARS2016NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2017 <- fread("Raw Data/2017/FARS2017NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2018 <- fread("Raw Data/2018/FARS2018NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2019 <- fread("Raw Data/2019/FARS2019NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2020 <- fread("Raw Data/2020/FARS2020NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2021 <- fread("Raw Data/2021/FARS2021NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2022 <- fread("Raw Data/2022/FARS2022NationalAuxiliaryCSV/PER_AUX.CSV", na.strings = "")
+per2023 <- fread("Raw Data/2023/FARS2023NationalAuxiliaryCSV/per_aux.csv", na.strings = "")
+veh2007 <- fread("Raw Data/2007/FARS2007NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2008 <- fread("Raw Data/2008/FARS2008NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2009 <- fread("Raw Data/2009/FARS2009NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2010 <- fread("Raw Data/2010/FARS2010NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2011 <- fread("Raw Data/2011/FARS2011NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2012 <- fread("Raw Data/2012/FARS2012NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2013 <- fread("Raw Data/2013/FARS2013NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2014 <- fread("Raw Data/2014/FARS2014NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2015 <- fread("Raw Data/2015/FARS2015NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2016 <- fread("Raw Data/2016/FARS2016NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2017 <- fread("Raw Data/2017/FARS2017NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2018 <- fread("Raw Data/2018/FARS2018NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2019 <- fread("Raw Data/2019/FARS2019NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2020 <- fread("Raw Data/2020/FARS2020NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2021 <- fread("Raw Data/2021/FARS2021NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2022 <- fread("Raw Data/2022/FARS2022NationalAuxiliaryCSV/VEH_AUX.CSV", na.strings = "")
+veh2023 <- fread("Raw Data/2023/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na.strings = "")
 ```
 
 ### NationalCSV
@@ -132,7 +104,7 @@ veh2023 <- read_csv("Raw Data/2023/FARS2023NationalAuxiliaryCSV/veh_aux.csv", na
 Importing the data files required significant manual effort considering that the naming conventions varied by certain time frames. Please review the following notes to understand the file extension variations:
 
 | Time frame | File Pathway Notes |
-|-----------------------|-------------------------------------------------|
+|-------------------------|----------------------------------------------|
 | 2007-2008, 2023 | Contains extra subfolder |
 | 2007-2014 | All upper case |
 | 2015, 2018, 2020-2023 | All lower case |
@@ -147,59 +119,60 @@ Importing the data files required significant manual effort considering that the
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 
-accident2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/ACCIDENT.CSV")
-accident2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/ACCIDENT.CSV")
-accident2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/ACCIDENT.CSV")
-accident2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/ACCIDENT.CSV")
-accident2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/ACCIDENT.CSV")
-accident2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/ACCIDENT.CSV")
-accident2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/ACCIDENT.CSV")
-accident2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/ACCIDENT.CSV")
-accident2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/accident.CSV")
-accident2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/accident.CSV")
-accident2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/accident.CSV")
-accident2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/accident.CSV")
-accident2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/accident.CSV")
-accident2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/accident.CSV")
-accident2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/accident.CSV")
-accident2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/accident.csv")
-accident2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.csv")
-person2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/PERSON.CSV")
-person2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/PERSON.CSV")
-person2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/PERSON.CSV")
-person2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/PERSON.CSV")
-person2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/PERSON.CSV")
-person2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/PERSON.CSV")
-person2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/PERSON.CSV")
-person2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/PERSON.CSV")
-person2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/person.CSV")
-person2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/Person.CSV")
-person2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/Person.CSV")
-person2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/person.CSV")
-person2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/Person.CSV")
-person2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/person.CSV")
-person2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/person.CSV")
-person2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/person.csv")
-person2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.csv")
-vehicle2007 <- read_csv("Raw Data/2007/FARS2007NationalCSV/VEHICLE.CSV")
-vehicle2008 <- read_csv("Raw Data/2008/FARS2008NationalCSV/VEHICLE.CSV")
-vehicle2009 <- read_csv("Raw Data/2009/FARS2009NationalCSV/VEHICLE.CSV")
-vehicle2010 <- read_csv("Raw Data/2010/FARS2010NationalCSV/VEHICLE.CSV")
-vehicle2011 <- read_csv("Raw Data/2011/FARS2011NationalCSV/VEHICLE.CSV")
-vehicle2012 <- read_csv("Raw Data/2012/FARS2012NationalCSV/VEHICLE.CSV")
-vehicle2013 <- read_csv("Raw Data/2013/FARS2013NationalCSV/VEHICLE.CSV")
-vehicle2014 <- read_csv("Raw Data/2014/FARS2014NationalCSV/VEHICLE.CSV")
-vehicle2015 <- read_csv("Raw Data/2015/FARS2015NationalCSV/vehicle.CSV")
-vehicle2016 <- read_csv("Raw Data/2016/FARS2016NationalCSV/Vehicle.CSV")
-vehicle2017 <- read_csv("Raw Data/2017/FARS2017NationalCSV/Vehicle.CSV")
-vehicle2018 <- read_csv("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV")
-vehicle2019 <- read_csv("Raw Data/2019/FARS2019NationalCSV/vehicle.CSV")
-vehicle2020 <- read_csv("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
-vehicle2021 <- read_csv("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
-vehicle2022 <- read_csv("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
-vehicle2023 <- read_csv("Raw Data/2023/FARS2023NationalCSV/vehicle.csv")
+accident2007 <- fread("Raw Data/2007/FARS2007NationalCSV/ACCIDENT.CSV")
+accident2008 <- fread("Raw Data/2008/FARS2008NationalCSV/ACCIDENT.CSV")
+accident2009 <- fread("Raw Data/2009/FARS2009NationalCSV/ACCIDENT.CSV")
+accident2010 <- fread("Raw Data/2010/FARS2010NationalCSV/ACCIDENT.CSV")
+accident2011 <- fread("Raw Data/2011/FARS2011NationalCSV/ACCIDENT.CSV")
+accident2012 <- fread("Raw Data/2012/FARS2012NationalCSV/ACCIDENT.CSV")
+accident2013 <- fread("Raw Data/2013/FARS2013NationalCSV/ACCIDENT.CSV")
+accident2014 <- fread("Raw Data/2014/FARS2014NationalCSV/ACCIDENT.CSV")
+accident2015 <- fread("Raw Data/2015/FARS2015NationalCSV/accident.CSV")
+accident2016 <- fread("Raw Data/2016/FARS2016NationalCSV/accident.CSV")
+accident2017 <- fread("Raw Data/2017/FARS2017NationalCSV/accident.CSV")
+accident2018 <- fread("Raw Data/2018/FARS2018NationalCSV/accident.CSV")
+accident2019 <- fread("Raw Data/2019/FARS2019NationalCSV/accident.CSV")
+accident2020 <- fread("Raw Data/2020/FARS2020NationalCSV/accident.CSV")
+accident2021 <- fread("Raw Data/2021/FARS2021NationalCSV/accident.CSV")
+accident2022 <- fread("Raw Data/2022/FARS2022NationalCSV/accident.csv")
+accident2023 <- fread("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/accident.csv")
+person2007 <- fread("Raw Data/2007/FARS2007NationalCSV/PERSON.CSV")
+person2008 <- fread("Raw Data/2008/FARS2008NationalCSV/PERSON.CSV")
+person2009 <- fread("Raw Data/2009/FARS2009NationalCSV/PERSON.CSV")
+person2010 <- fread("Raw Data/2010/FARS2010NationalCSV/PERSON.CSV")
+person2011 <- fread("Raw Data/2011/FARS2011NationalCSV/PERSON.CSV")
+person2012 <- fread("Raw Data/2012/FARS2012NationalCSV/PERSON.CSV")
+person2013 <- fread("Raw Data/2013/FARS2013NationalCSV/PERSON.CSV")
+person2014 <- fread("Raw Data/2014/FARS2014NationalCSV/PERSON.CSV")
+person2015 <- fread("Raw Data/2015/FARS2015NationalCSV/person.CSV")
+person2016 <- fread("Raw Data/2016/FARS2016NationalCSV/Person.CSV")
+person2017 <- fread("Raw Data/2017/FARS2017NationalCSV/Person.CSV")
+person2018 <- fread("Raw Data/2018/FARS2018NationalCSV/person.CSV")
+person2019 <- fread("Raw Data/2019/FARS2019NationalCSV/Person.CSV")
+person2020 <- fread("Raw Data/2020/FARS2020NationalCSV/person.CSV")
+person2021 <- fread("Raw Data/2021/FARS2021NationalCSV/person.CSV")
+person2022 <- fread("Raw Data/2022/FARS2022NationalCSV/person.csv")
+person2023 <- fread("Raw Data/2023/FARS2023NationalCSV/FARS2023NationalCSV/person.csv")
+vehicle2007 <- fread("Raw Data/2007/FARS2007NationalCSV/VEHICLE.CSV")
+vehicle2008 <- fread("Raw Data/2008/FARS2008NationalCSV/VEHICLE.CSV")
+vehicle2009 <- fread("Raw Data/2009/FARS2009NationalCSV/VEHICLE.CSV")
+vehicle2010 <- fread("Raw Data/2010/FARS2010NationalCSV/VEHICLE.CSV")
+vehicle2011 <- fread("Raw Data/2011/FARS2011NationalCSV/VEHICLE.CSV")
+vehicle2012 <- fread("Raw Data/2012/FARS2012NationalCSV/VEHICLE.CSV")
+vehicle2013 <- fread("Raw Data/2013/FARS2013NationalCSV/VEHICLE.CSV")
+vehicle2014 <- fread("Raw Data/2014/FARS2014NationalCSV/VEHICLE.CSV")
+vehicle2015 <- fread("Raw Data/2015/FARS2015NationalCSV/vehicle.CSV")
+vehicle2016 <- fread("Raw Data/2016/FARS2016NationalCSV/Vehicle.CSV")
+vehicle2017 <- fread("Raw Data/2017/FARS2017NationalCSV/Vehicle.CSV")
+vehicle2018 <- fread("Raw Data/2018/FARS2018NationalCSV/vehicle.CSV")
+vehicle2019 <- fread("Raw Data/2019/FARS2019NationalCSV/vehicle.CSV")
+vehicle2020 <- fread("Raw Data/2020/FARS2020NationalCSV/vehicle.CSV")
+vehicle2021 <- fread("Raw Data/2021/FARS2021NationalCSV/vehicle.CSV")
+vehicle2022 <- fread("Raw Data/2022/FARS2022NationalCSV/vehicle.csv")
+vehicle2023 <- fread("Raw Data/2023/FARS2023NationalCSV/vehicle.csv")
 
 ```
 
@@ -220,10 +193,10 @@ This section refers to steps taken before data cleaning such as stacking AUX and
 
 # define acc data frames from environment
 acc_list <- mget(ls(pattern = "^acc20"))
- 
+
 # bind data frames together
-stacked_AUX_acc <- acc_list %>%
-  bind_rows(.id = "source_year") %>% 
+stacked_AUX_acc <- acc_list |> 
+  bind_rows(.id = "source_year") |>  
   select(ST_CASE, YEAR, FATALS, A_REGION, A_RU)
 
 
@@ -240,8 +213,8 @@ stacked_AUX_acc <- acc_list %>%
 per_list <- mget(ls(pattern = "^per20"))
 
 # bind data frames
-stacked_AUX_per <- per_list %>%
-  bind_rows(.id = "source_year") %>% 
+stacked_AUX_per <- per_list |> 
+  bind_rows(.id = "source_year") |>  
   select(ST_CASE, YEAR, VEH_NO, PER_NO, A_PTYPE, A_RESTUSE, A_HELMUSE, A_PERINJ, A_AGE4, A_HRACE)
 
 ```
@@ -256,8 +229,8 @@ stacked_AUX_per <- per_list %>%
 veh_list <- mget(ls(pattern = "^veh20"))
 
 # bind data frames
-stacked_AUX_veh <- veh_list %>%
-  bind_rows(.id = "source_year") %>% 
+stacked_AUX_veh <- veh_list |> 
+  bind_rows(.id = "source_year") |>  
   select(ST_CASE, YEAR, VEH_NO)
 
 ```
@@ -271,15 +244,16 @@ Note to self: The accident files inherently contain the "year" column.
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 # define accident data frames in environment and convert all columns to characters
-accident_list <- mget(ls(pattern = "^accident[0-9]")) %>% 
-  map(~ .x %>% mutate(across(everything(), as.character)))
+accident_list <- mget(ls(pattern = "^accident[0-9]")) |>  
+  map(~ .x |>  mutate(across(everything(), as.character)))
 
 
 # bind data frames
-stacked_national_accident <- accident_list %>% 
-  bind_rows(.id = "source_year") %>% 
+stacked_national_accident <- accident_list |>  
+  bind_rows(.id = "source_year") |>  
   select(any_of(c(
     "ST_CASE", 
     "YEAR", 
@@ -288,7 +262,7 @@ stacked_national_accident <- accident_list %>%
     "VEH_NO", 
     "PER_NO", 
     "PERSONS", 
-### Geographic Indicators
+    ### Geographic Indicators
     "RUR_URB", 
     "RUR_URBNAME",
     "A_RU",
@@ -298,35 +272,35 @@ stacked_national_accident <- accident_list %>%
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD", 
-  "FUNC_SYS",
-  "FUNC_SYS 1",
-  "FUNC_SYS 2",
-  "FUNC_SYS 3",
-  "FUNC_SYS 4",
-  "FUNC_SYS 5",
-  "FUNC_SYS 6",
-  "FUNC_SYS 7",
-"ROAD_FNC",
-### Time of Accident
-  "MONTH",
-  "MONTHNAME",
-  "DAY",
-  "DAYNAME",
-  "DAY_WEEK",
-  "DAY_WEEKNAME",
-  "YEAR",
-  "HOUR",
-  "MINUTE",
-### EMS variables
-"NOT_HOUR",
-"NOT_MIN",
-"NOT_MINUTE",
-"ARR_HOUR",
-"ARR_MIN",
-"HOSP_HR",
-"HOSP_MN",
-"FATALS"
-
+    "FUNC_SYS",
+    "FUNC_SYS 1",
+    "FUNC_SYS 2",
+    "FUNC_SYS 3",
+    "FUNC_SYS 4",
+    "FUNC_SYS 5",
+    "FUNC_SYS 6",
+    "FUNC_SYS 7",
+    "ROAD_FNC",
+    ### Time of Accident
+    "MONTH",
+    "MONTHNAME",
+    "DAY",
+    "DAYNAME",
+    "DAY_WEEK",
+    "DAY_WEEKNAME",
+    "YEAR",
+    "HOUR",
+    "MINUTE",
+    ### EMS variables
+    "NOT_HOUR",
+    "NOT_MIN",
+    "NOT_MINUTE",
+    "ARR_HOUR",
+    "ARR_MIN",
+    "HOSP_HR",
+    "HOSP_MN",
+    "FATALS"
+    
   )))
 
 
@@ -341,6 +315,7 @@ I used AI to help me create a function to add the year column
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 # Get the names of all objects in your environment that contain a year (4 digits)
 person_names <- ls(pattern = "^person\\d{4}")
@@ -375,14 +350,15 @@ list2env(person_list_updated, envir = .GlobalEnv)
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 # define person data frames in environment and convert all columns to characters
-person_list <- mget(ls(pattern = "^person[0-9]")) %>% 
-  map(~ .x %>% mutate(across(everything(), as.character)))
+person_list <- mget(ls(pattern = "^person[0-9]")) |>  
+  map(~ .x |>  mutate(across(everything(), as.character)))
 
 # bind data frames
-stacked_national_person <- person_list %>% 
-  bind_rows(.id = "source_year") %>% 
+stacked_national_person <- person_list |>  
+  bind_rows(.id = "source_year") |>  
   select(any_of(c(
     "ST_CASE", 
     "YEAR", 
@@ -401,10 +377,10 @@ stacked_national_person <- person_list %>%
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD",
-### Demographics
+    ### Demographics
     "AGE",
     "SEX",
-### behavioral variables
+    ### behavioral variables
     "ALC_STATUS",
     "ALC_RES",
     "DRUGS",
@@ -416,20 +392,20 @@ stacked_national_person <- person_list %>%
     "REST_USENAME",
     "HELM_USE",
     "HELM_USENAME",
-### EMS variables
-"INJ_SEV",
-"INJ_SEVNAME",
-"HOSPITAL",
-"HOSPITALNAME",
-"DOA",
-"DOANAME",
-"DEATH_DA",
-"DEATH_MN",
-"DEATH_YR",
-"LAG_HRS",
-"LAG_MINS",
-"BODY_TYP",
-"BODY_TYPNAME"
+    ### EMS variables
+    "INJ_SEV",
+    "INJ_SEVNAME",
+    "HOSPITAL",
+    "HOSPITALNAME",
+    "DOA",
+    "DOANAME",
+    "DEATH_DA",
+    "DEATH_MN",
+    "DEATH_YR",
+    "LAG_HRS",
+    "LAG_MINS",
+    "BODY_TYP",
+    "BODY_TYPNAME"
   )))
 
 
@@ -478,14 +454,15 @@ list2env(vehicle_list_updated, envir = .GlobalEnv)
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 # define vehicle data frames in environment and convert all columns to characters
-vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) %>% 
-  map(~ .x %>% mutate(across(everything(), as.character)))
+vehicle_list <- mget(ls(pattern = "^vehicle[0-9]")) |>  
+  map(~ .x |>  mutate(across(everything(), as.character)))
 
 # bind data frames
-stacked_national_vehicle <- vehicle_list %>% 
-  bind_rows(.id = "source_year") %>% 
+stacked_national_vehicle <- vehicle_list |>  
+  bind_rows(.id = "source_year") |>  
   select(any_of(c(
     "ST_CASE", 
     "YEAR", 
@@ -504,12 +481,12 @@ stacked_national_vehicle <- vehicle_list %>%
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD",
-### behavioral variables
+    ### behavioral variables
     "DR_DRINK",
     "SPEEDREL",
     "PREV_SPD",
-"DR_ZIP",
-"SPEC_USE"
+    "DR_ZIP",
+    "SPEC_USE"
   )))
 
 ```
@@ -525,11 +502,11 @@ I remove obsolete dataframes from my environment to clear up memory and to also 
 #| echo: true  
 
 # remove obsolete AUX data
-rm(list = ls(pattern = "^acc20")) 
+rm(list = ls(pattern = "^acc20"))
 rm(list = ls(pattern = "^per20"))
 rm(list = ls(pattern = "^veh20"))
-
-# remove obsolete National data
+# 
+# # remove obsolete National data
 rm(list = ls(pattern = "accident20"))
 rm(list = ls(pattern = "person20"))
 rm(list = ls(pattern = "vehicle20"))
@@ -550,43 +527,72 @@ rm(list = c("person_names","vehicle_names"))
 
 ## National person data cleaning
 
+We need to convert all the stacked datasets into numeric before proceeding specifying information. We cannot do this in the earlier step because the mapping step is crucial for data preservation.
+
+```{r}
+#| label: stacked-national-person-v1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_person_v1.5 <- stacked_national_person |> 
+  mutate(across(!contains("NAME"), as.numeric))
+
+
+
+```
+
+Okay this is now fixed. We need to keep the values as NA for now until we get to the export step. If we change the values to "" in this step then we run into bugs.
+
 ```{r}
 #| label: national-person-data-cleaning
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
-stacked_national_person_v2 <- stacked_national_person %>% 
-  mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URBNAME),
-         RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, "", RUR_URB),
-         REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USE),
-         REST_USENAME = if_else(REST_USE >= 96 & REST_USE <= 99, "", REST_USENAME),
-         REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, "", REST_MIS),
-         REST_MISNAME = if_else(REST_MISNAME >= 8 & REST_MISNAME <= 9, "", REST_MISNAME),
-         HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, "", HELM_USE),
-         HELM_USENAME = if_else(HELM_USENAME >= 96 & HELM_USENAME <= 99, "", HELM_USENAME),
-         BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, "", BODY_TYP),
-         BODY_TYPNAME = if_else(BODY_TYPNAME >= 98 & BODY_TYPNAME <= 99, "", BODY_TYPNAME),
-         INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, "", INJ_SEV),
-         INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, "", INJ_SEVNAME),
-         SEX = if_else(SEX >= 8 & SEX <= 9, "", SEX),
-         AGE = if_else(AGE >= 115, "", AGE),
-         ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, "", ALC_STATUS),
+stacked_national_person_v2 <- stacked_national_person_v1.5 |>  
+  mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URBNAME),
+         RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URB),
+         REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USE),
+         REST_USENAME = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USENAME),
+         REST_MIS = if_else(REST_MIS >= 8 & REST_MIS <= 9, NA, REST_MIS),
+         REST_MISNAME = if_else(REST_MISNAME >= 8 & REST_MISNAME <= 9, NA, REST_MISNAME),
+         HELM_USE = if_else(HELM_USE >= 96 & HELM_USE <= 99, NA, HELM_USE),
+         HELM_USENAME = if_else(HELM_USENAME >= 96 & HELM_USENAME <= 99, NA, HELM_USENAME),
+         BODY_TYP = if_else(BODY_TYP >= 98 & BODY_TYP <= 99, NA, BODY_TYP),
+         BODY_TYPNAME = if_else(BODY_TYPNAME >= 98 & BODY_TYPNAME <= 99, NA, BODY_TYPNAME),
+         INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, NA, INJ_SEV),
+         INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, NA, INJ_SEVNAME),
+         SEX = if_else(SEX >= 8 & SEX <= 9, NA, SEX),
+         AGE = if_else(AGE >= 115, NA, AGE),
+         ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, NA, ALC_STATUS),
          ALC_RES = if_else(ALC_RES > 94 & YEAR != 2015 | 
-                           ALC_RES > 940 & YEAR == 2015, "", ALC_RES),
-         DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, "", DRUGS),
-         DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, "", DSTATUS),
-         DOA = if_else(DOA == "9", "", DOA),
-         DEATH_MN = if_else(DEATH_MN > 59, "", DEATH_MN),
-         DEATH_DA = if_else(DEATH_DA > 31, "", DEATH_DA),
-         DEATH_YR = if_else(DEATH_YR > 2050, "", DEATH_YR),
-         LAG_HRS = if_else(LAG_HRS > 719, "", LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
-         LAG_MINS = if_else(LAG_MINS > 59, "", LAG_MINS)
-)
+                             ALC_RES > 940 & YEAR == 2015, NA, as.numeric(ALC_RES)),
+         DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, NA, DRUGS),
+         DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, NA, DSTATUS),
+         DOA = if_else(DOA == 9, NA, DOA),
+         DEATH_MN = if_else(DEATH_MN > 59, NA, DEATH_MN),
+         DEATH_DA = if_else(DEATH_DA > 31, NA, DEATH_DA),
+         DEATH_YR = if_else(DEATH_YR > 2050, NA, DEATH_YR),
+         LAG_HRS = if_else(LAG_HRS > 719, NA, LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
+         LAG_MINS = if_else(LAG_MINS > 59, NA, LAG_MINS)
+  )
 
 ```
 
 ## AUX person files data cleaning
+
+```{r}
+#| label: stacked-AUX-per-1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+
+stacked_AUX_per_v1.5 <- stacked_AUX_per |> 
+  mutate(across(!contains("NAME"), as.numeric))
+```
 
 ```{r}
 #| label: AUX-person-data-cleaning
@@ -594,8 +600,8 @@ stacked_national_person_v2 <- stacked_national_person %>%
 #| warning: false
 #| echo: true  
 
-stacked_AUX_per_v2 <- stacked_AUX_per %>% 
-  mutate(A_HRACE = if_else(A_HRACE == 9, "", as.character(A_HRACE)))
+stacked_AUX_per_v2 <- stacked_AUX_per_v1.5 |>  
+  mutate(A_HRACE = if_else(A_HRACE == 9, NA, A_HRACE))
 
 ```
 
@@ -604,34 +610,47 @@ stacked_AUX_per_v2 <- stacked_AUX_per %>%
 I combined Trish data cleaning 2014 and 2015 as noted below.
 
 ```{r}
+#| label: stacked-national-accident-v1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_accident_v1.5 <- stacked_national_accident |> 
+  mutate(across(!contains("NAME"), as.numeric))
+
+
+
+```
+
+```{r}
 #| label: national-accident-data-cleaning
 #| message: false
 #| warning: false
 #| echo: true  
 
-stacked_national_accident_v2 <- stacked_national_accident %>% 
-  mutate(COUNTY = if_else(COUNTY > 996, "", COUNTY),
-         LATITUDE = if_else(LATITUDE >= 77.0, "", LATITUDE),
-         LONGITUD = if_else(LONGITUD > 700, "", LONGITUD),
+
+stacked_national_accident_v2 <- stacked_national_accident_v1.5 |>  
+  mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
+         LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
+         LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
          ROAD_FNC = if_else(
            ROAD_FNC == 9 & YEAR <= 2014 | 
-           ROAD_FNC == 19 & YEAR <= 2014 | 
-           ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
-           "", ROAD_FNC),
-         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, "", FUNC_SYS), ## 2015 and after
-         DAY = if_else(DAY > 31, "", DAY),
-         DAY_WEEK = if_else(DAY_WEEK > 7, "", DAY_WEEK),
-         MONTH = if_else(MONTH >12, "", MONTH),
-         HOUR = if_else(HOUR >24, "", HOUR),
-         MINUTE = if_else(MINUTE > 59, "", MINUTE),
-         NOT_HOUR = if_else(NOT_HOUR > 24, "", NOT_HOUR),
-         NOT_MIN = if_else(NOT_MIN > 59, "", NOT_MIN),
-         ARR_HOUR = if_else(ARR_HOUR > 24, "", ARR_HOUR),
-         ARR_MIN = if_else(ARR_MIN > 59, "", ARR_MIN),
-         HOSP_HR = if_else(HOSP_HR > 24, "", HOSP_HR),
-         HOSP_MN = if_else(HOSP_MN > 59, "", HOSP_MN)
+             ROAD_FNC == 19 & YEAR <= 2014 | 
+             ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
+           NA, ROAD_FNC),
+         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
+         DAY = if_else(DAY > 31, NA, DAY),
+         DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
+         MONTH = if_else(MONTH >12, NA, MONTH),
+         HOUR = if_else(HOUR >24, NA, HOUR),
+         MINUTE = if_else(MINUTE > 59, NA, MINUTE),
+         NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
+         NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
+         ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
+         ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
+         HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
+         HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
   )
-
 
 
 ```
@@ -639,18 +658,28 @@ stacked_national_accident_v2 <- stacked_national_accident %>%
 ## National Vehicle files
 
 ```{r}
+#| label: stacked-national-vehicle-1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_vehicle_v1.5 <- stacked_national_vehicle |> 
+  mutate(across(!contains("NAME"), as.numeric))
+```
+
+```{r}
 #| label: label_name
 #| message: false
 #| warning: false
 #| echo: true  
 
-stacked_national_vehicle_v2 <- stacked_national_vehicle %>% 
-  mutate(SPEEDREL = if_else( SPEEDREL == 9, "", SPEEDREL),
-         PREV_SPD = if_else(PREV_SPD > 97, "", PREV_SPD),
-         SPEC_USE = if_else(SPEC_USE>=98, "", SPEC_USE),
-         DR_ZIP = if_else(DR_ZIP >= 99997, "", DR_ZIP)
-  )
 
+stacked_national_vehicle_v2 <- stacked_national_vehicle_v1.5 |>
+  mutate(SPEEDREL = if_else( SPEEDREL == 9, NA, SPEEDREL),
+         PREV_SPD = if_else(PREV_SPD > 97, NA, PREV_SPD),
+         SPEC_USE = if_else(SPEC_USE>=98, NA, SPEC_USE),
+         DR_ZIP = if_else(DR_ZIP >= 99997, NA, DR_ZIP)
+  )
 ```
 
 ### Remove old stacked dataframes from environment
@@ -659,12 +688,13 @@ stacked_national_vehicle_v2 <- stacked_national_vehicle %>%
 #| label: remove-old-stacked-dataframes
 #| message: false
 #| warning: false
-#| echo: true  
+#| echo: true
 
-rm(stacked_national_accident)
-rm(stacked_national_person)
-rm(stacked_national_vehicle)
-rm(stacked_AUX_per)
+ rm(stacked_national_accident)
+ rm(stacked_national_person)
+ rm(stacked_national_vehicle)
+ rm(stacked_AUX_per)
+
 ```
 
 # Merging Stacked Datasets
@@ -711,27 +741,33 @@ In this step, I merge the following datasets together using the stacked national
 
 - AUX_person
 - AUX_accident
-- national_accident
+- national_accident_v2
 
 ```{r}
 #| label: merge-datasets
 #| message: false
 #| warning: false
 #| echo: true  
+#| cache: true
 
 
-df <- stacked_national_person_v2 %>% 
-  left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) %>% 
-  left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) %>% 
-  left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR")) %>% 
-  select(-ends_with(".x"), -ends_with(".y"))  ## remove duplicate columns
+df <- stacked_national_person_v2  |>  
+  left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) |>  
+  left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) |>  
+  left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR"))  |> 
+  mutate(
+    STATE = coalesce(STATE.x, STATE.y),
+    COUNTY = coalesce(COUNTY.x, COUNTY.y),
+    RUR_URB = coalesce(RUR_URB.x, RUR_URB.y),
+    RUR_URBNAME = coalesce(RUR_URBNAME.x, RUR_URBNAME.y)) |> 
+  select(-ends_with(".x"), -ends_with(".y"))
 
 
 ```
 
 ## Verification
 
-I create a duplicate df without restrictions for verfication with Trish.
+I create a duplicate df without restrictions for verification with Trish.
 
 ```{r}
 #| label: df-duplicate
@@ -752,21 +788,20 @@ df is the completely merged dataset. I restrict the dataset to fatal cases in pr
 #| warning: false
 #| echo: true  
 
-df <- df %>% 
-  filter(INJ_SEV == 4) %>%  ## dead people only
-  filter(YEAR >= 2010) %>%  ## filter to years 2010+
-## vehicle filters
+df <- df |>  
+  filter(INJ_SEV == 4) |>   ## dead people only
+  filter(YEAR >= 2010) |>   ## filter to years 2010+
+  ## vehicle filters
   filter(BODY_TYP %in% c(1:8) |
-          BODY_TYP == 17 | ## passenger cars
-         BODY_TYP %in% c(14:16) | ## SUVs
+           BODY_TYP == 17 | ## passenger cars
+           BODY_TYP %in% c(14:16) | ## SUVs
            BODY_TYP == 19 |
-         BODY_TYP == 20 | ## minivans
-         BODY_TYP %in% c(30:39)) %>%  ## pickups
-## driver or occupant in car
-  filter(A_PTYPE %in% c(1:2)) ##%>% 
+           BODY_TYP == 20 | ## minivans
+           BODY_TYP %in% c(30:39)) |>   ## pickups
+  ## driver or occupant in car
+  filter(A_PTYPE %in% c(1:2)) ##|>  
 ## private vehicle use [NOTE: CANNOT APPLY FILTER YET BECAUSE WE DID NOT MERGE IN NATIONAL VEHICLE FILE. WAITING FOR INSTRUCTIONS FROM TRISH]
- ## filter(SPEC_USE == 0)
-
+## filter(SPEC_USE == 0)
 
 ```
 
@@ -790,23 +825,84 @@ This is so we can verify the data in Excel.
 #| warning: false
 #| echo: true  
 
-df_2010_2015 <- df %>% 
+df_2010_2015 <- df |>  
   filter(YEAR %in% c(2010:2015))
 
-df_2016_2020 <- df %>% 
+df_2016_2020 <- df |>  
   filter(YEAR %in% c(2016:2020))
 
-df_2021_2024 <- df %>% 
+df_2021_2024 <- df |>  
   filter(YEAR %in% c(2021:2024))
 
-df_duplicate_2010_2015 <- df_duplicate %>% 
+df_duplicate_2010_2015 <- df_duplicate |>  
   filter(YEAR %in% c(2010:2015))
 
-df_duplicate_2016_2020 <- df_duplicate %>% 
+df_duplicate_2016_2020 <- df_duplicate |>  
   filter(YEAR %in% c(2016:2020))
 
-df_duplicate_2021_2024 <- df_duplicate %>% 
+df_duplicate_2021_2024 <- df_duplicate |>  
   filter(YEAR %in% c(2021:2024))
+```
+
+## Test
+
+```{r}
+#| label: test-demo-age-rel
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+df_test <- df_duplicate |> 
+  select(ALC_RES) |> 
+  mutate(ALC_RES = as.numeric(ALC_RES)) |> 
+  filter(!is.na(ALC_RES),
+         ALC_RES >= 454) |> 
+  unique() |> 
+  arrange(ALC_RES)
+
+age_test <- df_duplicate |> 
+  select(AGE) |> 
+  mutate(AGE = as.numeric (AGE)) |> 
+  filter(!is.na(AGE))
+
+## Re-run import-national-csv-test and run person-stacked
+# alc_res_test <- stacked_national_person |> 
+#   select(ALC_RES) |> 
+#   mutate(ALC_RES = as.numeric(ALC_RES)) |> 
+#   filter(!is.na(ALC_RES),
+#          ALC_RES >= 450) |> 
+#   unique() |> 
+#   arrange(ALC_RES)
+```
+
+It appears that I caught most missing values. The missing values that are still MIA are most likely from 2024
+
+## Remove Data Frames
+
+```{r}
+#| label: remove-data-frames
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+# rm(list = ls(pattern = "stacked"))
+
+rm(list = ls(pattern = "^acc20")) 
+rm(list = ls(pattern = "^per20"))
+rm(list = ls(pattern = "^veh20"))
+
+# remove obsolete National data
+rm(list = ls(pattern = "accident20"))
+rm(list = ls(pattern = "person20"))
+rm(list = ls(pattern = "vehicle20"))
+
+# remove tests
+
+rm(list = ls(pattern = "test"))
+
+# remove stacked
+rm(list = ls(pattern = "stacked"))
+
 ```
 
 ## Data Export
@@ -816,14 +912,15 @@ df_duplicate_2021_2024 <- df_duplicate %>%
 #| message: false
 #| warning: false
 #| echo: true
+#| include: false ## remove after fixing
 
 # I filter the environment for all data frame objects and create a list
-all_data_frames <- mget(ls()) %>% 
+all_data_frames <- mget(ls()) |>  
   keep(is.data.frame)
 
 
 # I walk through the entire list and tell R to write .csv files into the "Export" folder.
-iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/NHTSA Data Cleaning/", .y, ".csv"), na =""))
+iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/Clean Data_v2/", .y, ".csv"), na = ""))
 
 
 

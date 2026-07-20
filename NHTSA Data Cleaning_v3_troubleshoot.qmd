@@ -193,7 +193,7 @@ This section refers to steps taken before data cleaning such as stacking AUX and
 
 # define acc data frames from environment
 acc_list <- mget(ls(pattern = "^acc20"))
- 
+
 # bind data frames together
 stacked_AUX_acc <- acc_list |> 
   bind_rows(.id = "source_year") |>  
@@ -262,7 +262,7 @@ stacked_national_accident <- accident_list |>
     "VEH_NO", 
     "PER_NO", 
     "PERSONS", 
-### Geographic Indicators
+    ### Geographic Indicators
     "RUR_URB", 
     "RUR_URBNAME",
     "A_RU",
@@ -272,35 +272,35 @@ stacked_national_accident <- accident_list |>
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD", 
-  "FUNC_SYS",
-  "FUNC_SYS 1",
-  "FUNC_SYS 2",
-  "FUNC_SYS 3",
-  "FUNC_SYS 4",
-  "FUNC_SYS 5",
-  "FUNC_SYS 6",
-  "FUNC_SYS 7",
-"ROAD_FNC",
-### Time of Accident
-  "MONTH",
-  "MONTHNAME",
-  "DAY",
-  "DAYNAME",
-  "DAY_WEEK",
-  "DAY_WEEKNAME",
-  "YEAR",
-  "HOUR",
-  "MINUTE",
-### EMS variables
-"NOT_HOUR",
-"NOT_MIN",
-"NOT_MINUTE",
-"ARR_HOUR",
-"ARR_MIN",
-"HOSP_HR",
-"HOSP_MN",
-"FATALS"
-
+    "FUNC_SYS",
+    "FUNC_SYS 1",
+    "FUNC_SYS 2",
+    "FUNC_SYS 3",
+    "FUNC_SYS 4",
+    "FUNC_SYS 5",
+    "FUNC_SYS 6",
+    "FUNC_SYS 7",
+    "ROAD_FNC",
+    ### Time of Accident
+    "MONTH",
+    "MONTHNAME",
+    "DAY",
+    "DAYNAME",
+    "DAY_WEEK",
+    "DAY_WEEKNAME",
+    "YEAR",
+    "HOUR",
+    "MINUTE",
+    ### EMS variables
+    "NOT_HOUR",
+    "NOT_MIN",
+    "NOT_MINUTE",
+    "ARR_HOUR",
+    "ARR_MIN",
+    "HOSP_HR",
+    "HOSP_MN",
+    "FATALS"
+    
   )))
 
 
@@ -377,10 +377,10 @@ stacked_national_person <- person_list |>
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD",
-### Demographics
+    ### Demographics
     "AGE",
     "SEX",
-### behavioral variables
+    ### behavioral variables
     "ALC_STATUS",
     "ALC_RES",
     "DRUGS",
@@ -392,20 +392,20 @@ stacked_national_person <- person_list |>
     "REST_USENAME",
     "HELM_USE",
     "HELM_USENAME",
-### EMS variables
-"INJ_SEV",
-"INJ_SEVNAME",
-"HOSPITAL",
-"HOSPITALNAME",
-"DOA",
-"DOANAME",
-"DEATH_DA",
-"DEATH_MN",
-"DEATH_YR",
-"LAG_HRS",
-"LAG_MINS",
-"BODY_TYP",
-"BODY_TYPNAME"
+    ### EMS variables
+    "INJ_SEV",
+    "INJ_SEVNAME",
+    "HOSPITAL",
+    "HOSPITALNAME",
+    "DOA",
+    "DOANAME",
+    "DEATH_DA",
+    "DEATH_MN",
+    "DEATH_YR",
+    "LAG_HRS",
+    "LAG_MINS",
+    "BODY_TYP",
+    "BODY_TYPNAME"
   )))
 
 
@@ -481,12 +481,12 @@ stacked_national_vehicle <- vehicle_list |>
     "LATITUDE", 
     "LONGITUDE", 
     "LONGITUD",
-### behavioral variables
+    ### behavioral variables
     "DR_DRINK",
     "SPEEDREL",
     "PREV_SPD",
-"DR_ZIP",
-"SPEC_USE"
+    "DR_ZIP",
+    "SPEC_USE"
   )))
 
 ```
@@ -505,8 +505,8 @@ I remove obsolete dataframes from my environment to clear up memory and to also 
 rm(list = ls(pattern = "^acc20"))
 rm(list = ls(pattern = "^per20"))
 rm(list = ls(pattern = "^veh20"))
-
-# remove obsolete National data
+# 
+# # remove obsolete National data
 rm(list = ls(pattern = "accident20"))
 rm(list = ls(pattern = "person20"))
 rm(list = ls(pattern = "vehicle20"))
@@ -527,6 +527,24 @@ rm(list = c("person_names","vehicle_names"))
 
 ## National person data cleaning
 
+We need to convert all the snp columns into numeric before proceeding specifying information. We cannot do this in the earlier step because the mapping step is crucial for data preservation.
+
+
+
+```{r}
+#| label: stacked-national-person-v1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_person_v1.5 <- stacked_national_person |> 
+  mutate(across(!contains("NAME"), as.numeric))
+
+
+
+```
+
+
 Okay this is now fixed. We need to keep the values as NA for now until we get to the export step. If we change the values to "" in this step then we run into bugs.
 
 ```{r}
@@ -536,7 +554,7 @@ Okay this is now fixed. We need to keep the values as NA for now until we get to
 #| echo: true  
 #| cache: true
 
-stacked_national_person_v2 <- stacked_national_person |>  
+stacked_national_person_v2 <- stacked_national_person_v1.5 |>  
   mutate(RUR_URBNAME = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URBNAME),
          RUR_URB = if_else(RUR_URB >= 8 & RUR_URB <= 9, NA, RUR_URB),
          REST_USE = if_else(REST_USE >= 96 & REST_USE <= 99, NA, REST_USE),
@@ -550,67 +568,35 @@ stacked_national_person_v2 <- stacked_national_person |>
          INJ_SEV = if_else(INJ_SEV >= 8 & INJ_SEV <= 9, NA, INJ_SEV),
          INJ_SEVNAME = if_else(INJ_SEVNAME >= 8 & INJ_SEVNAME <= 9, NA, INJ_SEVNAME),
          SEX = if_else(SEX >= 8 & SEX <= 9, NA, SEX),
-         AGE_2 = if_else(AGE >= 115, NA, as.character(AGE)),
+         AGE = if_else(AGE >= 115, NA, AGE),
          ALC_STATUS = if_else(ALC_STATUS >= 8 & ALC_STATUS <= 9, NA, ALC_STATUS),
          ALC_RES = if_else(ALC_RES > 94 & YEAR != 2015 | 
-                           ALC_RES > 940 & YEAR == 2015, NA, ALC_RES),
+                             ALC_RES > 940 & YEAR == 2015, NA, as.numeric(ALC_RES)),
          DRUGS = if_else(DRUGS >= 8 & DRUGS <= 9, NA, DRUGS),
          DSTATUS = if_else(DSTATUS >= 8 & DSTATUS <= 9, NA, DSTATUS),
-         DOA = if_else(DOA == "9", NA, DOA),
+         DOA = if_else(DOA == 9, NA, DOA),
          DEATH_MN = if_else(DEATH_MN > 59, NA, DEATH_MN),
          DEATH_DA = if_else(DEATH_DA > 31, NA, DEATH_DA),
          DEATH_YR = if_else(DEATH_YR > 2050, NA, DEATH_YR),
          LAG_HRS = if_else(LAG_HRS > 719, NA, LAG_HRS), ## note says: "/*Different before 2010*/". What should I put for logic?    
          LAG_MINS = if_else(LAG_MINS > 59, NA, LAG_MINS)
-)
+  )
 
 ```
-
-This step fixes the AGE character glitch in the previous step. I intentionally made this repetitive so I could check line by line if AGE is correct.
-
-```{r}
-#| label: stacked_national_person_v3
-#| message: FALSE
-#| warning: FALSE
-#| echo: TRUE  
-
-stacked_national_person_v3 <- stacked_national_person_v2 |> 
-  mutate(AGE_3 = as.numeric(AGE)) |> 
-  mutate(AGE_4 = if_else(AGE_3 >= 115, NA, AGE_3))
-
-stacked_national_person_v3$AGE_4
-
-
-```
-
-Okay, I confirm that this test is correct. The next thing to do is clean up stacked_national_person_v3, and also make sure the export replaces all NAs with blanks.
-
-```{r}
-#| label: stacked_national_person_v4
-#| message: FALSE
-#| warning: FALSE
-#| echo: TRUE  
-
-stacked_national_person_v4 <- stacked_national_person_v3 |> 
-  select(-c(AGE, AGE_2, AGE_3)) |> 
-  rename("AGE" = AGE_4)
-
-stacked_national_person_v4$AGE
-```
-
-```{r}
-#| label: remove-old-stacked-np
-#| message: FALSE
-#| warning: FALSE
-#| echo: TRUE  
-
-rm(stacked_national_person,
-   stacked_national_person_v2,
-   stacked_national_person_v3)
-```
-
 
 ## AUX person files data cleaning
+
+```{r}
+#| label: stacked-AUX-per-1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+
+stacked_AUX_per_v1.5 <- stacked_AUX_per |> 
+  mutate(across(!contains("NAME"), as.numeric))
+```
+
 
 ```{r}
 #| label: AUX-person-data-cleaning
@@ -618,8 +604,8 @@ rm(stacked_national_person,
 #| warning: false
 #| echo: true  
 
-stacked_AUX_per_v2 <- stacked_AUX_per |>  
-  mutate(A_HRACE = if_else(A_HRACE == 9, "", as.character(A_HRACE)))
+stacked_AUX_per_v2 <- stacked_AUX_per_v1.5 |>  
+  mutate(A_HRACE = if_else(A_HRACE == 9, NA, A_HRACE))
 
 ```
 
@@ -628,34 +614,48 @@ stacked_AUX_per_v2 <- stacked_AUX_per |>
 I combined Trish data cleaning 2014 and 2015 as noted below.
 
 ```{r}
+#| label: stacked-national-accident-v1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_accident_v1.5 <- stacked_national_accident |> 
+  mutate(across(!contains("NAME"), as.numeric))
+
+
+
+```
+
+
+```{r}
 #| label: national-accident-data-cleaning
 #| message: false
 #| warning: false
 #| echo: true  
 
-stacked_national_accident_v2 <- stacked_national_accident |>  
-  mutate(COUNTY = if_else(COUNTY > 996, "", COUNTY),
-         LATITUDE = if_else(LATITUDE >= 77.0, "", LATITUDE),
-         LONGITUD = if_else(LONGITUD > 700, "", LONGITUD),
+
+stacked_national_accident_v2 <- stacked_national_accident_v1.5 |>  
+  mutate(COUNTY = if_else(COUNTY > 996, NA, COUNTY),
+         LATITUDE = if_else(LATITUDE >= 77.0, NA, LATITUDE),
+         LONGITUD = if_else(LONGITUD > 700, NA, LONGITUD),
          ROAD_FNC = if_else(
            ROAD_FNC == 9 & YEAR <= 2014 | 
-           ROAD_FNC == 19 & YEAR <= 2014 | 
-           ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
-           "", ROAD_FNC),
-         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, "", FUNC_SYS), ## 2015 and after
-         DAY = if_else(DAY > 31, "", DAY),
-         DAY_WEEK = if_else(DAY_WEEK > 7, "", DAY_WEEK),
-         MONTH = if_else(MONTH >12, "", MONTH),
-         HOUR = if_else(HOUR >24, "", HOUR),
-         MINUTE = if_else(MINUTE > 59, "", MINUTE),
-         NOT_HOUR = if_else(NOT_HOUR > 24, "", NOT_HOUR),
-         NOT_MIN = if_else(NOT_MIN > 59, "", NOT_MIN),
-         ARR_HOUR = if_else(ARR_HOUR > 24, "", ARR_HOUR),
-         ARR_MIN = if_else(ARR_MIN > 59, "", ARR_MIN),
-         HOSP_HR = if_else(HOSP_HR > 24, "", HOSP_HR),
-         HOSP_MN = if_else(HOSP_MN > 59, "", HOSP_MN)
+             ROAD_FNC == 19 & YEAR <= 2014 | 
+             ROAD_FNC == 99 & YEAR <= 2014, ## 2014 and before
+           NA, ROAD_FNC),
+         FUNC_SYS = if_else(FUNC_SYS >= 96 & YEAR >= 2015, NA, FUNC_SYS), ## 2015 and after
+         DAY = if_else(DAY > 31, NA, DAY),
+         DAY_WEEK = if_else(DAY_WEEK > 7, NA, DAY_WEEK),
+         MONTH = if_else(MONTH >12, NA, MONTH),
+         HOUR = if_else(HOUR >24, NA, HOUR),
+         MINUTE = if_else(MINUTE > 59, NA, MINUTE),
+         NOT_HOUR = if_else(NOT_HOUR > 24, NA, NOT_HOUR),
+         NOT_MIN = if_else(NOT_MIN > 59, NA, NOT_MIN),
+         ARR_HOUR = if_else(ARR_HOUR > 24, NA, ARR_HOUR),
+         ARR_MIN = if_else(ARR_MIN > 59, NA, ARR_MIN),
+         HOSP_HR = if_else(HOSP_HR > 24, NA, HOSP_HR),
+         HOSP_MN = if_else(HOSP_MN > 59, NA, HOSP_MN)
   )
-
 
 
 ```
@@ -663,18 +663,29 @@ stacked_national_accident_v2 <- stacked_national_accident |>
 ## National Vehicle files
 
 ```{r}
+#| label: stacked-national-vehicle-1.5
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+stacked_national_vehicle_v1.5 <- stacked_national_vehicle |> 
+  mutate(across(!contains( "NAME"), as.numeric))
+```
+
+
+```{r}
 #| label: label_name
 #| message: false
 #| warning: false
 #| echo: true  
 
-stacked_national_vehicle_v2 <- stacked_national_vehicle |>
-  mutate(SPEEDREL = if_else( SPEEDREL == 9, "", SPEEDREL),
-         PREV_SPD = if_else(PREV_SPD > 97, "", PREV_SPD),
-         SPEC_USE = if_else(SPEC_USE>=98, "", SPEC_USE),
-         DR_ZIP = if_else(DR_ZIP >= 99997, "", DR_ZIP)
-  )
 
+stacked_national_vehicle_v2 <- stacked_national_vehicle_v1.5 |>
+  mutate(SPEEDREL = if_else( SPEEDREL == 9, NA, SPEEDREL),
+         PREV_SPD = if_else(PREV_SPD > 97, NA, PREV_SPD),
+         SPEC_USE = if_else(SPEC_USE>=98, NA, SPEC_USE),
+         DR_ZIP = if_else(DR_ZIP >= 99997, NA, DR_ZIP)
+  )
 ```
 
 ### Remove old stacked dataframes from environment
@@ -685,10 +696,11 @@ stacked_national_vehicle_v2 <- stacked_national_vehicle |>
 #| warning: false
 #| echo: true
 
-rm(stacked_national_accident)
-rm(stacked_national_person)
-rm(stacked_national_vehicle)
-rm(stacked_AUX_per)
+ rm(stacked_national_accident)
+ rm(stacked_national_person)
+ rm(stacked_national_vehicle)
+ rm(stacked_AUX_per)
+
 ```
 
 # Merging Stacked Datasets
@@ -745,15 +757,15 @@ In this step, I merge the following datasets together using the stacked national
 #| cache: true
 
 
-df <- stacked_national_person_v4  |>  
+df <- stacked_national_person_v2  |>  
   left_join(stacked_national_accident_v2, by = c("ST_CASE", "YEAR")) |>  
   left_join(stacked_AUX_per_v2, by = c("ST_CASE","YEAR","VEH_NO","PER_NO")) |>  
   left_join(stacked_AUX_acc, by = c("ST_CASE","YEAR"))  |> 
   mutate(
-         STATE = coalesce(STATE.x, STATE.y),
-         COUNTY = coalesce(COUNTY.x, COUNTY.y),
-         RUR_URB = coalesce(RUR_URB.x, RUR_URB.y),
-         RUR_URBNAME = coalesce(RUR_URBNAME.x, RUR_URBNAME.y)) |> 
+    STATE = coalesce(STATE.x, STATE.y),
+    COUNTY = coalesce(COUNTY.x, COUNTY.y),
+    RUR_URB = coalesce(RUR_URB.x, RUR_URB.y),
+    RUR_URBNAME = coalesce(RUR_URBNAME.x, RUR_URBNAME.y)) |> 
   select(-ends_with(".x"), -ends_with(".y"))
 
 
@@ -786,18 +798,17 @@ df is the completely merged dataset. I restrict the dataset to fatal cases in pr
 df <- df |>  
   filter(INJ_SEV == 4) |>   ## dead people only
   filter(YEAR >= 2010) |>   ## filter to years 2010+
-## vehicle filters
+  ## vehicle filters
   filter(BODY_TYP %in% c(1:8) |
-          BODY_TYP == 17 | ## passenger cars
-         BODY_TYP %in% c(14:16) | ## SUVs
+           BODY_TYP == 17 | ## passenger cars
+           BODY_TYP %in% c(14:16) | ## SUVs
            BODY_TYP == 19 |
-         BODY_TYP == 20 | ## minivans
-         BODY_TYP %in% c(30:39)) |>   ## pickups
-## driver or occupant in car
+           BODY_TYP == 20 | ## minivans
+           BODY_TYP %in% c(30:39)) |>   ## pickups
+  ## driver or occupant in car
   filter(A_PTYPE %in% c(1:2)) ##|>  
 ## private vehicle use [NOTE: CANNOT APPLY FILTER YET BECAUSE WE DID NOT MERGE IN NATIONAL VEHICLE FILE. WAITING FOR INSTRUCTIONS FROM TRISH]
- ## filter(SPEC_USE == 0)
-
+## filter(SPEC_USE == 0)
 
 ```
 
@@ -848,8 +859,98 @@ df_duplicate_2021_2024 <- df_duplicate |>
 #| warning: FALSE
 #| echo: TRUE  
 
-rm(list = ls(pattern = "stacked"))
+# rm(list = ls(pattern = "stacked"))
 
+```
+
+# Troubleshoot
+
+Need to check the frequency of variables such as ALC_RES bc according to Trish I'm missing values for some reason.
+
+For ALC_RES, I am expecting values from 1-940. But I am missing values like 95-99...
+
+```{r}
+#| label: df-freq-check
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+test <- df_duplicate |> 
+  select(ALC_RES) |> 
+  mutate(ALC_RES = as.numeric(ALC_RES)) |> 
+  filter(!is.na(ALC_RES)) |> 
+  unique() |> 
+  arrange(ALC_RES)
+
+```
+
+If I ctrl+F I see that ALC_RES is mentioned in stacked_national_person and stacked_national_person_v2. I need to verify if that's when they start glitching.
+
+
+```{r}
+#| label: snp-freq-check
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+snp_check <- stacked_national_person |> 
+  select(ALC_RES) |> 
+  mutate(ALC_RES = as.numeric(ALC_RES)) |> 
+  filter(!is.na(ALC_RES)) |> 
+  unique() |> 
+  arrange(ALC_RES)
+```
+
+
+Interesting. It looks like the first stacked_national_person contains the correct values. So where did it go wrong?
+
+```{r}
+#| label: snp-2-test
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+snp_check_v2 <- stacked_national_person_v2 |> 
+  select(ALC_RES) |> 
+  mutate(ALC_RES = as.numeric(ALC_RES)) |> 
+  filter(!is.na(ALC_RES)) |> 
+  unique() |> 
+  arrange(ALC_RES)
+
+```
+
+BINGO!! It looks like when stacked_national_person transforms into stacked_national_person_v2...
+
+I think the issue is that all of the aforementioned columns are coerced to be characters and lose their values. I think I need to specify to keep these columns as numeric.
+
+```{r}
+#| label: snip-1.5-test
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+snp_1.5_test <- stacked_national_person_v1.5 |> 
+  select(ALC_RES) |> 
+  filter(!is.na(ALC_RES)) |> 
+  unique() |> 
+  arrange(ALC_RES)
+
+
+```
+
+
+## Remove values
+
+
+```{r}
+#| label: remove-old-stacked-np
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+# rm(stacked_national_person,
+#    stacked_national_person_v2,
+#    stacked_national_person_v3)
 ```
 
 
@@ -869,7 +970,7 @@ all_data_frames <- mget(ls()) |>
 
 
 # I walk through the entire list and tell R to write .csv files into the "Export" folder.
- iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/Clean Data/", .y, ".csv"), na = ""))
+iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/Troubleshoot/", .y, ".csv"), na = ""))
 
 
 

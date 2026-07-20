@@ -581,6 +581,11 @@ stacked_national_person_v3 <- stacked_national_person_v2 |>
 stacked_national_person_v3$AGE_4
 
 
+test <- stacked_national_person_v3 |> 
+  select(ST_CASE, AGE_4, AGE) |> 
+  filter(is.na(AGE_4))
+  
+
 ```
 
 Okay, I confirm that this test is correct. The next thing to do is clean up stacked_national_person_v3, and also make sure the export replaces all NAs with blanks.
@@ -592,10 +597,9 @@ Okay, I confirm that this test is correct. The next thing to do is clean up stac
 #| echo: TRUE  
 
 stacked_national_person_v4 <- stacked_national_person_v3 |> 
-  select(-c(AGE, AGE_2, AGE_3)) |> 
-  rename("AGE" = AGE_4)
+  select(-c(AGE, AGE_2, AGE_3))
 
-stacked_national_person_v4$AGE
+stacked_national_person_v4$AGE_4
 ```
 
 ```{r}
@@ -801,6 +805,80 @@ df <- df |>
 
 ```
 
+# Troubleshoot
+
+Need to fix issues before submitting to Trish.
+
+## Binary Age Issue
+
+It looks like the age issue is set to character and is binary. The final product is incorrect. Need to look back at the previous iterations and check if the issue persists there as well
+
+```{r}
+#| label: df-dup-age
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+# df_age_research <- df_duplicate |> 
+#   select(ST_CASE, AGE) |> 
+#   filter(AGE != "")
+
+```
+
+checking if the issue occurs at the row-binding step.
+
+```{r}
+#| label: age-stacked-national-person
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+# stacked_national_person_v2$AGE
+
+```
+
+Hmm it looks like this iteration still has issues. I wonder if the importing process makes the age column binary?
+
+```{r}
+#| label: age-import-stacked-np-fix
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+person2007_age <- fread("Raw Data/2007/FARS2007NationalCSV/PERSON.CSV") |> 
+  select(ST_CASE, AGE) |> 
+  filter(AGE != "")
+
+person2007_age$AGE
+
+```
+
+```{r}
+#| label: check-stacked-np
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+#stacked_national_person$AGE
+```
+
+Okay weird. It looks like the importing process is fine and stacked_national_person is fine.
+
+It's most likely when the datasets are being merged. E.g when df is created
+
+```{r}
+#| label: age-fix
+#| message: FALSE
+#| warning: FALSE
+#| echo: TRUE  
+
+df$AGE_4
+
+
+```
+
+YES!!! The issue is when the data is being merged
+
 # Data Export
 
 I export all the datasets so I can upload them to BOX.
@@ -848,7 +926,8 @@ df_duplicate_2021_2024 <- df_duplicate |>
 #| warning: FALSE
 #| echo: TRUE  
 
-rm(list = ls(pattern = "stacked"))
+rm(list = ls(pattern = "stacked"),
+   test)
 
 ```
 
@@ -869,7 +948,7 @@ all_data_frames <- mget(ls()) |>
 
 
 # I walk through the entire list and tell R to write .csv files into the "Export" folder.
- iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/Clean Data/", .y, ".csv"), na = ""))
+ iwalk(all_data_frames, ~ write_csv(.x, paste0("Exports/Troubleshoot/", .y, ".csv"), na = ""))
 
 
 
